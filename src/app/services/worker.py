@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from sqlalchemy import select
 
 from app.config import settings
-from app.db import SessionLocal, init_db
+from app.db import SessionLocal, wait_for_db_and_tables
 from app.models.ingestion_record import IngestionRecord
 from app.models.job import Job
 from app.providers.mock_news_provider import fetch_mock_news
@@ -20,15 +20,27 @@ def process_ingest_news() -> None:
 
     with SessionLocal() as session:
         for record in records:
+            existing = session.scalars(
+                select(IngestionRecord).where(IngestionRecord.external_id == record["external_id"])
+            ).first()
+
+            if existing is not None:
+                logger.info("duplicate ingestion skipped external_id=%s", record["external_id"])
+                continue
+
             item = IngestionRecord(
+                external_id=record["external_id"],
                 source_name=record["source_name"],
                 source_type=record["source_type"],
                 symbol=record["symbol"],
                 headline=record["headline"],
                 published_at=record["published_at"],
                 status="INGESTED",
+                quality_flags=record["quality_flags"],
+                is_duplicate=False,
             )
             session.add(item)
+
         session.commit()
 
 
@@ -54,7 +66,8 @@ def process_job(job: Job) -> None:
 
 
 def run() -> None:
-    init_db()
+    logger.info("worker waiting for db/tables")
+    wait_for_db_and_tables(["jobs", "ingestion_records"])
     logger.info("worker started")
 
     while True:

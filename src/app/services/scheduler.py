@@ -2,7 +2,7 @@ import logging
 import time
 
 from app.config import settings
-from app.db import SessionLocal, init_db
+from app.db import SessionLocal, wait_for_db_and_tables
 from app.models.job import Job
 
 
@@ -11,7 +11,8 @@ logger = logging.getLogger("scheduler")
 
 
 def run() -> None:
-    init_db()
+    logger.info("scheduler waiting for db/tables")
+    wait_for_db_and_tables(["jobs"])
     logger.info("scheduler started")
 
     while True:
