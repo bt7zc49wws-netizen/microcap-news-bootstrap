@@ -1,6 +1,7 @@
+from datetime import datetime
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
-from sqlalchemy import asc, desc, select
+from sqlalchemy import and_, asc, desc, or_, select
 
 from app.db import SessionLocal
 from app.models.event_candidate import EventCandidate
@@ -24,6 +25,19 @@ def error_response(request: Request, error_code: str, message: str, status_code:
     )
 
 
+def encode_cursor(classified_at: datetime, candidate_id: str) -> str:
+    return f"{classified_at.isoformat()}|{candidate_id}"
+
+
+def decode_cursor(cursor: str) -> tuple[datetime, str]:
+    try:
+        ts_str, candidate_id = cursor.split("|", 1)
+        ts = datetime.fromisoformat(ts_str)
+        return ts, candidate_id
+    except Exception as exc:
+        raise ValueError("invalid cursor") from exc
+
+
 @router.get("/event-candidates/latest")
 def get_latest_event_candidates(
     request: Request,
@@ -32,6 +46,7 @@ def get_latest_event_candidates(
     limit: int = Query(default=50),
     sort: str = Query(default="classified_at"),
     order: str = Query(default="desc"),
+    cursor: str | None = Query(default=None),
 ):
     if limit < 1 or limit > 100:
         return error_response(
@@ -65,13 +80,61 @@ def get_latest_event_candidates(
     if primary_ticker:
         query = query.where(EventCandidate.primary_ticker == primary_ticker.upper())
 
-    sort_column = EventCandidate.classified_at
-    ordering = desc(sort_column) if order == "desc" else asc(sort_column)
+    if cursor:
+        try:
+            cursor_ts, cursor_candidate_id = decode_cursor(cursor)
+        except ValueError:
+            return error_response(
+                request,
+                "invalid_cursor",
+                "Cursor could not be parsed.",
+                400,
+            )
 
-    query = query.order_by(ordering).limit(limit)
+        if order == "desc":
+            query = query.where(
+                or_(
+                    EventCandidate.classified_at < cursor_ts,
+                    and_(
+                        EventCandidate.classified_at == cursor_ts,
+                        EventCandidate.candidate_id < cursor_candidate_id,
+                    ),
+                )
+            )
+        else:
+            query = query.where(
+                or_(
+                    EventCandidate.classified_at > cursor_ts,
+                    and_(
+                        EventCandidate.classified_at == cursor_ts,
+                        EventCandidate.candidate_id > cursor_candidate_id,
+                    ),
+                )
+            )
+
+    if order == "desc":
+        query = query.order_by(
+            desc(EventCandidate.classified_at),
+            desc(EventCandidate.candidate_id),
+        )
+    else:
+        query = query.order_by(
+            asc(EventCandidate.classified_at),
+            asc(EventCandidate.candidate_id),
+        )
+
+    query = query.limit(limit + 1)
 
     with SessionLocal() as session:
         records = session.scalars(query).all()
+
+    has_more = len(records) > limit
+    visible_records = records[:limit]
+
+    next_cursor = ""
+    if has_more and visible_records:
+        last_record = visible_records[-1]
+        next_cursor = encode_cursor(last_record.classified_at, last_record.candidate_id)
 
     return {
         "data": [
@@ -92,11 +155,11 @@ def get_latest_event_candidates(
                 "source_published_at": record.source_published_at.isoformat().replace("+00:00", "Z"),
                 "classified_at": record.classified_at.isoformat().replace("+00:00", "Z"),
             }
-            for record in records
+            for record in visible_records
         ],
         "pagination": {
-            "next_cursor": "",
-            "has_more": False,
+            "next_cursor": next_cursor,
+            "has_more": has_more,
             "limit": limit,
             "sort": sort,
             "order": order,
