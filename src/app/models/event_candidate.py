@@ -16,6 +16,7 @@ class EventCandidate(Base):
         default=lambda: str(uuid.uuid4()),
     )
     source_record_id: Mapped[str] = mapped_column(String(36), index=True, unique=True)
+    source_external_id: Mapped[str] = mapped_column(String(128), index=True)
     source_name: Mapped[str] = mapped_column(String(64), index=True)
     primary_ticker: Mapped[str] = mapped_column(String(16), index=True)
     event_family: Mapped[str] = mapped_column(String(64), index=True)
@@ -24,6 +25,8 @@ class EventCandidate(Base):
     reason_code: Mapped[str] = mapped_column(String(64), default="UNSPECIFIED")
     reason_label: Mapped[str] = mapped_column(String(128), default="Unspecified")
     candidate_priority: Mapped[str] = mapped_column(String(16), default="medium")
+    source_event_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    source_published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     source_quality_flags: Mapped[str] = mapped_column(Text, default="[]")
     noise_flags: Mapped[str] = mapped_column(Text, default="[]")
     headline: Mapped[str] = mapped_column(Text)

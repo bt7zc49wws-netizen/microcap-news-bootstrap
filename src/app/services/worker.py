@@ -105,6 +105,7 @@ def process_classify_news() -> None:
 
             candidate = EventCandidate(
                 source_record_id=record.record_id,
+                source_external_id=record.external_id,
                 source_name=record.source_name,
                 primary_ticker=record.symbol,
                 event_family=result["event_family"],
@@ -113,6 +114,8 @@ def process_classify_news() -> None:
                 reason_code=result["reason_code"],
                 reason_label=result["reason_label"],
                 candidate_priority=result["candidate_priority"],
+                source_event_time=record.source_event_time,
+                source_published_at=record.published_at,
                 source_quality_flags=result["source_quality_flags"],
                 noise_flags=result["noise_flags"],
                 headline=record.headline,
