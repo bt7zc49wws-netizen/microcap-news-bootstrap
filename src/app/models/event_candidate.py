@@ -25,6 +25,8 @@ class EventCandidate(Base):
     reason_code: Mapped[str] = mapped_column(String(64), default="UNSPECIFIED")
     reason_label: Mapped[str] = mapped_column(String(128), default="Unspecified")
     candidate_priority: Mapped[str] = mapped_column(String(16), default="medium")
+    decision_hint: Mapped[str] = mapped_column(String(32), default="ignore_candidate")
+    explanation_summary: Mapped[str] = mapped_column(Text, default="")
     source_event_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     source_published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     source_quality_flags: Mapped[str] = mapped_column(Text, default="[]")

@@ -12,6 +12,8 @@ def classify_record(record: IngestionRecord) -> dict:
             "reason_code": "FINANCING_KEYWORD_MATCH",
             "reason_label": "Financing keyword match",
             "candidate_priority": "high",
+            "decision_hint": "watchlist_candidate",
+            "explanation_summary": "Headline matched financing-related event language.",
             "source_quality_flags": record.quality_flags,
             "noise_flags": "[]",
         }
@@ -24,6 +26,8 @@ def classify_record(record: IngestionRecord) -> dict:
             "reason_code": "OFFERING_KEYWORD_MATCH",
             "reason_label": "Offering keyword match",
             "candidate_priority": "high",
+            "decision_hint": "watchlist_candidate",
+            "explanation_summary": "Headline matched offering-related event language.",
             "source_quality_flags": record.quality_flags,
             "noise_flags": "[]",
         }
@@ -35,6 +39,8 @@ def classify_record(record: IngestionRecord) -> dict:
         "reason_code": "NO_CLEAR_EVENT_MATCH",
         "reason_label": "No clear event match",
         "candidate_priority": "low",
+        "decision_hint": "ignore_candidate",
+        "explanation_summary": "No clear event keyword match was detected.",
         "source_quality_flags": record.quality_flags,
         "noise_flags": '["low_signal"]',
     }

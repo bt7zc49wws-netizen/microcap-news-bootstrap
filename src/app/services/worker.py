@@ -76,6 +76,8 @@ def process_classify_news() -> None:
                 reason_code=result["reason_code"],
                 reason_label=result["reason_label"],
                 candidate_priority=result["candidate_priority"],
+                decision_hint=result["decision_hint"],
+                explanation_summary=result["explanation_summary"],
                 source_event_time=record.source_event_time,
                 source_published_at=record.published_at,
                 source_quality_flags=result["source_quality_flags"],
