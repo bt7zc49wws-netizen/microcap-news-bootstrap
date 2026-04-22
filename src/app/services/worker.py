@@ -56,6 +56,9 @@ def classify_record(record: IngestionRecord) -> dict:
             "event_type": "financing_news",
             "classification_status": "EVENT_CANDIDATE",
             "reason_code": "FINANCING_KEYWORD_MATCH",
+            "reason_label": "Financing keyword match",
+            "candidate_priority": "high",
+            "source_quality_flags": record.quality_flags,
             "noise_flags": "[]",
         }
 
@@ -65,6 +68,9 @@ def classify_record(record: IngestionRecord) -> dict:
             "event_type": "offering_news",
             "classification_status": "EVENT_CANDIDATE",
             "reason_code": "OFFERING_KEYWORD_MATCH",
+            "reason_label": "Offering keyword match",
+            "candidate_priority": "high",
+            "source_quality_flags": record.quality_flags,
             "noise_flags": "[]",
         }
 
@@ -73,6 +79,9 @@ def classify_record(record: IngestionRecord) -> dict:
         "event_type": "uncategorized",
         "classification_status": "LOW_PRIORITY_CANDIDATE",
         "reason_code": "NO_CLEAR_EVENT_MATCH",
+        "reason_label": "No clear event match",
+        "candidate_priority": "low",
+        "source_quality_flags": record.quality_flags,
         "noise_flags": '["low_signal"]',
     }
 
@@ -102,6 +111,9 @@ def process_classify_news() -> None:
                 event_type=result["event_type"],
                 classification_status=result["classification_status"],
                 reason_code=result["reason_code"],
+                reason_label=result["reason_label"],
+                candidate_priority=result["candidate_priority"],
+                source_quality_flags=result["source_quality_flags"],
                 noise_flags=result["noise_flags"],
                 headline=record.headline,
             )

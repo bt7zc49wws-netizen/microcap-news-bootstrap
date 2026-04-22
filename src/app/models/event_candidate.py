@@ -22,6 +22,9 @@ class EventCandidate(Base):
     event_type: Mapped[str] = mapped_column(String(64), index=True)
     classification_status: Mapped[str] = mapped_column(String(32), default="EVENT_CANDIDATE")
     reason_code: Mapped[str] = mapped_column(String(64), default="UNSPECIFIED")
+    reason_label: Mapped[str] = mapped_column(String(128), default="Unspecified")
+    candidate_priority: Mapped[str] = mapped_column(String(16), default="medium")
+    source_quality_flags: Mapped[str] = mapped_column(Text, default="[]")
     noise_flags: Mapped[str] = mapped_column(Text, default="[]")
     headline: Mapped[str] = mapped_column(Text)
     classified_at: Mapped[datetime] = mapped_column(
