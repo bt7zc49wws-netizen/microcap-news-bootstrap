@@ -34,10 +34,12 @@ def process_ingest_news() -> None:
                 source_type=record["source_type"],
                 symbol=record["symbol"],
                 headline=record["headline"],
+                source_event_time=record["source_event_time"],
                 published_at=record["published_at"],
                 status="INGESTED",
                 quality_flags=record["quality_flags"],
                 is_duplicate=False,
+                processed_at=datetime.now(timezone.utc),
             )
             session.add(item)
 
