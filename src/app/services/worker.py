@@ -55,6 +55,8 @@ def classify_record(record: IngestionRecord) -> dict:
             "event_family": "financing",
             "event_type": "financing_news",
             "classification_status": "EVENT_CANDIDATE",
+            "reason_code": "FINANCING_KEYWORD_MATCH",
+            "noise_flags": "[]",
         }
 
     if "offering" in headline_lower:
@@ -62,12 +64,16 @@ def classify_record(record: IngestionRecord) -> dict:
             "event_family": "financing",
             "event_type": "offering_news",
             "classification_status": "EVENT_CANDIDATE",
+            "reason_code": "OFFERING_KEYWORD_MATCH",
+            "noise_flags": "[]",
         }
 
     return {
         "event_family": "other",
         "event_type": "uncategorized",
         "classification_status": "LOW_PRIORITY_CANDIDATE",
+        "reason_code": "NO_CLEAR_EVENT_MATCH",
+        "noise_flags": '["low_signal"]',
     }
 
 
@@ -90,10 +96,13 @@ def process_classify_news() -> None:
 
             candidate = EventCandidate(
                 source_record_id=record.record_id,
+                source_name=record.source_name,
                 primary_ticker=record.symbol,
                 event_family=result["event_family"],
                 event_type=result["event_type"],
                 classification_status=result["classification_status"],
+                reason_code=result["reason_code"],
+                noise_flags=result["noise_flags"],
                 headline=record.headline,
             )
             session.add(candidate)
