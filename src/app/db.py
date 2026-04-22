@@ -18,6 +18,7 @@ class Base(DeclarativeBase):
 def init_db() -> None:
     import app.models.job  # noqa: F401
     import app.models.ingestion_record  # noqa: F401
+    import app.models.event_candidate  # noqa: F401
     Base.metadata.create_all(bind=engine)
 
 

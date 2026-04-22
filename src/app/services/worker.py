@@ -6,6 +6,7 @@ from sqlalchemy import select
 
 from app.config import settings
 from app.db import SessionLocal, wait_for_db_and_tables
+from app.models.event_candidate import EventCandidate
 from app.models.ingestion_record import IngestionRecord
 from app.models.job import Job
 from app.providers.mock_news_provider import fetch_mock_news
@@ -46,6 +47,60 @@ def process_ingest_news() -> None:
         session.commit()
 
 
+def classify_record(record: IngestionRecord) -> dict:
+    headline_lower = record.headline.lower()
+
+    if "financing" in headline_lower:
+        return {
+            "event_family": "financing",
+            "event_type": "financing_news",
+            "classification_status": "EVENT_CANDIDATE",
+        }
+
+    if "offering" in headline_lower:
+        return {
+            "event_family": "financing",
+            "event_type": "offering_news",
+            "classification_status": "EVENT_CANDIDATE",
+        }
+
+    return {
+        "event_family": "other",
+        "event_type": "uncategorized",
+        "classification_status": "LOW_PRIORITY_CANDIDATE",
+    }
+
+
+def process_classify_news() -> None:
+    with SessionLocal() as session:
+        records = session.scalars(
+            select(IngestionRecord).order_by(IngestionRecord.published_at)
+        ).all()
+
+        for record in records:
+            existing = session.scalars(
+                select(EventCandidate).where(EventCandidate.source_record_id == record.record_id)
+            ).first()
+
+            if existing is not None:
+                logger.info("duplicate classification skipped source_record_id=%s", record.record_id)
+                continue
+
+            result = classify_record(record)
+
+            candidate = EventCandidate(
+                source_record_id=record.record_id,
+                primary_ticker=record.symbol,
+                event_family=result["event_family"],
+                event_type=result["event_type"],
+                classification_status=result["classification_status"],
+                headline=record.headline,
+            )
+            session.add(candidate)
+
+        session.commit()
+
+
 def process_job(job: Job) -> None:
     if job.job_type == "scheduler_tick":
         job.result = '{"message":"tick-ok"}'
@@ -54,6 +109,11 @@ def process_job(job: Job) -> None:
     elif job.job_type == "ingest_news":
         process_ingest_news()
         job.result = '{"message":"ingestion-ok"}'
+        job.status = "SUCCESS"
+
+    elif job.job_type == "classify_news":
+        process_classify_news()
+        job.result = '{"message":"classification-ok"}'
         job.status = "SUCCESS"
 
     elif job.job_type == "smoke":
@@ -69,7 +129,7 @@ def process_job(job: Job) -> None:
 
 def run() -> None:
     logger.info("worker waiting for db/tables")
-    wait_for_db_and_tables(["jobs", "ingestion_records"])
+    wait_for_db_and_tables(["jobs", "ingestion_records", "event_candidates"])
     logger.info("worker started")
 
     while True:
