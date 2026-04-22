@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Query, Request
 from sqlalchemy import desc, select
 
 from app.db import SessionLocal
@@ -8,13 +8,23 @@ router = APIRouter()
 
 
 @router.get("/event-candidates/latest")
-def get_latest_event_candidates(request: Request) -> dict:
+def get_latest_event_candidates(
+    request: Request,
+    classification_status: str | None = Query(default=None),
+    primary_ticker: str | None = Query(default=None),
+) -> dict:
+    query = select(EventCandidate)
+
+    if classification_status:
+        query = query.where(EventCandidate.classification_status == classification_status)
+
+    if primary_ticker:
+        query = query.where(EventCandidate.primary_ticker == primary_ticker.upper())
+
+    query = query.order_by(desc(EventCandidate.classified_at)).limit(50)
+
     with SessionLocal() as session:
-        records = session.scalars(
-            select(EventCandidate)
-            .order_by(desc(EventCandidate.classified_at))
-            .limit(50)
-        ).all()
+        records = session.scalars(query).all()
 
     return {
         "data": [
