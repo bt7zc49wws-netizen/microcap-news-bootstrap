@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, Query, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy import asc, desc, select
 
 from app.db import SessionLocal
@@ -10,6 +11,19 @@ ALLOWED_SORTS = {"classified_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
 
 
+def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
+    return JSONResponse(
+        status_code=status_code,
+        content={
+            "error": {
+                "error_code": error_code,
+                "message": message,
+            },
+            "meta": request.state.meta,
+        },
+    )
+
+
 @router.get("/event-candidates/latest")
 def get_latest_event_candidates(
     request: Request,
@@ -18,15 +32,30 @@ def get_latest_event_candidates(
     limit: int = Query(default=50),
     sort: str = Query(default="classified_at"),
     order: str = Query(default="desc"),
-) -> dict:
+):
     if limit < 1 or limit > 100:
-        raise HTTPException(status_code=400, detail="limit_out_of_range")
+        return error_response(
+            request,
+            "limit_out_of_range",
+            "Limit must be between 1 and 100.",
+            400,
+        )
 
     if sort not in ALLOWED_SORTS:
-        raise HTTPException(status_code=400, detail="unsupported_sort")
+        return error_response(
+            request,
+            "unsupported_sort",
+            "Only classified_at sort is supported.",
+            400,
+        )
 
     if order not in ALLOWED_ORDERS:
-        raise HTTPException(status_code=400, detail="invalid_parameter")
+        return error_response(
+            request,
+            "invalid_parameter",
+            "Order must be asc or desc.",
+            400,
+        )
 
     query = select(EventCandidate)
 
