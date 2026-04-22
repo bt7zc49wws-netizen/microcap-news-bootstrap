@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Query, Request
-from sqlalchemy import desc, select
+from fastapi import APIRouter, HTTPException, Query, Request
+from sqlalchemy import asc, desc, select
 
 from app.db import SessionLocal
 from app.models.event_candidate import EventCandidate
 
 router = APIRouter()
+
+ALLOWED_SORTS = {"classified_at"}
+ALLOWED_ORDERS = {"asc", "desc"}
 
 
 @router.get("/event-candidates/latest")
@@ -12,7 +15,19 @@ def get_latest_event_candidates(
     request: Request,
     classification_status: str | None = Query(default=None),
     primary_ticker: str | None = Query(default=None),
+    limit: int = Query(default=50),
+    sort: str = Query(default="classified_at"),
+    order: str = Query(default="desc"),
 ) -> dict:
+    if limit < 1 or limit > 100:
+        raise HTTPException(status_code=400, detail="limit_out_of_range")
+
+    if sort not in ALLOWED_SORTS:
+        raise HTTPException(status_code=400, detail="unsupported_sort")
+
+    if order not in ALLOWED_ORDERS:
+        raise HTTPException(status_code=400, detail="invalid_parameter")
+
     query = select(EventCandidate)
 
     if classification_status:
@@ -21,7 +36,10 @@ def get_latest_event_candidates(
     if primary_ticker:
         query = query.where(EventCandidate.primary_ticker == primary_ticker.upper())
 
-    query = query.order_by(desc(EventCandidate.classified_at)).limit(50)
+    sort_column = EventCandidate.classified_at
+    ordering = desc(sort_column) if order == "desc" else asc(sort_column)
+
+    query = query.order_by(ordering).limit(limit)
 
     with SessionLocal() as session:
         records = session.scalars(query).all()
@@ -50,9 +68,9 @@ def get_latest_event_candidates(
         "pagination": {
             "next_cursor": "",
             "has_more": False,
-            "limit": 50,
-            "sort": "classified_at",
-            "order": "desc",
+            "limit": limit,
+            "sort": sort,
+            "order": order,
         },
         "meta": request.state.meta,
     }
