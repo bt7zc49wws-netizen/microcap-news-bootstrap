@@ -1,4 +1,5 @@
 import re
+import uuid
 
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
@@ -34,6 +35,19 @@ def serialize_signal_list_item(record: SignalSnapshot) -> dict:
         "primary_ticker": record.primary_ticker,
         "decision": record.decision,
         "reason_code": record.reason_code,
+        "decision_hint": record.decision_hint,
+        "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
+    }
+
+
+def serialize_signal_detail(record: SignalSnapshot) -> dict:
+    return {
+        "signal_id": record.signal_id,
+        "source_candidate_id": record.source_candidate_id,
+        "primary_ticker": record.primary_ticker,
+        "decision": record.decision,
+        "reason_code": record.reason_code,
+        "reason_label": record.reason_label,
         "decision_hint": record.decision_hint,
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
@@ -117,5 +131,34 @@ def get_latest_signals(
             "sort": sort,
             "order": order,
         },
+        "meta": request.state.meta,
+    }
+
+
+@router.get("/signals/{signal_id}")
+def get_signal_detail(request: Request, signal_id: str):
+    try:
+        uuid.UUID(signal_id)
+    except ValueError:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "signal_id must be a valid UUID.",
+            400,
+        )
+
+    with SessionLocal() as session:
+        record = session.get(SignalSnapshot, signal_id)
+
+    if record is None:
+        return error_response(
+            request,
+            "resource_not_found",
+            "Requested signal was not found.",
+            404,
+        )
+
+    return {
+        "data": serialize_signal_detail(record),
         "meta": request.state.meta,
     }
