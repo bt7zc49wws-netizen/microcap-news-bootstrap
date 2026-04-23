@@ -25,6 +25,7 @@ DECISION_RULES = [
         "reason_code": "SIGNAL_NO_TRADE",
         "reason_label": "Signal resolved to no-trade path.",
         "decision_summary": "Signal resolved to no-trade path.",
+        "eligibility_summary": "signal.decision == no_trade",
         "decision_context": '{"source":"signal","rule":"no_trade_passthrough"}',
         "matches": _matches_no_trade_passthrough,
     },
@@ -35,6 +36,7 @@ DECISION_RULES = [
         "reason_code": "WATCHLIST_ESCALATED_TO_ACTIONABLE",
         "reason_label": "Watchlist signal escalated to actionable decision.",
         "decision_summary": "Watchlist signal escalated to actionable decision.",
+        "eligibility_summary": "signal.decision == watchlist AND primary_ticker == ABCD AND reason_code == FINANCING_KEYWORD_MATCH",
         "decision_context": '{"source":"signal","rule":"abcd_actionable_seed"}',
         "matches": _matches_abcd_actionable_seed,
     },
@@ -45,6 +47,7 @@ DECISION_RULES = [
         "reason_code": "SIGNAL_WATCHLIST",
         "reason_label": "Signal remained in watchlist state.",
         "decision_summary": "Signal remained in watchlist state.",
+        "eligibility_summary": "signal.decision == watchlist",
         "decision_context": '{"source":"signal","rule":"watchlist_passthrough"}',
         "matches": _matches_watchlist_passthrough,
     },
@@ -58,6 +61,7 @@ DECISION_RULES_REGISTRY = {
         "reason_code": rule["reason_code"],
         "reason_label": rule["reason_label"],
         "decision_summary": rule["decision_summary"],
+        "eligibility_summary": rule["eligibility_summary"],
     }
     for rule in DECISION_RULES
 }

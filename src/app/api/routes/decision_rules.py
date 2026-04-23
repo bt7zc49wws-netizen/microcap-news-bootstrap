@@ -34,6 +34,7 @@ def serialize_rule(rule: dict) -> dict:
         "reason_code": rule["reason_code"],
         "reason_label": rule["reason_label"],
         "decision_summary": rule["decision_summary"],
+        "eligibility_summary": rule["eligibility_summary"],
     }
 
 
