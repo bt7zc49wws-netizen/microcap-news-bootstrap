@@ -6,6 +6,11 @@ from app.decisioning.rules import DECISION_RULES_REGISTRY
 router = APIRouter()
 
 ALLOWED_DECISIONS = {"actionable", "watchlist", "no_trade"}
+ALLOWED_REASON_CODES = {
+    "WATCHLIST_ESCALATED_TO_ACTIONABLE",
+    "SIGNAL_WATCHLIST",
+    "SIGNAL_NO_TRADE",
+}
 
 
 def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
@@ -35,6 +40,7 @@ def serialize_rule(rule: dict) -> dict:
 def get_decision_rules(
     request: Request,
     decision: str | None = Query(default=None),
+    reason_code: str | None = Query(default=None),
 ):
     if decision and decision not in ALLOWED_DECISIONS:
         return error_response(
@@ -44,10 +50,21 @@ def get_decision_rules(
             400,
         )
 
+    if reason_code and reason_code not in ALLOWED_REASON_CODES:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "reason_code is not supported.",
+            400,
+        )
+
     rules = list(DECISION_RULES_REGISTRY.values())
 
     if decision:
         rules = [rule for rule in rules if rule["decision"] == decision]
+
+    if reason_code:
+        rules = [rule for rule in rules if rule["reason_code"] == reason_code]
 
     return {
         "data": [serialize_rule(rule) for rule in rules],
