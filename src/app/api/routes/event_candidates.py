@@ -25,7 +25,21 @@ def error_response(request: Request, error_code: str, message: str, status_code:
     )
 
 
-def serialize_candidate(record: EventCandidate) -> dict:
+def serialize_candidate_list_item(record: EventCandidate) -> dict:
+    return {
+        "candidate_id": record.candidate_id,
+        "primary_ticker": record.primary_ticker,
+        "event_family": record.event_family,
+        "event_type": record.event_type,
+        "classification_status": record.classification_status,
+        "reason_code": record.reason_code,
+        "candidate_priority": record.candidate_priority,
+        "decision_hint": record.decision_hint,
+        "classified_at": record.classified_at.isoformat().replace("+00:00", "Z"),
+    }
+
+
+def serialize_candidate_detail(record: EventCandidate) -> dict:
     return {
         "candidate_id": record.candidate_id,
         "source_record_id": record.source_record_id,
@@ -158,7 +172,7 @@ def get_latest_event_candidates(
         next_cursor = encode_cursor(last_record.classified_at, last_record.candidate_id)
 
     return {
-        "data": [serialize_candidate(record) for record in visible_records],
+        "data": [serialize_candidate_list_item(record) for record in visible_records],
         "pagination": {
             "next_cursor": next_cursor,
             "has_more": has_more,
@@ -184,6 +198,6 @@ def get_event_candidate_detail(request: Request, candidate_id: str):
         )
 
     return {
-        "data": serialize_candidate(record),
+        "data": serialize_candidate_detail(record),
         "meta": request.state.meta,
     }
