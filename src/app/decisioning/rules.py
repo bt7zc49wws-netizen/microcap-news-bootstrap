@@ -6,11 +6,15 @@ def _matches_no_trade_passthrough(signal: SignalSnapshot) -> bool:
 
 
 def _matches_abcd_actionable_seed(signal: SignalSnapshot) -> bool:
-    return signal.primary_ticker == "ABCD"
+    return (
+        signal.decision == "watchlist"
+        and signal.primary_ticker == "ABCD"
+        and signal.reason_code == "FINANCING_KEYWORD_MATCH"
+    )
 
 
 def _matches_watchlist_passthrough(signal: SignalSnapshot) -> bool:
-    return True
+    return signal.decision == "watchlist"
 
 
 DECISION_RULES = [
