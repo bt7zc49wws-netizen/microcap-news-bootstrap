@@ -18,6 +18,7 @@ class DecisionSnapshot(Base):
     source_signal_id: Mapped[str] = mapped_column(String(36), index=True, unique=True)
     primary_ticker: Mapped[str] = mapped_column(String(16), index=True)
     decision: Mapped[str] = mapped_column(String(32), index=True)
+    rule_id: Mapped[str] = mapped_column(String(64), index=True)
     reason_code: Mapped[str] = mapped_column(String(64))
     reason_label: Mapped[str] = mapped_column(String(128), default="Unspecified")
     decision_summary: Mapped[str] = mapped_column(Text, default="")
