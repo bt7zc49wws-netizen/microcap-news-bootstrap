@@ -1,46 +1,74 @@
 from app.models.signal_snapshot import SignalSnapshot
 
 
-NO_TRADE_PASSTHROUGH_RULE = {
-    "rule_id": "no_trade_passthrough",
-    "decision": "no_trade",
-    "reason_code": "SIGNAL_NO_TRADE",
-    "reason_label": "Signal resolved to no-trade path.",
-    "decision_summary": "Signal resolved to no-trade path.",
-    "decision_context": '{"source":"signal","rule":"no_trade_passthrough"}',
-}
+def _matches_no_trade_passthrough(signal: SignalSnapshot) -> bool:
+    return signal.decision == "no_trade"
 
-ABCD_ACTIONABLE_SEED_RULE = {
-    "rule_id": "abcd_actionable_seed",
-    "decision": "actionable",
-    "reason_code": "WATCHLIST_ESCALATED_TO_ACTIONABLE",
-    "reason_label": "Watchlist signal escalated to actionable decision.",
-    "decision_summary": "Watchlist signal escalated to actionable decision.",
-    "decision_context": '{"source":"signal","rule":"abcd_actionable_seed"}',
-}
 
-WATCHLIST_PASSTHROUGH_RULE = {
-    "rule_id": "watchlist_passthrough",
-    "decision": "watchlist",
-    "reason_code": "SIGNAL_WATCHLIST",
-    "reason_label": "Signal remained in watchlist state.",
-    "decision_summary": "Signal remained in watchlist state.",
-    "decision_context": '{"source":"signal","rule":"watchlist_passthrough"}',
-}
+def _matches_abcd_actionable_seed(signal: SignalSnapshot) -> bool:
+    return signal.primary_ticker == "ABCD"
 
+
+def _matches_watchlist_passthrough(signal: SignalSnapshot) -> bool:
+    return True
+
+
+DECISION_RULES = [
+    {
+        "rule_id": "no_trade_passthrough",
+        "evaluation_order": 10,
+        "decision": "no_trade",
+        "reason_code": "SIGNAL_NO_TRADE",
+        "reason_label": "Signal resolved to no-trade path.",
+        "decision_summary": "Signal resolved to no-trade path.",
+        "decision_context": '{"source":"signal","rule":"no_trade_passthrough"}',
+        "matches": _matches_no_trade_passthrough,
+    },
+    {
+        "rule_id": "abcd_actionable_seed",
+        "evaluation_order": 20,
+        "decision": "actionable",
+        "reason_code": "WATCHLIST_ESCALATED_TO_ACTIONABLE",
+        "reason_label": "Watchlist signal escalated to actionable decision.",
+        "decision_summary": "Watchlist signal escalated to actionable decision.",
+        "decision_context": '{"source":"signal","rule":"abcd_actionable_seed"}',
+        "matches": _matches_abcd_actionable_seed,
+    },
+    {
+        "rule_id": "watchlist_passthrough",
+        "evaluation_order": 999,
+        "decision": "watchlist",
+        "reason_code": "SIGNAL_WATCHLIST",
+        "reason_label": "Signal remained in watchlist state.",
+        "decision_summary": "Signal remained in watchlist state.",
+        "decision_context": '{"source":"signal","rule":"watchlist_passthrough"}',
+        "matches": _matches_watchlist_passthrough,
+    },
+]
 
 DECISION_RULES_REGISTRY = {
-    "no_trade_passthrough": NO_TRADE_PASSTHROUGH_RULE,
-    "abcd_actionable_seed": ABCD_ACTIONABLE_SEED_RULE,
-    "watchlist_passthrough": WATCHLIST_PASSTHROUGH_RULE,
+    rule["rule_id"]: {
+        "rule_id": rule["rule_id"],
+        "evaluation_order": rule["evaluation_order"],
+        "decision": rule["decision"],
+        "reason_code": rule["reason_code"],
+        "reason_label": rule["reason_label"],
+        "decision_summary": rule["decision_summary"],
+    }
+    for rule in DECISION_RULES
 }
 
 
 def map_final_decision(signal: SignalSnapshot) -> dict:
-    if signal.decision == "no_trade":
-        return DECISION_RULES_REGISTRY["no_trade_passthrough"]
+    for rule in sorted(DECISION_RULES, key=lambda r: r["evaluation_order"]):
+        if rule["matches"](signal):
+            return {
+                "rule_id": rule["rule_id"],
+                "decision": rule["decision"],
+                "reason_code": rule["reason_code"],
+                "reason_label": rule["reason_label"],
+                "decision_summary": rule["decision_summary"],
+                "decision_context": rule["decision_context"],
+            }
 
-    if signal.primary_ticker == "ABCD":
-        return DECISION_RULES_REGISTRY["abcd_actionable_seed"]
-
-    return DECISION_RULES_REGISTRY["watchlist_passthrough"]
+    raise RuntimeError("no decision rule matched signal")

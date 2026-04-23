@@ -29,6 +29,7 @@ def error_response(request: Request, error_code: str, message: str, status_code:
 def serialize_rule(rule: dict) -> dict:
     return {
         "rule_id": rule["rule_id"],
+        "evaluation_order": rule["evaluation_order"],
         "decision": rule["decision"],
         "reason_code": rule["reason_code"],
         "reason_label": rule["reason_label"],
@@ -65,6 +66,8 @@ def get_decision_rules(
 
     if reason_code:
         rules = [rule for rule in rules if rule["reason_code"] == reason_code]
+
+    rules = sorted(rules, key=lambda r: r["evaluation_order"])
 
     return {
         "data": [serialize_rule(rule) for rule in rules],
