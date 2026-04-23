@@ -1,4 +1,6 @@
 from datetime import datetime
+import re
+
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import and_, asc, desc, or_, select
@@ -11,6 +13,7 @@ router = APIRouter()
 ALLOWED_SORTS = {"classified_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
 ALLOWED_CLASSIFICATION_STATUSES = {"EVENT_CANDIDATE", "LOW_PRIORITY_CANDIDATE"}
+TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
 
 
 def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
@@ -92,6 +95,18 @@ def get_latest_event_candidates(
             400,
         )
 
+    if primary_ticker:
+        normalized_ticker = primary_ticker.upper()
+        if not TICKER_PATTERN.fullmatch(normalized_ticker):
+            return error_response(
+                request,
+                "invalid_parameter",
+                "primary_ticker must match the allowed ticker format.",
+                400,
+            )
+    else:
+        normalized_ticker = None
+
     if limit < 1 or limit > 100:
         return error_response(
             request,
@@ -121,8 +136,8 @@ def get_latest_event_candidates(
     if classification_status:
         query = query.where(EventCandidate.classification_status == classification_status)
 
-    if primary_ticker:
-        query = query.where(EventCandidate.primary_ticker == primary_ticker.upper())
+    if normalized_ticker:
+        query = query.where(EventCandidate.primary_ticker == normalized_ticker)
 
     if cursor:
         try:
