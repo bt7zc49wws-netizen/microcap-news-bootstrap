@@ -25,6 +25,27 @@ def error_response(request: Request, error_code: str, message: str, status_code:
     )
 
 
+def serialize_candidate(record: EventCandidate) -> dict:
+    return {
+        "candidate_id": record.candidate_id,
+        "source_record_id": record.source_record_id,
+        "source_external_id": record.source_external_id,
+        "source_name": record.source_name,
+        "primary_ticker": record.primary_ticker,
+        "event_family": record.event_family,
+        "event_type": record.event_type,
+        "classification_status": record.classification_status,
+        "reason_code": record.reason_code,
+        "reason_label": record.reason_label,
+        "candidate_priority": record.candidate_priority,
+        "decision_hint": record.decision_hint,
+        "explanation_summary": record.explanation_summary,
+        "source_event_time": record.source_event_time.isoformat().replace("+00:00", "Z"),
+        "source_published_at": record.source_published_at.isoformat().replace("+00:00", "Z"),
+        "classified_at": record.classified_at.isoformat().replace("+00:00", "Z"),
+    }
+
+
 def encode_cursor(classified_at: datetime, candidate_id: str) -> str:
     return f"{classified_at.isoformat()}|{candidate_id}"
 
@@ -137,26 +158,7 @@ def get_latest_event_candidates(
         next_cursor = encode_cursor(last_record.classified_at, last_record.candidate_id)
 
     return {
-        "data": [
-            {
-                "candidate_id": record.candidate_id,
-                "source_external_id": record.source_external_id,
-                "source_name": record.source_name,
-                "primary_ticker": record.primary_ticker,
-                "event_family": record.event_family,
-                "event_type": record.event_type,
-                "classification_status": record.classification_status,
-                "reason_code": record.reason_code,
-                "reason_label": record.reason_label,
-                "candidate_priority": record.candidate_priority,
-                "decision_hint": record.decision_hint,
-                "explanation_summary": record.explanation_summary,
-                "source_event_time": record.source_event_time.isoformat().replace("+00:00", "Z"),
-                "source_published_at": record.source_published_at.isoformat().replace("+00:00", "Z"),
-                "classified_at": record.classified_at.isoformat().replace("+00:00", "Z"),
-            }
-            for record in visible_records
-        ],
+        "data": [serialize_candidate(record) for record in visible_records],
         "pagination": {
             "next_cursor": next_cursor,
             "has_more": has_more,
@@ -164,5 +166,24 @@ def get_latest_event_candidates(
             "sort": sort,
             "order": order,
         },
+        "meta": request.state.meta,
+    }
+
+
+@router.get("/event-candidates/{candidate_id}")
+def get_event_candidate_detail(request: Request, candidate_id: str):
+    with SessionLocal() as session:
+        record = session.get(EventCandidate, candidate_id)
+
+    if record is None:
+        return error_response(
+            request,
+            "resource_not_found",
+            "Requested event candidate was not found.",
+            404,
+        )
+
+    return {
+        "data": serialize_candidate(record),
         "meta": request.state.meta,
     }
