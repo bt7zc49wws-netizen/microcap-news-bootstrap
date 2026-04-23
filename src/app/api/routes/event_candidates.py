@@ -14,6 +14,7 @@ ALLOWED_SORTS = {"classified_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
 ALLOWED_CLASSIFICATION_STATUSES = {"EVENT_CANDIDATE", "LOW_PRIORITY_CANDIDATE"}
 ALLOWED_EVENT_TYPES = {"financing_news", "offering_news", "uncategorized"}
+ALLOWED_EVENT_FAMILIES = {"financing", "other"}
 TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
 
 
@@ -84,6 +85,7 @@ def get_latest_event_candidates(
     classification_status: str | None = Query(default=None),
     primary_ticker: str | None = Query(default=None),
     event_type: str | None = Query(default=None),
+    event_family: str | None = Query(default=None),
     limit: int = Query(default=50),
     sort: str = Query(default="classified_at"),
     order: str = Query(default="desc"),
@@ -102,6 +104,14 @@ def get_latest_event_candidates(
             request,
             "invalid_parameter",
             "event_type must be financing_news, offering_news, or uncategorized.",
+            400,
+        )
+
+    if event_family and event_family not in ALLOWED_EVENT_FAMILIES:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "event_family must be financing or other.",
             400,
         )
 
@@ -151,6 +161,9 @@ def get_latest_event_candidates(
 
     if event_type:
         query = query.where(EventCandidate.event_type == event_type)
+
+    if event_family:
+        query = query.where(EventCandidate.event_family == event_family)
 
     if cursor:
         try:
