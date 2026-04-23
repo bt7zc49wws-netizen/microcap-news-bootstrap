@@ -29,6 +29,7 @@ def error_response(request: Request, error_code: str, message: str, status_code:
 def serialize_rule(rule: dict) -> dict:
     return {
         "rule_id": rule["rule_id"],
+        "rule_version": rule["rule_version"],
         "evaluation_order": rule["evaluation_order"],
         "decision": rule["decision"],
         "reason_code": rule["reason_code"],

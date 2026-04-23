@@ -1,5 +1,7 @@
 from app.models.signal_snapshot import SignalSnapshot
 
+DECISION_RULES_VERSION = "decision_rules_v1"
+
 
 def _matches_no_trade_passthrough(signal: SignalSnapshot) -> bool:
     return signal.decision == "no_trade"
@@ -62,6 +64,7 @@ DECISION_RULES_REGISTRY = {
         "reason_label": rule["reason_label"],
         "decision_summary": rule["decision_summary"],
         "eligibility_summary": rule["eligibility_summary"],
+        "rule_version": DECISION_RULES_VERSION,
     }
     for rule in DECISION_RULES
 }
@@ -72,6 +75,7 @@ def map_final_decision(signal: SignalSnapshot) -> dict:
         if rule["matches"](signal):
             return {
                 "rule_id": rule["rule_id"],
+                "rule_version": DECISION_RULES_VERSION,
                 "decision": rule["decision"],
                 "reason_code": rule["reason_code"],
                 "reason_label": rule["reason_label"],

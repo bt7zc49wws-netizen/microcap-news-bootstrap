@@ -148,6 +148,7 @@ def process_build_decision_snapshots() -> None:
                 primary_ticker=signal.primary_ticker,
                 decision=result["decision"],
                 rule_id=result["rule_id"],
+                rule_version=result["rule_version"],
                 reason_code=result["reason_code"],
                 reason_label=result["reason_label"],
                 decision_summary=result["decision_summary"],
