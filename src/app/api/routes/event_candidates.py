@@ -13,6 +13,7 @@ router = APIRouter()
 ALLOWED_SORTS = {"classified_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
 ALLOWED_CLASSIFICATION_STATUSES = {"EVENT_CANDIDATE", "LOW_PRIORITY_CANDIDATE"}
+ALLOWED_EVENT_TYPES = {"financing_news", "offering_news", "uncategorized"}
 TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
 
 
@@ -82,6 +83,7 @@ def get_latest_event_candidates(
     request: Request,
     classification_status: str | None = Query(default=None),
     primary_ticker: str | None = Query(default=None),
+    event_type: str | None = Query(default=None),
     limit: int = Query(default=50),
     sort: str = Query(default="classified_at"),
     order: str = Query(default="desc"),
@@ -92,6 +94,14 @@ def get_latest_event_candidates(
             request,
             "invalid_parameter",
             "classification_status must be EVENT_CANDIDATE or LOW_PRIORITY_CANDIDATE.",
+            400,
+        )
+
+    if event_type and event_type not in ALLOWED_EVENT_TYPES:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "event_type must be financing_news, offering_news, or uncategorized.",
             400,
         )
 
@@ -138,6 +148,9 @@ def get_latest_event_candidates(
 
     if normalized_ticker:
         query = query.where(EventCandidate.primary_ticker == normalized_ticker)
+
+    if event_type:
+        query = query.where(EventCandidate.event_type == event_type)
 
     if cursor:
         try:
