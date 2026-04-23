@@ -129,7 +129,7 @@ def map_final_decision(signal: SignalSnapshot) -> tuple[str, str, str]:
     if signal.decision == "no_trade":
         return "no_trade", "SIGNAL_NO_TRADE", '{"source":"signal","rule":"no_trade_passthrough"}'
     if signal.primary_ticker == "ABCD":
-        return "actionable", "WATCHLIST_ESCALATED_TO_ACTIONABLE", '{"source":"signal","rule":"abdc_actionable_seed"}'
+        return "actionable", "WATCHLIST_ESCALATED_TO_ACTIONABLE", '{"source":"signal","rule":"abcd_actionable_seed"}'
     return "watchlist", "SIGNAL_WATCHLIST", '{"source":"signal","rule":"watchlist_passthrough"}'
 
 
