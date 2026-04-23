@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import desc, select
@@ -8,6 +10,7 @@ from app.models.decision_snapshot import DecisionSnapshot
 router = APIRouter()
 
 ALLOWED_DECISIONS = {"actionable", "watchlist", "no_trade"}
+TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
 
 
 def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
@@ -37,6 +40,7 @@ def serialize_decision_list_item(record: DecisionSnapshot) -> dict:
 def get_latest_decisions(
     request: Request,
     decision: str | None = Query(default=None),
+    primary_ticker: str | None = Query(default=None),
 ):
     if decision and decision not in ALLOWED_DECISIONS:
         return error_response(
@@ -46,10 +50,25 @@ def get_latest_decisions(
             400,
         )
 
+    if primary_ticker:
+        normalized_ticker = primary_ticker.upper()
+        if not TICKER_PATTERN.fullmatch(normalized_ticker):
+            return error_response(
+                request,
+                "invalid_parameter",
+                "primary_ticker must match the allowed ticker format.",
+                400,
+            )
+    else:
+        normalized_ticker = None
+
     query = select(DecisionSnapshot)
 
     if decision:
         query = query.where(DecisionSnapshot.decision == decision)
+
+    if normalized_ticker:
+        query = query.where(DecisionSnapshot.primary_ticker == normalized_ticker)
 
     query = query.order_by(desc(DecisionSnapshot.generated_at)).limit(50)
 
