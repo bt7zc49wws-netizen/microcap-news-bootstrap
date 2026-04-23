@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
+from app.api.routes.decision_rules import router as decision_rules_router
 from app.api.routes.decisions import router as decisions_router
 from app.api.routes.event_candidates import router as event_candidates_router
 from app.api.routes.health import router as health_router
@@ -63,3 +64,4 @@ app.include_router(meta_router, prefix="/api/v1")
 app.include_router(event_candidates_router, prefix="/api/v1")
 app.include_router(signals_router, prefix="/api/v1")
 app.include_router(decisions_router, prefix="/api/v1")
+app.include_router(decision_rules_router, prefix="/api/v1")
