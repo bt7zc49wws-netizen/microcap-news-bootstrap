@@ -1,5 +1,6 @@
 from datetime import datetime
 import re
+import uuid
 
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
@@ -236,6 +237,16 @@ def get_latest_event_candidates(
 
 @router.get("/event-candidates/{candidate_id}")
 def get_event_candidate_detail(request: Request, candidate_id: str):
+    try:
+        uuid.UUID(candidate_id)
+    except ValueError:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "candidate_id must be a valid UUID.",
+            400,
+        )
+
     with SessionLocal() as session:
         record = session.get(EventCandidate, candidate_id)
 
