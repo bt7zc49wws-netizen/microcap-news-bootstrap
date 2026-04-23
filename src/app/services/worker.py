@@ -141,16 +141,16 @@ def process_build_decision_snapshots() -> None:
                 logger.info("duplicate decision snapshot skipped source_signal_id=%s", signal.signal_id)
                 continue
 
-            decision, reason_code, reason_label, decision_context = map_final_decision(signal)
+            result = map_final_decision(signal)
 
             snapshot = DecisionSnapshot(
                 source_signal_id=signal.signal_id,
                 primary_ticker=signal.primary_ticker,
-                decision=decision,
-                reason_code=reason_code,
-                reason_label=reason_label,
-                decision_summary=reason_label,
-                decision_context=decision_context,
+                decision=result["decision"],
+                reason_code=result["reason_code"],
+                reason_label=result["reason_label"],
+                decision_summary=result["decision_summary"],
+                decision_context=result["decision_context"],
             )
             session.add(snapshot)
 
