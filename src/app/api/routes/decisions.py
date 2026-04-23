@@ -10,11 +10,9 @@ router = APIRouter()
 def serialize_decision_list_item(record: DecisionSnapshot) -> dict:
     return {
         "decision_id": record.decision_id,
-        "source_signal_id": record.source_signal_id,
         "primary_ticker": record.primary_ticker,
         "decision": record.decision,
         "reason_code": record.reason_code,
-        "decision_context": record.decision_context,
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
 
