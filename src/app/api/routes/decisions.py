@@ -12,6 +12,11 @@ from app.models.decision_snapshot import DecisionSnapshot
 router = APIRouter()
 
 ALLOWED_DECISIONS = {"actionable", "watchlist", "no_trade"}
+ALLOWED_REASON_CODES = {
+    "WATCHLIST_ESCALATED_TO_ACTIONABLE",
+    "SIGNAL_WATCHLIST",
+    "SIGNAL_NO_TRADE",
+}
 ALLOWED_SORTS = {"generated_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
 TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
@@ -73,6 +78,7 @@ def get_latest_decisions(
     request: Request,
     decision: str | None = Query(default=None),
     primary_ticker: str | None = Query(default=None),
+    reason_code: str | None = Query(default=None),
     limit: int = Query(default=50),
     sort: str = Query(default="generated_at"),
     order: str = Query(default="desc"),
@@ -83,6 +89,14 @@ def get_latest_decisions(
             request,
             "invalid_parameter",
             "decision must be actionable, watchlist, or no_trade.",
+            400,
+        )
+
+    if reason_code and reason_code not in ALLOWED_REASON_CODES:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "reason_code is not supported.",
             400,
         )
 
@@ -129,6 +143,9 @@ def get_latest_decisions(
 
     if normalized_ticker:
         query = query.where(DecisionSnapshot.primary_ticker == normalized_ticker)
+
+    if reason_code:
+        query = query.where(DecisionSnapshot.reason_code == reason_code)
 
     if cursor:
         try:
