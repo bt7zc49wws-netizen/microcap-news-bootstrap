@@ -10,6 +10,7 @@ router = APIRouter()
 
 ALLOWED_SORTS = {"classified_at"}
 ALLOWED_ORDERS = {"asc", "desc"}
+ALLOWED_CLASSIFICATION_STATUSES = {"EVENT_CANDIDATE", "LOW_PRIORITY_CANDIDATE"}
 
 
 def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
@@ -83,6 +84,14 @@ def get_latest_event_candidates(
     order: str = Query(default="desc"),
     cursor: str | None = Query(default=None),
 ):
+    if classification_status and classification_status not in ALLOWED_CLASSIFICATION_STATUSES:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "classification_status must be EVENT_CANDIDATE or LOW_PRIORITY_CANDIDATE.",
+            400,
+        )
+
     if limit < 1 or limit > 100:
         return error_response(
             request,
