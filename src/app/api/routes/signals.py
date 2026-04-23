@@ -1,9 +1,10 @@
+from datetime import datetime
 import re
 import uuid
 
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
-from sqlalchemy import asc, desc, select
+from sqlalchemy import and_, asc, desc, or_, select
 
 from app.db import SessionLocal
 from app.models.signal_snapshot import SignalSnapshot
@@ -53,6 +54,19 @@ def serialize_signal_detail(record: SignalSnapshot) -> dict:
     }
 
 
+def encode_cursor(generated_at: datetime, signal_id: str) -> str:
+    return f"{generated_at.isoformat()}|{signal_id}"
+
+
+def decode_cursor(cursor: str) -> tuple[datetime, str]:
+    try:
+        ts_str, signal_id = cursor.split("|", 1)
+        ts = datetime.fromisoformat(ts_str)
+        return ts, signal_id
+    except Exception as exc:
+        raise ValueError("invalid cursor") from exc
+
+
 @router.get("/signals/latest")
 def get_latest_signals(
     request: Request,
@@ -61,6 +75,7 @@ def get_latest_signals(
     limit: int = Query(default=50),
     sort: str = Query(default="generated_at"),
     order: str = Query(default="desc"),
+    cursor: str | None = Query(default=None),
 ):
     if decision and decision not in ALLOWED_DECISIONS:
         return error_response(
@@ -114,19 +129,67 @@ def get_latest_signals(
     if normalized_ticker:
         query = query.where(SignalSnapshot.primary_ticker == normalized_ticker)
 
-    sort_column = SignalSnapshot.generated_at
-    ordering = desc(sort_column) if order == "desc" else asc(sort_column)
+    if cursor:
+        try:
+            cursor_ts, cursor_signal_id = decode_cursor(cursor)
+        except ValueError:
+            return error_response(
+                request,
+                "invalid_cursor",
+                "Cursor could not be parsed.",
+                400,
+            )
 
-    query = query.order_by(ordering).limit(limit)
+        if order == "desc":
+            query = query.where(
+                or_(
+                    SignalSnapshot.generated_at < cursor_ts,
+                    and_(
+                        SignalSnapshot.generated_at == cursor_ts,
+                        SignalSnapshot.signal_id < cursor_signal_id,
+                    ),
+                )
+            )
+        else:
+            query = query.where(
+                or_(
+                    SignalSnapshot.generated_at > cursor_ts,
+                    and_(
+                        SignalSnapshot.generated_at == cursor_ts,
+                        SignalSnapshot.signal_id > cursor_signal_id,
+                    ),
+                )
+            )
+
+    if order == "desc":
+        query = query.order_by(
+            desc(SignalSnapshot.generated_at),
+            desc(SignalSnapshot.signal_id),
+        )
+    else:
+        query = query.order_by(
+            asc(SignalSnapshot.generated_at),
+            asc(SignalSnapshot.signal_id),
+        )
+
+    query = query.limit(limit + 1)
 
     with SessionLocal() as session:
         records = session.scalars(query).all()
 
+    has_more = len(records) > limit
+    visible_records = records[:limit]
+
+    next_cursor = ""
+    if has_more and visible_records:
+        last_record = visible_records[-1]
+        next_cursor = encode_cursor(last_record.generated_at, last_record.signal_id)
+
     return {
-        "data": [serialize_signal_list_item(record) for record in records],
+        "data": [serialize_signal_list_item(record) for record in visible_records],
         "pagination": {
-            "next_cursor": "",
-            "has_more": False,
+            "next_cursor": next_cursor,
+            "has_more": has_more,
             "limit": limit,
             "sort": sort,
             "order": order,
