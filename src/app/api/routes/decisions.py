@@ -36,6 +36,7 @@ def serialize_decision_list_item(record: DecisionSnapshot) -> dict:
         "primary_ticker": record.primary_ticker,
         "decision": record.decision,
         "reason_code": record.reason_code,
+        "reason_label": record.reason_label,
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
 
@@ -47,6 +48,8 @@ def serialize_decision_detail(record: DecisionSnapshot) -> dict:
         "primary_ticker": record.primary_ticker,
         "decision": record.decision,
         "reason_code": record.reason_code,
+        "reason_label": record.reason_label,
+        "decision_summary": record.decision_summary,
         "decision_context": record.decision_context,
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
