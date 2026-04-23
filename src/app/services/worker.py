@@ -7,6 +7,7 @@ from sqlalchemy import select
 from app.classification.rules import classify_record
 from app.config import settings
 from app.db import SessionLocal, wait_for_db_and_tables
+from app.models.decision_snapshot import DecisionSnapshot
 from app.models.event_candidate import EventCandidate
 from app.models.ingestion_record import IngestionRecord
 from app.models.job import Job
@@ -90,7 +91,7 @@ def process_classify_news() -> None:
         session.commit()
 
 
-def map_decision(decision_hint: str) -> str:
+def map_signal_decision(decision_hint: str) -> str:
     if decision_hint == "watchlist_candidate":
         return "watchlist"
     return "no_trade"
@@ -114,10 +115,47 @@ def process_build_signal_snapshots() -> None:
             snapshot = SignalSnapshot(
                 source_candidate_id=candidate.candidate_id,
                 primary_ticker=candidate.primary_ticker,
-                decision=map_decision(candidate.decision_hint),
+                decision=map_signal_decision(candidate.decision_hint),
                 reason_code=candidate.reason_code,
                 reason_label=candidate.reason_label,
                 decision_hint=candidate.decision_hint,
+            )
+            session.add(snapshot)
+
+        session.commit()
+
+
+def map_final_decision(signal: SignalSnapshot) -> tuple[str, str, str]:
+    if signal.decision == "no_trade":
+        return "no_trade", "SIGNAL_NO_TRADE", '{"source":"signal","rule":"no_trade_passthrough"}'
+    if signal.primary_ticker == "ABCD":
+        return "actionable", "WATCHLIST_ESCALATED_TO_ACTIONABLE", '{"source":"signal","rule":"abdc_actionable_seed"}'
+    return "watchlist", "SIGNAL_WATCHLIST", '{"source":"signal","rule":"watchlist_passthrough"}'
+
+
+def process_build_decision_snapshots() -> None:
+    with SessionLocal() as session:
+        signals = session.scalars(
+            select(SignalSnapshot).order_by(SignalSnapshot.generated_at)
+        ).all()
+
+        for signal in signals:
+            existing = session.scalars(
+                select(DecisionSnapshot).where(DecisionSnapshot.source_signal_id == signal.signal_id)
+            ).first()
+
+            if existing is not None:
+                logger.info("duplicate decision snapshot skipped source_signal_id=%s", signal.signal_id)
+                continue
+
+            decision, reason_code, decision_context = map_final_decision(signal)
+
+            snapshot = DecisionSnapshot(
+                source_signal_id=signal.signal_id,
+                primary_ticker=signal.primary_ticker,
+                decision=decision,
+                reason_code=reason_code,
+                decision_context=decision_context,
             )
             session.add(snapshot)
 
@@ -144,6 +182,11 @@ def process_job(job: Job) -> None:
         job.result = '{"message":"signal-snapshots-ok"}'
         job.status = "SUCCESS"
 
+    elif job.job_type == "build_decision_snapshots":
+        process_build_decision_snapshots()
+        job.result = '{"message":"decision-snapshots-ok"}'
+        job.status = "SUCCESS"
+
     elif job.job_type == "smoke":
         job.result = '{"message":"smoke-ok"}'
         job.status = "SUCCESS"
@@ -157,7 +200,9 @@ def process_job(job: Job) -> None:
 
 def run() -> None:
     logger.info("worker waiting for db/tables")
-    wait_for_db_and_tables(["jobs", "ingestion_records", "event_candidates", "signal_snapshots"])
+    wait_for_db_and_tables(
+        ["jobs", "ingestion_records", "event_candidates", "signal_snapshots", "decision_snapshots"]
+    )
     logger.info("worker started")
 
     while True:

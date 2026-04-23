@@ -20,6 +20,7 @@ def init_db() -> None:
     import app.models.ingestion_record  # noqa: F401
     import app.models.event_candidate  # noqa: F401
     import app.models.signal_snapshot  # noqa: F401
+    import app.models.decision_snapshot  # noqa: F401
     Base.metadata.create_all(bind=engine)
 
 

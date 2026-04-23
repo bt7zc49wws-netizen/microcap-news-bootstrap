@@ -22,15 +22,18 @@ def run() -> None:
                 ingest_job = Job(job_type="ingest_news", payload='{"source":"scheduler"}')
                 classify_job = Job(job_type="classify_news", payload='{"source":"scheduler"}')
                 signal_job = Job(job_type="build_signal_snapshots", payload='{"source":"scheduler"}')
+                decision_job = Job(job_type="build_decision_snapshots", payload='{"source":"scheduler"}')
                 session.add(tick_job)
                 session.add(ingest_job)
                 session.add(classify_job)
                 session.add(signal_job)
+                session.add(decision_job)
                 session.commit()
                 logger.info("scheduled job type=%s id=%s", tick_job.job_type, tick_job.job_id)
                 logger.info("scheduled job type=%s id=%s", ingest_job.job_type, ingest_job.job_id)
                 logger.info("scheduled job type=%s id=%s", classify_job.job_type, classify_job.job_id)
                 logger.info("scheduled job type=%s id=%s", signal_job.job_type, signal_job.job_id)
+                logger.info("scheduled job type=%s id=%s", decision_job.job_type, decision_job.job_id)
         except Exception as exc:
             logger.exception("scheduler loop error: %s", exc)
 
