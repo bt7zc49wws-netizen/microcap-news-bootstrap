@@ -1,4 +1,5 @@
 import re
+import uuid
 
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
@@ -34,6 +35,18 @@ def serialize_decision_list_item(record: DecisionSnapshot) -> dict:
         "primary_ticker": record.primary_ticker,
         "decision": record.decision,
         "reason_code": record.reason_code,
+        "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
+    }
+
+
+def serialize_decision_detail(record: DecisionSnapshot) -> dict:
+    return {
+        "decision_id": record.decision_id,
+        "source_signal_id": record.source_signal_id,
+        "primary_ticker": record.primary_ticker,
+        "decision": record.decision,
+        "reason_code": record.reason_code,
+        "decision_context": record.decision_context,
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
 
@@ -116,5 +129,34 @@ def get_latest_decisions(
             "sort": sort,
             "order": order,
         },
+        "meta": request.state.meta,
+    }
+
+
+@router.get("/decisions/{decision_id}")
+def get_decision_detail(request: Request, decision_id: str):
+    try:
+        uuid.UUID(decision_id)
+    except ValueError:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "decision_id must be a valid UUID.",
+            400,
+        )
+
+    with SessionLocal() as session:
+        record = session.get(DecisionSnapshot, decision_id)
+
+    if record is None:
+        return error_response(
+            request,
+            "resource_not_found",
+            "Requested decision was not found.",
+            404,
+        )
+
+    return {
+        "data": serialize_decision_detail(record),
         "meta": request.state.meta,
     }
