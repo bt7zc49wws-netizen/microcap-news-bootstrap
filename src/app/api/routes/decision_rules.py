@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 
 from app.decisioning.rules import DECISION_RULES_REGISTRY
 
 router = APIRouter()
+
+ALLOWED_DECISIONS = {"actionable", "watchlist", "no_trade"}
 
 
 def error_response(request: Request, error_code: str, message: str, status_code: int) -> JSONResponse:
@@ -30,8 +32,22 @@ def serialize_rule(rule: dict) -> dict:
 
 
 @router.get("/decision-rules")
-def get_decision_rules(request: Request) -> dict:
+def get_decision_rules(
+    request: Request,
+    decision: str | None = Query(default=None),
+):
+    if decision and decision not in ALLOWED_DECISIONS:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "decision must be actionable, watchlist, or no_trade.",
+            400,
+        )
+
     rules = list(DECISION_RULES_REGISTRY.values())
+
+    if decision:
+        rules = [rule for rule in rules if rule["decision"] == decision]
 
     return {
         "data": [serialize_rule(rule) for rule in rules],
