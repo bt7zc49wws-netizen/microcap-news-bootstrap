@@ -2,7 +2,7 @@ import re
 
 from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
-from sqlalchemy import desc, select
+from sqlalchemy import asc, desc, select
 
 from app.db import SessionLocal
 from app.models.signal_snapshot import SignalSnapshot
@@ -10,6 +10,8 @@ from app.models.signal_snapshot import SignalSnapshot
 router = APIRouter()
 
 ALLOWED_DECISIONS = {"watchlist", "no_trade"}
+ALLOWED_SORTS = {"generated_at"}
+ALLOWED_ORDERS = {"asc", "desc"}
 TICKER_PATTERN = re.compile(r"^[A-Z][A-Z\.]{0,9}$")
 
 
@@ -42,6 +44,9 @@ def get_latest_signals(
     request: Request,
     decision: str | None = Query(default=None),
     primary_ticker: str | None = Query(default=None),
+    limit: int = Query(default=50),
+    sort: str = Query(default="generated_at"),
+    order: str = Query(default="desc"),
 ):
     if decision and decision not in ALLOWED_DECISIONS:
         return error_response(
@@ -63,6 +68,30 @@ def get_latest_signals(
     else:
         normalized_ticker = None
 
+    if limit < 1 or limit > 100:
+        return error_response(
+            request,
+            "limit_out_of_range",
+            "Limit must be between 1 and 100.",
+            400,
+        )
+
+    if sort not in ALLOWED_SORTS:
+        return error_response(
+            request,
+            "unsupported_sort",
+            "Only generated_at sort is supported.",
+            400,
+        )
+
+    if order not in ALLOWED_ORDERS:
+        return error_response(
+            request,
+            "invalid_parameter",
+            "Order must be asc or desc.",
+            400,
+        )
+
     query = select(SignalSnapshot)
 
     if decision:
@@ -71,7 +100,10 @@ def get_latest_signals(
     if normalized_ticker:
         query = query.where(SignalSnapshot.primary_ticker == normalized_ticker)
 
-    query = query.order_by(desc(SignalSnapshot.generated_at)).limit(50)
+    sort_column = SignalSnapshot.generated_at
+    ordering = desc(sort_column) if order == "desc" else asc(sort_column)
+
+    query = query.order_by(ordering).limit(limit)
 
     with SessionLocal() as session:
         records = session.scalars(query).all()
@@ -81,9 +113,9 @@ def get_latest_signals(
         "pagination": {
             "next_cursor": "",
             "has_more": False,
-            "limit": 50,
-            "sort": "generated_at",
-            "order": "desc",
+            "limit": limit,
+            "sort": sort,
+            "order": order,
         },
         "meta": request.state.meta,
     }
