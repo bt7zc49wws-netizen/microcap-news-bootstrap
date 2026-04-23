@@ -19,6 +19,7 @@ def init_db() -> None:
     import app.models.job  # noqa: F401
     import app.models.ingestion_record  # noqa: F401
     import app.models.event_candidate  # noqa: F401
+    import app.models.signal_snapshot  # noqa: F401
     Base.metadata.create_all(bind=engine)
 
 
@@ -48,7 +49,7 @@ def wait_for_db_and_tables(
     max_attempts: int = 60,
     sleep_seconds: int = 2,
 ) -> None:
-    for attempt in range(1, max_attempts + 1):
+    for _ in range(max_attempts):
         try:
             if not ping_db():
                 raise RuntimeError("database ping failed")

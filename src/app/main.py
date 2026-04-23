@@ -8,6 +8,7 @@ from app.api.routes.event_candidates import router as event_candidates_router
 from app.api.routes.health import router as health_router
 from app.api.routes.meta import router as meta_router
 from app.api.routes.ready import router as ready_router
+from app.api.routes.signals import router as signals_router
 from app.api.routes.status import router as status_router
 from app.config import settings
 from app.db import init_db
@@ -59,3 +60,4 @@ app.include_router(ready_router, prefix="/api/v1")
 app.include_router(status_router, prefix="/api/v1")
 app.include_router(meta_router, prefix="/api/v1")
 app.include_router(event_candidates_router, prefix="/api/v1")
+app.include_router(signals_router, prefix="/api/v1")

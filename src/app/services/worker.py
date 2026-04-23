@@ -10,6 +10,7 @@ from app.db import SessionLocal, wait_for_db_and_tables
 from app.models.event_candidate import EventCandidate
 from app.models.ingestion_record import IngestionRecord
 from app.models.job import Job
+from app.models.signal_snapshot import SignalSnapshot
 from app.providers.mock_news_provider import fetch_mock_news
 
 
@@ -89,6 +90,40 @@ def process_classify_news() -> None:
         session.commit()
 
 
+def map_decision(decision_hint: str) -> str:
+    if decision_hint == "watchlist_candidate":
+        return "watchlist"
+    return "no_trade"
+
+
+def process_build_signal_snapshots() -> None:
+    with SessionLocal() as session:
+        candidates = session.scalars(
+            select(EventCandidate).order_by(EventCandidate.classified_at)
+        ).all()
+
+        for candidate in candidates:
+            existing = session.scalars(
+                select(SignalSnapshot).where(SignalSnapshot.source_candidate_id == candidate.candidate_id)
+            ).first()
+
+            if existing is not None:
+                logger.info("duplicate signal snapshot skipped source_candidate_id=%s", candidate.candidate_id)
+                continue
+
+            snapshot = SignalSnapshot(
+                source_candidate_id=candidate.candidate_id,
+                primary_ticker=candidate.primary_ticker,
+                decision=map_decision(candidate.decision_hint),
+                reason_code=candidate.reason_code,
+                reason_label=candidate.reason_label,
+                decision_hint=candidate.decision_hint,
+            )
+            session.add(snapshot)
+
+        session.commit()
+
+
 def process_job(job: Job) -> None:
     if job.job_type == "scheduler_tick":
         job.result = '{"message":"tick-ok"}'
@@ -104,6 +139,11 @@ def process_job(job: Job) -> None:
         job.result = '{"message":"classification-ok"}'
         job.status = "SUCCESS"
 
+    elif job.job_type == "build_signal_snapshots":
+        process_build_signal_snapshots()
+        job.result = '{"message":"signal-snapshots-ok"}'
+        job.status = "SUCCESS"
+
     elif job.job_type == "smoke":
         job.result = '{"message":"smoke-ok"}'
         job.status = "SUCCESS"
@@ -117,7 +157,7 @@ def process_job(job: Job) -> None:
 
 def run() -> None:
     logger.info("worker waiting for db/tables")
-    wait_for_db_and_tables(["jobs", "ingestion_records", "event_candidates"])
+    wait_for_db_and_tables(["jobs", "ingestion_records", "event_candidates", "signal_snapshots"])
     logger.info("worker started")
 
     while True:
