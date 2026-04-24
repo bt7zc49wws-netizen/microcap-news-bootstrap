@@ -1,4 +1,5 @@
 import uuid
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, Request
@@ -16,7 +17,13 @@ from app.config import settings
 from app.db import init_db
 
 
-app = FastAPI(title=settings.APP_NAME)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 
 @app.middleware("http")
@@ -50,11 +57,6 @@ async def runtime_error_handler(request: Request, exc: RuntimeError):
             ),
         },
     )
-
-
-@app.on_event("startup")
-def on_startup() -> None:
-    init_db()
 
 
 app.include_router(health_router, prefix="/api/v1")
