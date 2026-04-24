@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from hashlib import sha256
 from typing import Any
 from uuid import uuid4
+import xml.etree.ElementTree as ET
 
 from app.services.ingestion.types import (
     CanonicalIngestionRecord,
@@ -117,3 +119,55 @@ def normalize_item(
         raw_record_ref=None,
         normalization_version=NORMALIZATION_VERSION,
     )
+
+
+def parse_published_at(value: str | None) -> datetime | None:
+    if not value:
+        return None
+
+    text = value.strip()
+    if not text:
+        return None
+
+    try:
+        dt = parsedate_to_datetime(text)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except Exception:
+        pass
+
+    try:
+        iso_text = text.replace("Z", "+00:00")
+        dt = datetime.fromisoformat(iso_text)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc)
+    except Exception:
+        return None
+
+
+def extract_items(xml_text: str) -> list[dict[str, Any]]:
+    root = ET.fromstring(xml_text)
+    items: list[dict[str, Any]] = []
+
+    for node in root.findall(".//item"):
+        guid = node.findtext("guid")
+        title = node.findtext("title")
+        link = node.findtext("link")
+        pub_date = node.findtext("pubDate") or node.findtext("published") or node.findtext("updated")
+        description = node.findtext("description")
+        content = node.findtext("content")
+
+        items.append(
+            {
+                "guid": guid.strip() if guid else None,
+                "title": title.strip() if title else "",
+                "link": link.strip() if link else None,
+                "description": description.strip() if description else "",
+                "content": content.strip() if content else "",
+                "published_at": parse_published_at(pub_date),
+            }
+        )
+
+    return items
