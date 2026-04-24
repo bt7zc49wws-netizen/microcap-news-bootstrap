@@ -185,5 +185,12 @@ def fetch_feed(
         response.raise_for_status()
         return response.text
 
-    with urllib.request.urlopen(url, timeout=timeout) as response:
+    request = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "microcap-news-bootstrap/0.1 (+https://example.invalid)",
+            "Accept": "application/rss+xml, application/xml, text/xml, */*",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
         return response.read().decode("utf-8")
