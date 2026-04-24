@@ -21,16 +21,18 @@ jobs:
       - name: Build and start services
         run: docker compose up --build -d
 
-      - name: Wait for API
+      - name: Wait for decision data
         run: |
-          for i in {1..30}; do
-            if docker compose exec -T api python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health').read()"; then
+          for i in {1..60}; do
+            if docker compose exec -T api python -c "import json, urllib.request; data=json.load(urllib.request.urlopen('http://127.0.0.1:8000/api/v1/decisions/latest')); raise SystemExit(0 if len(data.get('data', [])) >= 3 else 1)"; then
               exit 0
             fi
             sleep 2
           done
-          echo "API did not become healthy in time"
+          echo "Decision data did not become ready in time"
           docker compose logs api
+          docker compose logs worker
+          docker compose logs scheduler
           exit 1
 
       - name: Run acceptance tests
