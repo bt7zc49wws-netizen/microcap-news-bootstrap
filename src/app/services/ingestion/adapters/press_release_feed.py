@@ -6,6 +6,7 @@ from email.utils import parsedate_to_datetime
 from hashlib import sha256
 from typing import Any
 from uuid import uuid4
+import urllib.request
 import xml.etree.ElementTree as ET
 
 from app.services.ingestion.types import (
@@ -171,3 +172,18 @@ def extract_items(xml_text: str) -> list[dict[str, Any]]:
         )
 
     return items
+
+
+def fetch_feed(
+    url: str,
+    *,
+    http_client: Any | None = None,
+    timeout: int = 15,
+) -> str:
+    if http_client is not None:
+        response = http_client.get(url, timeout=timeout)
+        response.raise_for_status()
+        return response.text
+
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        return response.read().decode("utf-8")
