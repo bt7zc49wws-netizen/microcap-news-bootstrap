@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and start services
+        run: docker compose up --build -d
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if docker compose exec -T api python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()"; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API did not become healthy in time"
+          docker compose logs api
+          exit 1
+
+      - name: Run acceptance tests
+        run: |
+          docker compose exec -T api mkdir -p /app/tests/api
+          docker compose cp tests/api/test_decision_rules_acceptance.py api:/app/tests/api/test_decision_rules_acceptance.py
+          docker compose exec -T api python -m pytest /app/tests/api/test_decision_rules_acceptance.py -q
+
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Tear down
+        if: always()
+        run: docker compose down -v
