@@ -35,13 +35,17 @@ class PressReleaseFeedItem:
     language: str | None = "en"
 
 
-_TICKER_PATTERN = re.compile(r"\b(?:NASDAQ|NYSE|NYSE American|AMEX):\s*([A-Z]{1,5})\b")
+_TICKER_PATTERN = re.compile(r"\b(?:NASDAQ|NYSE|NYSE American|AMEX):\s*([A-Z]{1,5})\b| - ([A-Z]{1,5})$")
 
 
 def extract_primary_ticker(title: str, body_text: str) -> str | None:
+    title_match = re.search(r" - ([A-Z]{1,5})$", title)
+    if title_match:
+        return title_match.group(1)
+
     text = f"{title}\n{body_text}"
     match = _TICKER_PATTERN.search(text)
-    return match.group(1) if match else None
+    return next((group for group in match.groups() if group), None) if match else None
 
 
 def compute_content_hash(title: str, body_text: str) -> str:
