@@ -7,6 +7,7 @@ from hashlib import sha256
 from typing import Any
 from uuid import uuid4
 import urllib.request
+import re
 import xml.etree.ElementTree as ET
 
 from app.services.ingestion.types import (
@@ -32,6 +33,15 @@ class PressReleaseFeedItem:
     primary_ticker: str | None = None
     company_name: str | None = None
     language: str | None = "en"
+
+
+_TICKER_PATTERN = re.compile(r"\b(?:NASDAQ|NYSE|NYSE American|AMEX):\s*([A-Z]{1,5})\b")
+
+
+def extract_primary_ticker(title: str, body_text: str) -> str | None:
+    text = f"{title}\n{body_text}"
+    match = _TICKER_PATTERN.search(text)
+    return match.group(1) if match else None
 
 
 def compute_content_hash(title: str, body_text: str) -> str:
@@ -77,7 +87,7 @@ def normalize_item(
     title = str(item.get("title") or "").strip()
     body_text = str(item.get("content") or item.get("description") or "").strip()
     published_at = item.get("published_at")
-    primary_ticker = item.get("primary_ticker")
+    primary_ticker = item.get("primary_ticker") or extract_primary_ticker(title, body_text)
     company_name = item.get("company_name")
     language = item.get("language") or "en"
 
