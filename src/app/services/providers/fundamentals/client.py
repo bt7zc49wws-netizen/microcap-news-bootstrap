@@ -1,4 +1,6 @@
 from datetime import UTC, datetime
+import json
+import urllib.request
 
 from app.services.providers.types import ProviderFetchResult
 
@@ -18,6 +20,22 @@ class FundamentalsClient:
                 records_returned=0,
                 status="disabled",
                 error_message="FUNDAMENTALS_PROVIDER is not configured.",
+            )
+
+        if self.provider == "stooq":
+            url = f"https://stooq.com/q/l/?s={symbol.lower()}.us&f=sd2t2ohlcv&h&e=json"
+            request = urllib.request.Request(
+                url,
+                headers={"User-Agent": "microcap-news-bootstrap/0.1"},
+            )
+            with urllib.request.urlopen(request, timeout=15) as response:
+                json.loads(response.read().decode("utf-8"))
+
+            return ProviderFetchResult(
+                provider_name=self.provider_name,
+                fetched_at=datetime.now(UTC),
+                records_returned=1,
+                status="ok",
             )
 
         if not self.api_key:

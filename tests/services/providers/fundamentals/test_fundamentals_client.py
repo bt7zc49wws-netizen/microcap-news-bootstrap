@@ -26,3 +26,12 @@ def test_fundamentals_client_not_implemented_with_api_key():
     assert result.records_returned == 0
     assert result.status == "not_implemented"
     assert result.error_message is None
+
+
+def test_fundamentals_client_fetches_stooq_profile():
+    result = FundamentalsClient(provider="stooq").fetch_company_profile("AAPL")
+
+    assert result.provider_name == "fundamentals"
+    assert result.records_returned == 1
+    assert result.status == "ok"
+    assert result.error_message is None
