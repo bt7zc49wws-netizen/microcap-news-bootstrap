@@ -30,8 +30,17 @@ class SecEdgarClient:
             },
         )
 
-        with urllib.request.urlopen(request, timeout=15) as response:
-            payload = json.loads(response.read().decode("utf-8"))
+        try:
+            with urllib.request.urlopen(request, timeout=15) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except Exception as exc:
+            return ProviderFetchResult(
+                provider_name=self.provider_name,
+                fetched_at=datetime.now(UTC),
+                records_returned=0,
+                status="error",
+                error_message=str(exc),
+            )
 
         recent = payload.get("filings", {}).get("recent", {})
         accession_numbers = recent.get("accessionNumber", [])
