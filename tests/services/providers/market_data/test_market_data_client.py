@@ -26,3 +26,12 @@ def test_market_data_client_not_implemented_with_api_key():
     assert result.records_returned == 0
     assert result.status == "not_implemented"
     assert result.error_message is None
+
+
+def test_market_data_client_fetches_stooq_snapshot():
+    result = MarketDataClient(provider="stooq").fetch_snapshot("AAPL")
+
+    assert result.provider_name == "market_data"
+    assert result.records_returned >= 0
+    assert result.status in {"ok", "empty"}
+    assert result.error_message is None
