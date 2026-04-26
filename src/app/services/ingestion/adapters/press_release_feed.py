@@ -140,7 +140,6 @@ _RELEVANT_TITLE_KEYWORDS = (
     "financing",
     "offering",
     "registered direct",
-    "atm",
     "at-the-market",
     "shelf",
     "convertible note",
@@ -150,8 +149,11 @@ _RELEVANT_TITLE_KEYWORDS = (
 
 
 def is_relevant_feed_item(item: dict[str, Any]) -> bool:
-    title = str(item.get("title") or "").lower()
-    return any(keyword in title for keyword in _RELEVANT_TITLE_KEYWORDS)
+    text = " ".join(
+        str(item.get(field) or "")
+        for field in ("title", "description", "content")
+    ).lower()
+    return any(keyword in text for keyword in _RELEVANT_TITLE_KEYWORDS)
 
 
 def parse_published_at(value: str | None) -> datetime | None:
