@@ -4,7 +4,15 @@ from app.models.ingestion_record import IngestionRecord
 def classify_record(record: IngestionRecord) -> dict:
     headline_lower = record.headline.lower()
 
-    if "financing" in headline_lower:
+    financing_keywords = (
+        "financing",
+        "offering",
+        "convertible note",
+        "exercise of warrants",
+        "gross proceeds",
+    )
+
+    if any(keyword in headline_lower for keyword in financing_keywords):
         return {
             "event_family": "financing",
             "event_type": "financing_news",
@@ -14,20 +22,6 @@ def classify_record(record: IngestionRecord) -> dict:
             "candidate_priority": "high",
             "decision_hint": "watchlist_candidate",
             "explanation_summary": "Headline matched financing-related event language.",
-            "source_quality_flags": record.quality_flags,
-            "noise_flags": "[]",
-        }
-
-    if "offering" in headline_lower:
-        return {
-            "event_family": "financing",
-            "event_type": "offering_news",
-            "classification_status": "EVENT_CANDIDATE",
-            "reason_code": "OFFERING_KEYWORD_MATCH",
-            "reason_label": "Offering keyword match",
-            "candidate_priority": "high",
-            "decision_hint": "watchlist_candidate",
-            "explanation_summary": "Headline matched offering-related event language.",
             "source_quality_flags": record.quality_flags,
             "noise_flags": "[]",
         }
