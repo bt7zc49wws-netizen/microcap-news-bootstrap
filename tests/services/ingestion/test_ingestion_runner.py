@@ -79,6 +79,7 @@ def test_run_live_ingestion_fetches_and_processes_feed() -> None:
     run, raw_records, canonical_records = run_live_ingestion(
         config,
         http_client=client,
+        persist=False,
     )
 
     assert client.requested_urls == ["https://example.com/feed.xml"]
