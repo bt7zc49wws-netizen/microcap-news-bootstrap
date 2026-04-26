@@ -37,3 +37,28 @@ def load_ingestion_config() -> IngestionConfig:
             os.getenv("LIVE_SOURCE_STALENESS_THRESHOLD_SECONDS", str(72 * 3600))
         ),
     )
+
+
+@dataclass(frozen=True, slots=True)
+class ProviderConfig:
+    benzinga_api_key: str = ""
+    market_data_provider: str = "none"
+    polygon_api_key: str = ""
+    tiingo_api_key: str = ""
+    sec_edgar_user_agent: str = ""
+    fundamentals_provider: str = "none"
+    finnhub_api_key: str = ""
+    fmp_api_key: str = ""
+
+
+def load_provider_config() -> ProviderConfig:
+    return ProviderConfig(
+        benzinga_api_key=os.getenv("BENZINGA_API_KEY", ""),
+        market_data_provider=os.getenv("MARKET_DATA_PROVIDER", "none"),
+        polygon_api_key=os.getenv("POLYGON_API_KEY", ""),
+        tiingo_api_key=os.getenv("TIINGO_API_KEY", ""),
+        sec_edgar_user_agent=os.getenv("SEC_EDGAR_USER_AGENT", ""),
+        fundamentals_provider=os.getenv("FUNDAMENTALS_PROVIDER", "none"),
+        finnhub_api_key=os.getenv("FINNHUB_API_KEY", ""),
+        fmp_api_key=os.getenv("FMP_API_KEY", ""),
+    )

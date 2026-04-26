@@ -37,3 +37,54 @@ def test_load_ingestion_config_from_env(monkeypatch) -> None:
     assert config.live_source_timeout_seconds == 9
     assert config.live_source_max_items_per_run == 25
     assert config.live_source_staleness_threshold_seconds == 3600
+
+
+def test_load_provider_config_defaults(monkeypatch):
+    from app.services.ingestion.config import load_provider_config
+
+    for key in (
+        "BENZINGA_API_KEY",
+        "MARKET_DATA_PROVIDER",
+        "POLYGON_API_KEY",
+        "TIINGO_API_KEY",
+        "SEC_EDGAR_USER_AGENT",
+        "FUNDAMENTALS_PROVIDER",
+        "FINNHUB_API_KEY",
+        "FMP_API_KEY",
+    ):
+        monkeypatch.delenv(key, raising=False)
+
+    config = load_provider_config()
+
+    assert config.benzinga_api_key == ""
+    assert config.market_data_provider == "none"
+    assert config.polygon_api_key == ""
+    assert config.tiingo_api_key == ""
+    assert config.sec_edgar_user_agent == ""
+    assert config.fundamentals_provider == "none"
+    assert config.finnhub_api_key == ""
+    assert config.fmp_api_key == ""
+
+
+def test_load_provider_config_from_env(monkeypatch):
+    from app.services.ingestion.config import load_provider_config
+
+    monkeypatch.setenv("BENZINGA_API_KEY", "benzinga-key")
+    monkeypatch.setenv("MARKET_DATA_PROVIDER", "polygon")
+    monkeypatch.setenv("POLYGON_API_KEY", "polygon-key")
+    monkeypatch.setenv("TIINGO_API_KEY", "tiingo-key")
+    monkeypatch.setenv("SEC_EDGAR_USER_AGENT", "test@example.com")
+    monkeypatch.setenv("FUNDAMENTALS_PROVIDER", "fmp")
+    monkeypatch.setenv("FINNHUB_API_KEY", "finnhub-key")
+    monkeypatch.setenv("FMP_API_KEY", "fmp-key")
+
+    config = load_provider_config()
+
+    assert config.benzinga_api_key == "benzinga-key"
+    assert config.market_data_provider == "polygon"
+    assert config.polygon_api_key == "polygon-key"
+    assert config.tiingo_api_key == "tiingo-key"
+    assert config.sec_edgar_user_agent == "test@example.com"
+    assert config.fundamentals_provider == "fmp"
+    assert config.finnhub_api_key == "finnhub-key"
+    assert config.fmp_api_key == "fmp-key"
