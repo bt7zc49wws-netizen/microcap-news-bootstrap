@@ -37,16 +37,14 @@ def test_feed_fetch_to_process_flow() -> None:
     )
 
     assert run.run_status == "completed"
-    assert run.records_fetched == 2
-    assert run.records_accepted == 2
+    assert run.records_fetched == 1
+    assert run.records_accepted == 1
     assert run.records_duplicated == 0
     assert run.records_quarantined == 0
     assert run.records_rejected == 0
 
-    assert len(raw_records) == 2
-    assert len(canonical_records) == 2
+    assert len(raw_records) == 1
+    assert len(canonical_records) == 1
 
     assert canonical_records[0].source_record_id == "guid-1"
     assert canonical_records[0].validation_status == ValidationStatus.ACCEPTED_WITH_FLAGS
-    assert canonical_records[1].source_record_id == "guid-2"
-    assert canonical_records[1].validation_status == ValidationStatus.ACCEPTED_WITH_FLAGS

@@ -49,16 +49,10 @@ def test_extract_items_from_rss_xml() -> None:
 
     items = extract_items(xml_text)
 
-    assert len(items) == 2
+    assert len(items) == 1
 
     assert items[0]["guid"] == "guid-1"
     assert items[0]["title"] == "Company Announces Offering"
     assert items[0]["link"] == "https://example.com/pr/1"
     assert items[0]["description"] == "Offering details here."
     assert items[0]["published_at"] == datetime(2026, 4, 24, 11, 58, 0, tzinfo=timezone.utc)
-
-    assert items[1]["guid"] == "guid-2"
-    assert items[1]["title"] == "Company Update"
-    assert items[1]["link"] == "https://example.com/pr/2"
-    assert items[1]["description"] == "Update details here."
-    assert items[1]["published_at"] == datetime(2026, 4, 24, 12, 10, 0, tzinfo=timezone.utc)

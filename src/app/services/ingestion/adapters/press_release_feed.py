@@ -136,6 +136,24 @@ def normalize_item(
     )
 
 
+_RELEVANT_TITLE_KEYWORDS = (
+    "financing",
+    "offering",
+    "registered direct",
+    "atm",
+    "at-the-market",
+    "shelf",
+    "convertible note",
+    "warrant",
+    "gross proceeds",
+)
+
+
+def is_relevant_feed_item(item: dict[str, Any]) -> bool:
+    title = str(item.get("title") or "").lower()
+    return any(keyword in title for keyword in _RELEVANT_TITLE_KEYWORDS)
+
+
 def parse_published_at(value: str | None) -> datetime | None:
     if not value:
         return None
@@ -174,16 +192,16 @@ def extract_items(xml_text: str) -> list[dict[str, Any]]:
         description = node.findtext("description")
         content = node.findtext("content")
 
-        items.append(
-            {
-                "guid": guid.strip() if guid else None,
-                "title": title.strip() if title else "",
-                "link": link.strip() if link else None,
-                "description": description.strip() if description else "",
-                "content": content.strip() if content else "",
-                "published_at": parse_published_at(pub_date),
-            }
-        )
+        item = {
+            "guid": guid.strip() if guid else None,
+            "title": title.strip() if title else "",
+            "link": link.strip() if link else None,
+            "description": description.strip() if description else "",
+            "content": content.strip() if content else "",
+            "published_at": parse_published_at(pub_date),
+        }
+        if is_relevant_feed_item(item):
+            items.append(item)
 
     return items
 
