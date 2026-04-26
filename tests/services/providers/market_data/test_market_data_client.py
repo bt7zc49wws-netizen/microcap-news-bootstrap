@@ -28,10 +28,27 @@ def test_market_data_client_not_implemented_with_api_key():
     assert result.error_message is None
 
 
+class FakeResponse:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def read(self):
+        return (
+            b"Symbol,Date,Time,Open,High,Low,Close,Volume\n"
+            b"AAPL.US,2026-01-01,10:00:00,1,2,1,2,1000\n"
+        )
+
+def fake_http_client(request, timeout):
+    return FakeResponse()
+
+
 def test_market_data_client_fetches_stooq_snapshot():
-    result = MarketDataClient(provider="stooq").fetch_snapshot("AAPL")
+    result = MarketDataClient(provider="stooq", http_client=fake_http_client).fetch_snapshot("AAPL")
 
     assert result.provider_name == "market_data"
-    assert result.records_returned >= 0
-    assert result.status in {"ok", "empty"}
+    assert result.records_returned == 1
+    assert result.status == "ok"
     assert result.error_message is None

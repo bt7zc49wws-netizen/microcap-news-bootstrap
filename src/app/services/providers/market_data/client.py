@@ -9,9 +9,10 @@ from app.services.providers.types import ProviderFetchResult
 class MarketDataClient:
     provider_name = "market_data"
 
-    def __init__(self, provider: str, api_key: str = "") -> None:
+    def __init__(self, provider: str, api_key: str = "", http_client=None) -> None:
         self.provider = provider
         self.api_key = api_key
+        self.http_client = http_client or urllib.request.urlopen
 
     def fetch_snapshot(self, symbol: str) -> ProviderFetchResult:
         if self.provider == "none":
@@ -29,7 +30,7 @@ class MarketDataClient:
                 url,
                 headers={"User-Agent": "microcap-news-bootstrap/0.1"},
             )
-            with urllib.request.urlopen(request, timeout=15) as response:
+            with self.http_client(request, timeout=15) as response:
                 text = response.read().decode("utf-8")
 
             rows = list(csv.DictReader(StringIO(text)))
