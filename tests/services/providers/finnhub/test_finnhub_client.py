@@ -1,4 +1,4 @@
-from app.services.providers.finnhub.client import FinnhubNewsClient
+from app.services.providers.finnhub.client import FinnhubNewsClient, fetch_market_news_items
 
 
 class FakeResponse:
@@ -32,3 +32,12 @@ def test_finnhub_client_fetches_market_news():
     assert result.records_returned == 2
     assert result.status == "ok"
     assert result.error_message is None
+
+
+def test_fetch_market_news_items_returns_raw_items():
+    items = fetch_market_news_items(
+        api_key="test-key",
+        http_client=fake_http_client,
+    )
+
+    assert items == [{"id": 1}, {"id": 2}]
