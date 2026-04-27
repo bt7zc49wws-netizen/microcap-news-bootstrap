@@ -56,3 +56,12 @@ def test_classifies_warrant_financing_language():
     result = classify_record(make_record("Company Announces Exercise of Warrants for Gross Proceeds"))
     assert result["classification_status"] == "EVENT_CANDIDATE"
     assert result["event_family"] == "financing"
+
+
+def test_unknown_ticker_does_not_become_event_candidate():
+    record = make_record("Company Announces Financing")
+    record.symbol = "UNKNOWN"
+
+    result = classify_record(record)
+
+    assert result["classification_status"] == "LOW_PRIORITY_CANDIDATE"

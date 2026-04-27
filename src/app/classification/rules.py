@@ -12,7 +12,9 @@ def classify_record(record: IngestionRecord) -> dict:
         "gross proceeds",
     )
 
-    if any(keyword in headline_lower for keyword in financing_keywords):
+    has_known_ticker = bool(record.symbol and record.symbol != "UNKNOWN")
+
+    if has_known_ticker and any(keyword in headline_lower for keyword in financing_keywords):
         return {
             "event_family": "financing",
             "event_type": "financing_news",
