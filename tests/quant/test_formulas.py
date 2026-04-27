@@ -8,6 +8,8 @@ from app.quant.formulas import (
     price_change_pct,
     range_pct,
     relative_volume,
+    vwap,
+    vwap_distance_pct,
 )
 
 
@@ -51,8 +53,19 @@ def test_close_location_value() -> None:
         (relative_volume, {"current_volume": 10.0, "average_volume": 0.0}),
         (range_pct, {"high_price": 11.0, "low_price": 9.0, "reference_price": 0.0}),
         (close_location_value, {"close_price": 10.0, "low_price": 10.0, "high_price": 10.0}),
+        (vwap, {"total_price_volume": 100.0, "total_volume": 0.0}),
+        (vwap_distance_pct, {"price": 10.0, "vwap_value": 0.0}),
     ],
 )
 def test_invalid_denominators_raise_value_error(func, kwargs) -> None:
     with pytest.raises(ValueError):
         func(**kwargs)
+
+
+def test_vwap() -> None:
+    assert vwap(total_price_volume=1_000_000.0, total_volume=200_000.0) == pytest.approx(5.0)
+
+
+def test_vwap_distance_pct() -> None:
+    assert vwap_distance_pct(price=5.5, vwap_value=5.0) == pytest.approx(10.0)
+    assert vwap_distance_pct(price=4.5, vwap_value=5.0) == pytest.approx(-10.0)

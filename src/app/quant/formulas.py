@@ -53,3 +53,15 @@ def close_location_value(close_price: float, low_price: float, high_price: float
     price_range = high_price - low_price
     _require_positive(price_range, "high_price - low_price")
     return ((close_price - low_price) / price_range) * 2.0 - 1.0
+
+def vwap(total_price_volume: float, total_volume: float) -> float:
+    """Return volume-weighted average price from aggregated price*volume and volume."""
+    _require_positive(total_volume, "total_volume")
+    return total_price_volume / total_volume
+
+
+def vwap_distance_pct(price: float, vwap_value: float) -> float:
+    """Return price distance from VWAP as percent."""
+    _require_positive(vwap_value, "vwap_value")
+    return ((price - vwap_value) / vwap_value) * 100.0
+

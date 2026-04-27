@@ -15,6 +15,8 @@ from app.quant.formulas import (
     dollar_volume,
     range_pct,
     close_location_value,
+    vwap,
+    vwap_distance_pct,
 )
 
 __all__ = [
@@ -25,4 +27,6 @@ __all__ = [
     "dollar_volume",
     "range_pct",
     "close_location_value",
+    "vwap",
+    "vwap_distance_pct",
 ]
