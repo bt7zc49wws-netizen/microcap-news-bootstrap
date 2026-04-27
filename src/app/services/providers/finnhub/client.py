@@ -64,3 +64,33 @@ def fetch_market_news_items(api_key: str, category: str = "general", http_client
         data = json.loads(response.read().decode("utf-8"))
 
     return data if isinstance(data, list) else []
+
+
+def fetch_company_news_items(
+    api_key: str,
+    symbol: str,
+    from_date: str,
+    to_date: str,
+    http_client=None,
+) -> list[dict]:
+    client = FinnhubNewsClient(api_key=api_key, http_client=http_client)
+    if not client.api_key:
+        return []
+
+    query = urllib.parse.urlencode(
+        {
+            "symbol": symbol,
+            "from": from_date,
+            "to": to_date,
+            "token": client.api_key,
+        }
+    )
+    request = urllib.request.Request(
+        f"https://finnhub.io/api/v1/company-news?{query}",
+        headers={"User-Agent": "microcap-news-bootstrap/0.1"},
+    )
+
+    with client.http_client(request, timeout=15) as response:
+        data = json.loads(response.read().decode("utf-8"))
+
+    return data if isinstance(data, list) else []
