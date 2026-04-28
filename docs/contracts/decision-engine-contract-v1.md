@@ -77,3 +77,18 @@ Reason codes:
 - UNSUPPORTED_OR_MISSING_NEWS_EVENT
 - PRICE_CHANGE_STRONG
 - RELATIVE_VOLUME_STRONG
+
+
+Default thresholds:
+- Constant: DEFAULT_DECISION_THRESHOLDS
+- Module: src/app/decision_engine.py
+
+Initial threshold values:
+- strong_price_change_pct: 10.0
+- strong_relative_volume: 2.0
+
+Threshold rules:
+- Evaluator must read strong quant confirmation from DEFAULT_DECISION_THRESHOLDS.
+- Threshold changes require tests.
+- Thresholds are static defaults for now.
+- No live config service is introduced in this phase.
