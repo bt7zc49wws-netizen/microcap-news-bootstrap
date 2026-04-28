@@ -81,6 +81,11 @@ def main() -> None:
         symbol=symbol,
         news=news_signal,
         quant_signal=quant_signal,
+        audit_trace={
+            "market_source": "stooq",
+            "news_source": "offline-smoke",
+            "pipeline": "full_offline_decision",
+        },
     )
     result = evaluate_decision_context(context)
 
