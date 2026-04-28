@@ -136,3 +136,14 @@ Full Offline Decision Pipeline Smoke:
 - scripts/quant/smoke_full_offline_decision_pipeline.py
 - Offline chain now validates Stooq OHLCV rows → enrichment → market snapshot adapter → quant signal → classification output → news decision adapter → decision context → canonical decision result.
 - No live provider, paid API, broker, IBKR, trading execution, or order generation is used.
+
+
+Full Offline Decision Pipeline Closure:
+- Status: LOCKED for offline smoke coverage
+- Final smoke: scripts/quant/smoke_full_offline_decision_pipeline.py
+- Contract reference: docs/contracts/news-decision-adapter-contract-v1.md
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 184 passed
+- This closes the offline-safe Stooq OHLCV → quant signal → classification → news adapter → decision context → canonical decision result path.
+- Live providers, paid APIs, broker, IBKR, trading execution, and order generation remain explicitly out of scope for this phase.
