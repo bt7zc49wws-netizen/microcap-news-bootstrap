@@ -53,3 +53,18 @@ Adapter rules:
 - Provider-specific extra fields are ignored.
 - Missing required fields reject the adapter call.
 - Output must satisfy validate_market_snapshot.
+
+
+Mapped adapter:
+- Function: adapt_mapped_market_snapshot
+- Module: src/app/quant/adapters.py
+- Input: provider payload + provider-to-canonical field_map
+- Output: validated provider-independent market snapshot
+- Smoke: scripts/quant/smoke_mapped_market_snapshot_adapter.py
+
+Mapped adapter rules:
+- field_map keys are canonical market snapshot fields.
+- field_map values are provider payload field names.
+- Provider-specific extra fields are ignored.
+- Missing mapped provider fields reject the adapter call.
+- Output must satisfy validate_market_snapshot.
