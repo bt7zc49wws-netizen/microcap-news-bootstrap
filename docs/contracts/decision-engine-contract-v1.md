@@ -51,3 +51,29 @@ Evaluator rules:
 - Evaluator must not call providers.
 - Evaluator must not perform trading execution.
 - Evaluator must return canonical decision result shape.
+
+
+Supported news event gate:
+- Constant: SUPPORTED_NEWS_EVENT_TYPES
+- Module: src/app/decision_engine.py
+
+Supported initial event types:
+- financing
+- dilution
+- offering
+- clinical
+- fda
+- earnings
+- merger
+- contract
+
+Gate rules:
+- Unsupported or missing news event type => no_trade
+- Supported news event + price_change_pct >= 10.0 + relative_volume >= 2.0 => actionable
+- Supported news event without strong quant confirmation => watchlist
+
+Reason codes:
+- SUPPORTED_NEWS_EVENT
+- UNSUPPORTED_OR_MISSING_NEWS_EVENT
+- PRICE_CHANGE_STRONG
+- RELATIVE_VOLUME_STRONG
