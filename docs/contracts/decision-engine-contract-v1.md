@@ -108,3 +108,16 @@ Registry rules:
 - New reason codes must be added to VALID_REASON_CODES.
 - Reason code changes require tests.
 - Reason codes are API/dashboard/replay-facing identifiers.
+
+
+Decision result trace:
+- Optional field: symbol
+- Source: decision context symbol
+- Normalization: uppercase
+- Applies to evaluate_decision_context outputs
+
+Trace rules:
+- make_decision_result may include symbol when provided.
+- Empty symbol must be rejected when symbol is explicitly provided.
+- Evaluator should preserve symbol trace from decision context.
+- Symbol trace is for API/dashboard/replay observability only.
