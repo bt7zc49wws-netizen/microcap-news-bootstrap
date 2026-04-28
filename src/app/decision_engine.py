@@ -31,6 +31,11 @@ SUPPORTED_NEWS_EVENT_TYPES = (
     "contract",
 )
 
+DEFAULT_DECISION_THRESHOLDS = {
+    "strong_price_change_pct": 10.0,
+    "strong_relative_volume": 2.0,
+}
+
 
 def make_decision_result(
     *,
@@ -63,7 +68,7 @@ def evaluate_decision_context(context: dict) -> dict:
             reason_codes=["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         )
 
-    if price_change >= 10.0 and relative_volume >= 2.0:
+    if price_change >= DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"] and relative_volume >= DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"]:
         return make_decision_result(
             decision=DECISION_ACTIONABLE,
             reason_codes=[

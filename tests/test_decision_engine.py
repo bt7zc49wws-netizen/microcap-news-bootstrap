@@ -4,6 +4,7 @@ from app.decision_engine import (
     DECISION_ACTIONABLE,
     DECISION_NO_TRADE,
     DECISION_WATCHLIST,
+    DEFAULT_DECISION_THRESHOLDS,
     SUPPORTED_NEWS_EVENT_TYPES,
     VALID_DECISIONS,
     make_decision_result,
@@ -139,4 +140,11 @@ def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event()
     assert result == {
         "decision": "no_trade",
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+    }
+
+
+def test_default_decision_thresholds_are_declared() -> None:
+    assert DEFAULT_DECISION_THRESHOLDS == {
+        "strong_price_change_pct": 10.0,
+        "strong_relative_volume": 2.0,
     }
