@@ -53,3 +53,16 @@ Rules:
 - REQUIRED_DERIVED_OR_UPSTREAM fields must be supplied by an upstream normalization/enrichment step before adapter use.
 - Adapter must reject snapshots where required derived fields are missing.
 - This contract does not require Stooq client changes yet.
+
+
+Implementation:
+- Field map constant: STOOQ_MARKET_SNAPSHOT_FIELD_MAP
+- Adapter function: adapt_stooq_market_snapshot
+- Module: src/app/quant/adapters.py
+- Smoke: scripts/quant/smoke_stooq_market_snapshot_adapter.py
+
+Implementation rules:
+- Adapter expects normalized Stooq-like payload keys.
+- Derived/upstream-required fields must exist before adapter call.
+- Adapter output must satisfy Market Snapshot Contract v1.
+- Provider-specific extra fields must not leak into the snapshot.
