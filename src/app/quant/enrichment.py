@@ -21,3 +21,25 @@ def derive_previous_close(ohlcv_rows: list[dict[str, float]]) -> float:
 
     return float(previous_close)
 
+def derive_average_volume(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
+    """Return average volume over the latest completed rows before the current row."""
+    if lookback <= 0:
+        raise ValueError("lookback must be positive")
+    if len(ohlcv_rows) < 2:
+        raise ValueError("ohlcv_rows must contain at least two rows")
+
+    completed_rows = ohlcv_rows[:-1]
+    selected_rows = completed_rows[-lookback:]
+
+    volumes: list[float] = []
+    for row in selected_rows:
+        volume = row["volume"]
+        if not isinstance(volume, int | float):
+            raise ValueError("volume must be numeric")
+        volumes.append(float(volume))
+
+    if not volumes:
+        raise ValueError("no completed volume rows available")
+
+    return sum(volumes) / len(volumes)
+
