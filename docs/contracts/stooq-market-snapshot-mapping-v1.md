@@ -66,3 +66,20 @@ Implementation rules:
 - Derived/upstream-required fields must exist before adapter call.
 - Adapter output must satisfy Market Snapshot Contract v1.
 - Provider-specific extra fields must not leak into the snapshot.
+
+
+Enrichment helpers:
+- derive_previous_close
+- derive_average_volume
+- derive_vwap
+- derive_atr
+- derive_breakout_level
+- Module: src/app/quant/enrichment.py
+- Smoke: scripts/quant/smoke_stooq_enrichment_helpers.py
+
+Enrichment rules:
+- Helpers operate on normalized OHLCV rows.
+- Helpers must not call provider clients.
+- Helpers must not perform network, database, broker, or filesystem operations.
+- Current row is excluded from completed-row lookback calculations where applicable.
+- Derived values are intended to satisfy Market Snapshot Contract v1 before Stooq adapter use.
