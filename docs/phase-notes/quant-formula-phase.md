@@ -157,3 +157,12 @@ Decision Context Audit Trace:
 - Last verified:
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Offline Decision Result Fixture:
+- Status: LOCKED
+- Fixture: tests/fixtures/offline_decision/full_offline_decision_result.json
+- Full offline decision smoke now validates the canonical decision result against a committed fixture snapshot.
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 185 passed
