@@ -40,3 +40,23 @@ Current implementation:
 - src/app/quant/formulas.py
 - tests/quant/test_formulas.py
 - scripts/quant/smoke_quant_formulas.py
+
+
+Signal builder:
+- Function: build_quant_signal
+- Module: src/app/quant/signals.py
+- Input: validated market snapshot values
+- Output: canonical quant signal dict[str, float]
+- Smoke: scripts/quant/smoke_quant_signal_builder.py
+
+Builder output fields:
+- price_change_pct
+- gap_pct
+- intraday_return_pct
+- relative_volume
+- dollar_volume
+- range_pct
+- close_location_value
+- vwap_distance_pct
+- atr_pct
+- breakout_pct
