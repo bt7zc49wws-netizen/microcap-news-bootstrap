@@ -1,4 +1,4 @@
-from app.quant.adapters import adapt_market_snapshot
+from app.quant.adapters import adapt_market_snapshot, adapt_mapped_market_snapshot
 """Pure quantitative formula layer.
 
 This package must stay API-independent:
@@ -30,6 +30,7 @@ from app.quant.formulas import (
 
 __all__ = [
     "adapt_market_snapshot",
+    "adapt_mapped_market_snapshot",
     "build_quant_signal",
     "build_quant_signal_from_snapshot",
     "REQUIRED_MARKET_SNAPSHOT_FIELDS",
