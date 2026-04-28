@@ -33,3 +33,21 @@ Rules:
 - reason_codes must not be empty
 - legacy decision names such as trade/watch/pass must not be used
 - engine must remain offline-safe
+
+
+Evaluator:
+- Function: evaluate_decision_context
+- Module: src/app/decision_engine.py
+- Smoke: scripts/quant/smoke_decision_engine.py
+
+Initial deterministic rules:
+- news event present + price_change_pct >= 10.0 + relative_volume >= 2.0 => actionable
+- news event present without strong quant confirmation => watchlist
+- no qualifying news event => no_trade
+
+Evaluator rules:
+- Evaluator must remain offline-safe.
+- Evaluator must not perform scoring.
+- Evaluator must not call providers.
+- Evaluator must not perform trading execution.
+- Evaluator must return canonical decision result shape.
