@@ -7,6 +7,7 @@ This package must stay API-independent:
 - no trading execution
 """
 
+from app.quant.signals import build_quant_signal
 from app.quant.formulas import (
     price_change_pct,
     gap_pct,
@@ -26,6 +27,7 @@ from app.quant.formulas import (
 )
 
 __all__ = [
+    "build_quant_signal",
     "price_change_pct",
     "gap_pct",
     "intraday_return_pct",
