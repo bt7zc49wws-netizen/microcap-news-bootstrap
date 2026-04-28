@@ -1,4 +1,4 @@
-from app.decision_engine import DECISION_WATCHLIST, make_decision_result
+from app.decision_engine import DECISION_WATCHLIST, evaluate_decision_context, make_decision_result
 
 
 def main() -> None:
@@ -9,6 +9,25 @@ def main() -> None:
 
     assert result["decision"] == "watchlist"
     assert result["reason_codes"] == ["NEWS_EVENT_PRESENT", "QUANT_VOLUME_ACTIVE"]
+
+    evaluated = evaluate_decision_context(
+        {
+            "symbol": "AAPL",
+            "news": {"event_type": "financing"},
+            "quant_signal": {
+                "price_change_pct": 12.0,
+                "relative_volume": 3.0,
+            },
+        }
+    )
+
+    assert evaluated["decision"] == "actionable"
+    assert evaluated["reason_codes"] == [
+        "NEWS_EVENT_PRESENT",
+        "PRICE_CHANGE_STRONG",
+        "RELATIVE_VOLUME_STRONG",
+    ]
+
     print("decision engine smoke ok")
 
 
