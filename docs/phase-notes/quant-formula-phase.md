@@ -96,3 +96,12 @@ Decision Reason Code Registry:
 - tests/test_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - VALID_REASON_CODES now owns evaluator-facing reason code identifiers.
+
+
+Decision Result Symbol Trace:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- scripts/quant/smoke_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- Decision results can now carry uppercase symbol trace for API/dashboard/replay observability.
