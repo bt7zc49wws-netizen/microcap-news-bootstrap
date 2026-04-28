@@ -36,3 +36,34 @@ def make_decision_result(
         "decision": decision,
         "reason_codes": reason_codes,
     }
+
+def evaluate_decision_context(context: dict) -> dict:
+    """Evaluate an offline-safe decision context using minimal deterministic rules."""
+    news = context.get("news", {})
+    quant_signal = context.get("quant_signal", {})
+
+    event_type = news.get("event_type")
+    price_change = quant_signal.get("price_change_pct", 0.0)
+    relative_volume = quant_signal.get("relative_volume", 0.0)
+
+    if event_type and price_change >= 10.0 and relative_volume >= 2.0:
+        return make_decision_result(
+            decision=DECISION_ACTIONABLE,
+            reason_codes=[
+                "NEWS_EVENT_PRESENT",
+                "PRICE_CHANGE_STRONG",
+                "RELATIVE_VOLUME_STRONG",
+            ],
+        )
+
+    if event_type:
+        return make_decision_result(
+            decision=DECISION_WATCHLIST,
+            reason_codes=["NEWS_EVENT_PRESENT"],
+        )
+
+    return make_decision_result(
+        decision=DECISION_NO_TRADE,
+        reason_codes=["NO_QUALIFYING_NEWS_EVENT"],
+    )
+
