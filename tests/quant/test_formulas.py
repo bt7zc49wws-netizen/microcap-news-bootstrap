@@ -10,6 +10,9 @@ from app.quant.formulas import (
     relative_volume,
     vwap,
     vwap_distance_pct,
+    true_range,
+    atr,
+    atr_pct,
 )
 
 
@@ -55,6 +58,8 @@ def test_close_location_value() -> None:
         (close_location_value, {"close_price": 10.0, "low_price": 10.0, "high_price": 10.0}),
         (vwap, {"total_price_volume": 100.0, "total_volume": 0.0}),
         (vwap_distance_pct, {"price": 10.0, "vwap_value": 0.0}),
+        (atr, {"true_ranges": []}),
+        (atr_pct, {"atr_value": 1.0, "reference_price": 0.0}),
     ],
 )
 def test_invalid_denominators_raise_value_error(func, kwargs) -> None:
@@ -69,3 +74,17 @@ def test_vwap() -> None:
 def test_vwap_distance_pct() -> None:
     assert vwap_distance_pct(price=5.5, vwap_value=5.0) == pytest.approx(10.0)
     assert vwap_distance_pct(price=4.5, vwap_value=5.0) == pytest.approx(-10.0)
+
+
+def test_true_range() -> None:
+    assert true_range(high_price=12.0, low_price=9.0, previous_close=10.0) == pytest.approx(3.0)
+    assert true_range(high_price=12.0, low_price=11.0, previous_close=9.0) == pytest.approx(3.0)
+    assert true_range(high_price=9.0, low_price=8.0, previous_close=11.0) == pytest.approx(3.0)
+
+
+def test_atr() -> None:
+    assert atr([1.0, 2.0, 3.0]) == pytest.approx(2.0)
+
+
+def test_atr_pct() -> None:
+    assert atr_pct(atr_value=0.5, reference_price=10.0) == pytest.approx(5.0)

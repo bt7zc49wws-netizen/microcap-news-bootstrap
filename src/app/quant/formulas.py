@@ -65,3 +65,24 @@ def vwap_distance_pct(price: float, vwap_value: float) -> float:
     _require_positive(vwap_value, "vwap_value")
     return ((price - vwap_value) / vwap_value) * 100.0
 
+def true_range(high_price: float, low_price: float, previous_close: float) -> float:
+    """Return true range for one period."""
+    return max(
+        high_price - low_price,
+        abs(high_price - previous_close),
+        abs(low_price - previous_close),
+    )
+
+
+def atr(true_ranges: list[float]) -> float:
+    """Return simple average true range from a list of true range values."""
+    if not true_ranges:
+        raise ValueError("true_ranges must not be empty")
+    return sum(true_ranges) / len(true_ranges)
+
+
+def atr_pct(atr_value: float, reference_price: float) -> float:
+    """Return ATR as percent of reference price."""
+    _require_positive(reference_price, "reference_price")
+    return (atr_value / reference_price) * 100.0
+
