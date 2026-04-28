@@ -122,3 +122,10 @@ News Decision Adapter Extension:
 - scripts/quant/smoke_news_decision_adapter.py
 - docs/contracts/news-decision-adapter-contract-v1.md
 - adapt_news_for_decision maps classification output into decision-context news input.
+
+
+News To Decision E2E Path:
+- Status: DRAFT
+- scripts/quant/smoke_news_to_decision.py
+- docs/contracts/news-decision-adapter-contract-v1.md
+- Offline chain now validates classification output → decision-context news input → decision context → canonical decision result.
