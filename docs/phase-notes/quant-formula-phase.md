@@ -32,3 +32,7 @@ Rules preserved:
 Latest validation:
 - quant formula smoke ok
 - 125 passed
+
+
+Contract:
+- docs/contracts/quant-signal-contract-v1.md
