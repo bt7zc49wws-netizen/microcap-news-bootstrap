@@ -83,3 +83,29 @@ Enrichment rules:
 - Helpers must not perform network, database, broker, or filesystem operations.
 - Current row is excluded from completed-row lookback calculations where applicable.
 - Derived values are intended to satisfy Market Snapshot Contract v1 before Stooq adapter use.
+
+
+Payload enrichment:
+- Function: enrich_stooq_market_payload
+- Module: src/app/quant/enrichment.py
+- Input: normalized OHLCV rows
+- Output: normalized Stooq-like payload containing direct and derived fields
+- Smoke: scripts/quant/smoke_stooq_market_payload_enrichment.py
+
+Payload enrichment output fields:
+- close
+- open
+- high
+- low
+- volume
+- previous_close
+- average_volume
+- vwap
+- atr
+- breakout_level
+
+Payload enrichment rules:
+- Current row provides close/open/high/low/volume.
+- Completed rows provide previous_close, average_volume, vwap, atr, and breakout_level.
+- Provider client calls are forbidden.
+- Network, database, broker, and filesystem operations are forbidden.
