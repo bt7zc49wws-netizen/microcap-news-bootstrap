@@ -147,3 +147,13 @@ Full Offline Decision Pipeline Closure:
   - 184 passed
 - This closes the offline-safe Stooq OHLCV → quant signal → classification → news adapter → decision context → canonical decision result path.
 - Live providers, paid APIs, broker, IBKR, trading execution, and order generation remain explicitly out of scope for this phase.
+
+
+Decision Context Audit Trace:
+- Status: LOCKED
+- `build_decision_context` now supports optional non-empty `audit_trace`.
+- Full offline decision smoke now passes audit trace through the Stooq → quant → classification → news adapter → decision context → decision result path.
+- Audit trace remains offline-safe and must not introduce live provider calls, paid APIs, broker, IBKR, order generation, or trading execution.
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 185 passed
