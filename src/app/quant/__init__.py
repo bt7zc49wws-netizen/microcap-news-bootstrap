@@ -1,3 +1,10 @@
+from app.quant.enrichment import (
+    derive_atr,
+    derive_average_volume,
+    derive_breakout_level,
+    derive_previous_close,
+    derive_vwap,
+)
 from app.quant.adapters import (
     STOOQ_MARKET_SNAPSHOT_FIELD_MAP,
     adapt_market_snapshot,
@@ -34,6 +41,11 @@ from app.quant.formulas import (
 )
 
 __all__ = [
+    "derive_breakout_level",
+    "derive_atr",
+    "derive_vwap",
+    "derive_average_volume",
+    "derive_previous_close",
     "adapt_market_snapshot",
     "adapt_mapped_market_snapshot",
     "adapt_stooq_market_snapshot",
