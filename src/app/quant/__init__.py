@@ -7,7 +7,7 @@ This package must stay API-independent:
 - no trading execution
 """
 
-from app.quant.signals import build_quant_signal
+from app.quant.signals import build_quant_signal, build_quant_signal_from_snapshot
 from app.quant.snapshot import REQUIRED_MARKET_SNAPSHOT_FIELDS, validate_market_snapshot
 from app.quant.formulas import (
     price_change_pct,
@@ -29,6 +29,7 @@ from app.quant.formulas import (
 
 __all__ = [
     "build_quant_signal",
+    "build_quant_signal_from_snapshot",
     "REQUIRED_MARKET_SNAPSHOT_FIELDS",
     "validate_market_snapshot",
     "price_change_pct",

@@ -1,6 +1,6 @@
 import pytest
 
-from app.quant.signals import build_quant_signal
+from app.quant.signals import build_quant_signal, build_quant_signal_from_snapshot
 
 
 def test_build_quant_signal_returns_canonical_fields() -> None:
@@ -45,3 +45,28 @@ def test_build_quant_signal_raises_for_invalid_denominator() -> None:
             atr_value=0.6,
             breakout_level=10.0,
         )
+
+
+def test_build_quant_signal_from_snapshot_validates_and_builds() -> None:
+    signal = build_quant_signal_from_snapshot(
+        {
+            "current_price": 12.0,
+            "open_price": 11.0,
+            "high_price": 13.0,
+            "low_price": 10.0,
+            "previous_close": 10.0,
+            "current_volume": 250_000.0,
+            "average_volume": 100_000.0,
+            "vwap_value": 10.0,
+            "atr_value": 0.6,
+            "breakout_level": 10.0,
+        }
+    )
+
+    assert signal["price_change_pct"] == pytest.approx(20.0)
+    assert signal["relative_volume"] == pytest.approx(2.5)
+
+
+def test_build_quant_signal_from_snapshot_rejects_invalid_snapshot() -> None:
+    with pytest.raises(ValueError, match="missing required market snapshot fields"):
+        build_quant_signal_from_snapshot({"current_price": 12.0})
