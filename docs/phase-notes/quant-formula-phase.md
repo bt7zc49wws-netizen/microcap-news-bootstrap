@@ -113,3 +113,12 @@ Decision Result Schema Hardening:
 - Required fields: decision, reason_codes
 - Optional fields: symbol
 - Timestamp, score, execution, and order fields are intentionally excluded from this offline-safe phase.
+
+
+News Decision Adapter Extension:
+- Status: DRAFT
+- src/app/news_decision_adapter.py
+- tests/test_news_decision_adapter.py
+- scripts/quant/smoke_news_decision_adapter.py
+- docs/contracts/news-decision-adapter-contract-v1.md
+- adapt_news_for_decision maps classification output into decision-context news input.
