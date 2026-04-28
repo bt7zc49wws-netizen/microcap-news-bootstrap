@@ -88,3 +88,11 @@ Decision Threshold Defaults:
 - tests/test_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - DEFAULT_DECISION_THRESHOLDS now owns strong quant confirmation thresholds.
+
+
+Decision Reason Code Registry:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- VALID_REASON_CODES now owns evaluator-facing reason code identifiers.
