@@ -23,3 +23,21 @@ def adapt_market_snapshot(payload: dict[str, float]) -> dict[str, float]:
         for field in REQUIRED_MARKET_SNAPSHOT_FIELDS
     }
     return validate_market_snapshot(snapshot)
+
+def adapt_mapped_market_snapshot(
+    payload: dict[str, float],
+    field_map: dict[str, str],
+) -> dict[str, float]:
+    """Adapt provider payload using a provider-to-canonical field map.
+
+    field_map format:
+    {
+        "canonical_field": "provider_field"
+    }
+    """
+    mapped_payload = {
+        canonical_field: payload[provider_field]
+        for canonical_field, provider_field in field_map.items()
+    }
+    return adapt_market_snapshot(mapped_payload)
+
