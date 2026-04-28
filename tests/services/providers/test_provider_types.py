@@ -18,3 +18,17 @@ def test_provider_fetch_result_shape():
     assert result.records_returned == 3
     assert result.status == "ok"
     assert result.error_message is None
+
+
+def test_provider_fetch_result_can_include_payload():
+    from datetime import UTC, datetime
+
+    result = ProviderFetchResult(
+        provider_name="market_data",
+        fetched_at=datetime.now(UTC),
+        records_returned=1,
+        status="ok",
+        payload={"symbol": "AAPL"},
+    )
+
+    assert result.payload == {"symbol": "AAPL"}

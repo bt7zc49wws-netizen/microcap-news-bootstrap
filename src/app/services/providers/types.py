@@ -9,3 +9,4 @@ class ProviderFetchResult:
     records_returned: int
     status: str
     error_message: str | None = None
+    payload: dict | list | None = None
