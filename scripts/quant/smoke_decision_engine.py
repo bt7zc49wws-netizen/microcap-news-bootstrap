@@ -22,6 +22,7 @@ def main() -> None:
     )
 
     assert evaluated["decision"] == "actionable"
+    assert evaluated["symbol"] == "AAPL"
     assert evaluated["reason_codes"] == [
         "SUPPORTED_NEWS_EVENT",
         "PRICE_CHANGE_STRONG",

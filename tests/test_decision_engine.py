@@ -85,6 +85,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
             "PRICE_CHANGE_STRONG",
             "RELATIVE_VOLUME_STRONG",
         ],
+        "symbol": "AAPL",
     }
 
 
@@ -103,6 +104,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
     assert result == {
         "decision": "watchlist",
         "reason_codes": ["SUPPORTED_NEWS_EVENT"],
+        "symbol": "AAPL",
     }
 
 
@@ -121,6 +123,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
     assert result == {
         "decision": "no_trade",
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+        "symbol": "AAPL",
     }
 
 
@@ -145,6 +148,7 @@ def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event()
     assert result == {
         "decision": "no_trade",
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+        "symbol": "AAPL",
     }
 
 
@@ -166,3 +170,26 @@ def test_valid_reason_codes_are_canonical() -> None:
     assert REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT == "UNSUPPORTED_OR_MISSING_NEWS_EVENT"
     assert REASON_PRICE_CHANGE_STRONG == "PRICE_CHANGE_STRONG"
     assert REASON_RELATIVE_VOLUME_STRONG == "RELATIVE_VOLUME_STRONG"
+
+
+def test_make_decision_result_can_include_symbol() -> None:
+    result = make_decision_result(
+        decision=DECISION_WATCHLIST,
+        reason_codes=["VALID_TEST_REASON"],
+        symbol="aapl",
+    )
+
+    assert result == {
+        "decision": "watchlist",
+        "reason_codes": ["VALID_TEST_REASON"],
+        "symbol": "AAPL",
+    }
+
+
+def test_make_decision_result_rejects_empty_symbol_when_provided() -> None:
+    with pytest.raises(ValueError, match="symbol must not be empty"):
+        make_decision_result(
+            decision=DECISION_WATCHLIST,
+            reason_codes=["VALID_TEST_REASON"],
+            symbol="",
+        )

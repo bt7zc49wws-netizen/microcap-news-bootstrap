@@ -53,6 +53,7 @@ def make_decision_result(
     *,
     decision: str,
     reason_codes: list[str],
+    symbol: str | None = None,
 ) -> dict:
     """Build a canonical decision result."""
     if decision not in VALID_DECISIONS:
@@ -60,10 +61,17 @@ def make_decision_result(
     if not reason_codes:
         raise ValueError("reason_codes must not be empty")
 
-    return {
+    result = {
         "decision": decision,
         "reason_codes": reason_codes,
     }
+
+    if symbol is not None:
+        if not symbol:
+            raise ValueError("symbol must not be empty")
+        result["symbol"] = symbol.upper()
+
+    return result
 
 def evaluate_decision_context(context: dict) -> dict:
     """Evaluate an offline-safe decision context using minimal deterministic rules."""
@@ -74,10 +82,13 @@ def evaluate_decision_context(context: dict) -> dict:
     price_change = quant_signal.get("price_change_pct", 0.0)
     relative_volume = quant_signal.get("relative_volume", 0.0)
 
+    symbol = context.get("symbol")
+
     if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
         return make_decision_result(
             decision=DECISION_NO_TRADE,
             reason_codes=[REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT],
+            symbol=symbol,
         )
 
     if price_change >= DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"] and relative_volume >= DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"]:
@@ -88,10 +99,12 @@ def evaluate_decision_context(context: dict) -> dict:
                 REASON_PRICE_CHANGE_STRONG,
                 REASON_RELATIVE_VOLUME_STRONG,
             ],
+            symbol=symbol,
         )
 
     return make_decision_result(
         decision=DECISION_WATCHLIST,
         reason_codes=[REASON_SUPPORTED_NEWS_EVENT],
+        symbol=symbol,
     )
 
