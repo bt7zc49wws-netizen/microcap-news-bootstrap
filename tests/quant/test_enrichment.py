@@ -1,7 +1,7 @@
 import pytest
 
 from app.quant import enrichment
-from app.quant.enrichment import derive_average_volume, derive_previous_close, derive_vwap
+from app.quant.enrichment import derive_atr, derive_average_volume, derive_previous_close, derive_vwap
 
 
 def test_enrichment_module_imports() -> None:
@@ -87,3 +87,42 @@ def test_derive_vwap_rejects_non_numeric_price_component() -> None:
 
     with pytest.raises(ValueError, match="high must be numeric"):
         derive_vwap(rows, lookback=1)
+
+
+def test_derive_atr_uses_completed_rows_before_current() -> None:
+    rows = [
+        {"high": 10.0, "low": 9.0, "close": 9.5},
+        {"high": 12.0, "low": 10.0, "close": 11.0},
+        {"high": 15.0, "low": 13.0, "close": 14.0},
+        {"high": 99.0, "low": 99.0, "close": 99.0},
+    ]
+
+    assert derive_atr(rows, lookback=3) == pytest.approx(3.25)
+
+
+def test_derive_atr_rejects_too_few_rows() -> None:
+    with pytest.raises(ValueError, match="at least three rows"):
+        derive_atr([{"high": 10.0, "low": 9.0, "close": 9.5}, {"high": 11.0, "low": 10.0, "close": 10.5}])
+
+
+def test_derive_atr_rejects_invalid_lookback() -> None:
+    with pytest.raises(ValueError, match="lookback must be positive"):
+        derive_atr(
+            [
+                {"high": 10.0, "low": 9.0, "close": 9.5},
+                {"high": 11.0, "low": 10.0, "close": 10.5},
+                {"high": 12.0, "low": 11.0, "close": 11.5},
+            ],
+            lookback=0,
+        )
+
+
+def test_derive_atr_rejects_non_numeric_high() -> None:
+    rows = [
+        {"high": 10.0, "low": 9.0, "close": 9.5},
+        {"high": "12", "low": 10.0, "close": 11.0},
+        {"high": 99.0, "low": 99.0, "close": 99.0},
+    ]
+
+    with pytest.raises(ValueError, match="high must be numeric"):
+        derive_atr(rows, lookback=2)

@@ -84,3 +84,43 @@ def derive_vwap(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float
 
     return total_price_volume / total_volume
 
+def derive_atr(ohlcv_rows: list[dict[str, float]], lookback: int = 14) -> float:
+    """Return average true range over latest completed rows before the current row."""
+    if lookback <= 0:
+        raise ValueError("lookback must be positive")
+    if len(ohlcv_rows) < 3:
+        raise ValueError("ohlcv_rows must contain at least three rows")
+
+    completed_rows = ohlcv_rows[:-1]
+    selected_rows = completed_rows[-lookback:]
+
+    if len(selected_rows) < 2:
+        raise ValueError("at least two completed rows are required")
+
+    true_ranges: list[float] = []
+
+    for index in range(1, len(selected_rows)):
+        row = selected_rows[index]
+        previous_row = selected_rows[index - 1]
+
+        high = row["high"]
+        low = row["low"]
+        previous_close = previous_row["close"]
+
+        if not isinstance(high, int | float):
+            raise ValueError("high must be numeric")
+        if not isinstance(low, int | float):
+            raise ValueError("low must be numeric")
+        if not isinstance(previous_close, int | float):
+            raise ValueError("previous close must be numeric")
+
+        true_ranges.append(
+            max(
+                float(high) - float(low),
+                abs(float(high) - float(previous_close)),
+                abs(float(low) - float(previous_close)),
+            )
+        )
+
+    return sum(true_ranges) / len(true_ranges)
+
