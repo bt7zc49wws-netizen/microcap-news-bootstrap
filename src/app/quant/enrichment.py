@@ -43,3 +43,44 @@ def derive_average_volume(ohlcv_rows: list[dict[str, float]], lookback: int = 20
 
     return sum(volumes) / len(volumes)
 
+def derive_vwap(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
+    """Return VWAP over latest completed rows before the current row.
+
+    Uses typical price per row:
+    (high + low + close) / 3
+    """
+    if lookback <= 0:
+        raise ValueError("lookback must be positive")
+    if len(ohlcv_rows) < 2:
+        raise ValueError("ohlcv_rows must contain at least two rows")
+
+    completed_rows = ohlcv_rows[:-1]
+    selected_rows = completed_rows[-lookback:]
+
+    total_price_volume = 0.0
+    total_volume = 0.0
+
+    for row in selected_rows:
+        high = row["high"]
+        low = row["low"]
+        close = row["close"]
+        volume = row["volume"]
+
+        if not isinstance(high, int | float):
+            raise ValueError("high must be numeric")
+        if not isinstance(low, int | float):
+            raise ValueError("low must be numeric")
+        if not isinstance(close, int | float):
+            raise ValueError("close must be numeric")
+        if not isinstance(volume, int | float):
+            raise ValueError("volume must be numeric")
+
+        typical_price = (float(high) + float(low) + float(close)) / 3.0
+        total_price_volume += typical_price * float(volume)
+        total_volume += float(volume)
+
+    if total_volume <= 0:
+        raise ValueError("total volume must be positive")
+
+    return total_price_volume / total_volume
+

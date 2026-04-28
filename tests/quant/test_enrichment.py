@@ -1,7 +1,7 @@
 import pytest
 
 from app.quant import enrichment
-from app.quant.enrichment import derive_average_volume, derive_previous_close
+from app.quant.enrichment import derive_average_volume, derive_previous_close, derive_vwap
 
 
 def test_enrichment_module_imports() -> None:
@@ -57,3 +57,33 @@ def test_derive_average_volume_rejects_invalid_lookback() -> None:
 def test_derive_average_volume_rejects_non_numeric_volume() -> None:
     with pytest.raises(ValueError, match="volume must be numeric"):
         derive_average_volume([{"volume": "100"}, {"volume": 200.0}], lookback=2)
+
+
+def test_derive_vwap_uses_completed_rows_before_current() -> None:
+    rows = [
+        {"high": 12.0, "low": 9.0, "close": 9.0, "volume": 100.0},
+        {"high": 15.0, "low": 12.0, "close": 12.0, "volume": 200.0},
+        {"high": 99.0, "low": 99.0, "close": 99.0, "volume": 999.0},
+    ]
+
+    assert derive_vwap(rows, lookback=2) == pytest.approx(12.0)
+
+
+def test_derive_vwap_rejects_zero_total_volume() -> None:
+    rows = [
+        {"high": 12.0, "low": 9.0, "close": 9.0, "volume": 0.0},
+        {"high": 99.0, "low": 99.0, "close": 99.0, "volume": 999.0},
+    ]
+
+    with pytest.raises(ValueError, match="total volume must be positive"):
+        derive_vwap(rows, lookback=1)
+
+
+def test_derive_vwap_rejects_non_numeric_price_component() -> None:
+    rows = [
+        {"high": "12", "low": 9.0, "close": 9.0, "volume": 100.0},
+        {"high": 99.0, "low": 99.0, "close": 99.0, "volume": 999.0},
+    ]
+
+    with pytest.raises(ValueError, match="high must be numeric"):
+        derive_vwap(rows, lookback=1)
