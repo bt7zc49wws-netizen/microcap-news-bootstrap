@@ -39,3 +39,17 @@ Consumer:
 
 Output contract:
 - docs/contracts/quant-signal-contract-v1.md
+
+
+Adapter:
+- Function: adapt_market_snapshot
+- Module: src/app/quant/adapters.py
+- Input: already-normalized provider market payload
+- Output: validated provider-independent market snapshot
+- Smoke: scripts/quant/smoke_market_snapshot_adapter.py
+
+Adapter rules:
+- Required fields are selected from the payload.
+- Provider-specific extra fields are ignored.
+- Missing required fields reject the adapter call.
+- Output must satisfy validate_market_snapshot.
