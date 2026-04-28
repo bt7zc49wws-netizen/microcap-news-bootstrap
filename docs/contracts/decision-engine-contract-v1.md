@@ -92,3 +92,19 @@ Threshold rules:
 - Threshold changes require tests.
 - Thresholds are static defaults for now.
 - No live config service is introduced in this phase.
+
+
+Reason code registry:
+- Constants:
+  - REASON_SUPPORTED_NEWS_EVENT
+  - REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT
+  - REASON_PRICE_CHANGE_STRONG
+  - REASON_RELATIVE_VOLUME_STRONG
+- Registry: VALID_REASON_CODES
+- Module: src/app/decision_engine.py
+
+Registry rules:
+- Evaluator must use reason code constants.
+- New reason codes must be added to VALID_REASON_CODES.
+- Reason code changes require tests.
+- Reason codes are API/dashboard/replay-facing identifiers.
