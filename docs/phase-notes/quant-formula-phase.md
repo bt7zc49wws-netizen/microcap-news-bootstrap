@@ -129,3 +129,10 @@ News To Decision E2E Path:
 - scripts/quant/smoke_news_to_decision.py
 - docs/contracts/news-decision-adapter-contract-v1.md
 - Offline chain now validates classification output → decision-context news input → decision context → canonical decision result.
+
+
+Full Offline Decision Pipeline Smoke:
+- Status: DRAFT
+- scripts/quant/smoke_full_offline_decision_pipeline.py
+- Offline chain now validates Stooq OHLCV rows → enrichment → market snapshot adapter → quant signal → classification output → news decision adapter → decision context → canonical decision result.
+- No live provider, paid API, broker, IBKR, trading execution, or order generation is used.
