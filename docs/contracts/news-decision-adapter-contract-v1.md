@@ -82,3 +82,10 @@ Decision Context Audit Trace:
   - market_source
   - news_source
   - pipeline
+
+
+Offline Decision Result Fixture:
+- Fixture: tests/fixtures/offline_decision/full_offline_decision_result.json
+- The full offline decision smoke must validate the canonical decision result against this committed fixture.
+- Fixture changes require smoke + full test before commit.
+- Fixture validation remains offline-safe and must not introduce live providers, paid APIs, broker, IBKR, order generation, or trading execution.
