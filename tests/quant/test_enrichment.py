@@ -1,7 +1,7 @@
 import pytest
 
 from app.quant import enrichment
-from app.quant.enrichment import derive_atr, derive_average_volume, derive_breakout_level, derive_previous_close, derive_vwap
+from app.quant.enrichment import derive_atr, derive_average_volume, derive_breakout_level, derive_previous_close, derive_vwap, enrich_stooq_market_payload
 
 
 def test_enrichment_module_imports() -> None:
@@ -162,3 +162,36 @@ def test_derive_breakout_level_rejects_non_numeric_high() -> None:
 
     with pytest.raises(ValueError, match="high must be numeric"):
         derive_breakout_level(rows, lookback=1)
+
+
+def test_enrich_stooq_market_payload_builds_normalized_payload() -> None:
+    rows = [
+        {"open": 9.0, "high": 10.0, "low": 8.0, "close": 9.5, "volume": 100.0},
+        {"open": 10.0, "high": 12.0, "low": 9.0, "close": 11.0, "volume": 200.0},
+        {"open": 11.0, "high": 13.0, "low": 10.0, "close": 12.0, "volume": 300.0},
+        {"open": 12.0, "high": 14.0, "low": 11.0, "close": 13.0, "volume": 999.0},
+    ]
+
+    payload = enrich_stooq_market_payload(
+        rows,
+        average_volume_lookback=3,
+        vwap_lookback=3,
+        atr_lookback=3,
+        breakout_lookback=3,
+    )
+
+    assert payload["close"] == pytest.approx(13.0)
+    assert payload["open"] == pytest.approx(12.0)
+    assert payload["high"] == pytest.approx(14.0)
+    assert payload["low"] == pytest.approx(11.0)
+    assert payload["volume"] == pytest.approx(999.0)
+    assert payload["previous_close"] == pytest.approx(12.0)
+    assert payload["average_volume"] == pytest.approx(200.0)
+    assert payload["vwap"] > 0
+    assert payload["atr"] > 0
+    assert payload["breakout_level"] == pytest.approx(13.0)
+
+
+def test_enrich_stooq_market_payload_rejects_empty_rows() -> None:
+    with pytest.raises(ValueError, match="ohlcv_rows must not be empty"):
+        enrich_stooq_market_payload([])

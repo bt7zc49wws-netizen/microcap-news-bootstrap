@@ -146,3 +146,30 @@ def derive_breakout_level(ohlcv_rows: list[dict[str, float]], lookback: int = 20
 
     return max(highs)
 
+def enrich_stooq_market_payload(
+    ohlcv_rows: list[dict[str, float]],
+    *,
+    average_volume_lookback: int = 20,
+    vwap_lookback: int = 20,
+    atr_lookback: int = 14,
+    breakout_lookback: int = 20,
+) -> dict[str, float]:
+    """Build normalized Stooq-like payload with derived snapshot fields."""
+    if not ohlcv_rows:
+        raise ValueError("ohlcv_rows must not be empty")
+
+    current_row = ohlcv_rows[-1]
+
+    return {
+        "close": float(current_row["close"]),
+        "open": float(current_row["open"]),
+        "high": float(current_row["high"]),
+        "low": float(current_row["low"]),
+        "volume": float(current_row["volume"]),
+        "previous_close": derive_previous_close(ohlcv_rows),
+        "average_volume": derive_average_volume(ohlcv_rows, lookback=average_volume_lookback),
+        "vwap": derive_vwap(ohlcv_rows, lookback=vwap_lookback),
+        "atr": derive_atr(ohlcv_rows, lookback=atr_lookback),
+        "breakout_level": derive_breakout_level(ohlcv_rows, lookback=breakout_lookback),
+    }
+
