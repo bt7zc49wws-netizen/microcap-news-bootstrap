@@ -8,6 +8,7 @@ This package must stay API-independent:
 """
 
 from app.quant.signals import build_quant_signal
+from app.quant.snapshot import REQUIRED_MARKET_SNAPSHOT_FIELDS, validate_market_snapshot
 from app.quant.formulas import (
     price_change_pct,
     gap_pct,
@@ -28,6 +29,8 @@ from app.quant.formulas import (
 
 __all__ = [
     "build_quant_signal",
+    "REQUIRED_MARKET_SNAPSHOT_FIELDS",
+    "validate_market_snapshot",
     "price_change_pct",
     "gap_pct",
     "intraday_return_pct",
