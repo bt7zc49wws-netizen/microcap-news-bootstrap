@@ -1,6 +1,6 @@
 # Quant Signal Contract v1
 
-Status: DRAFT
+Status: ACTIVE_DRAFT
 
 Purpose:
 Define the canonical output names for the API-independent quant formula layer.
