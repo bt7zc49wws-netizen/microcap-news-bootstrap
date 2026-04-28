@@ -95,3 +95,21 @@ def breakout_pct(price: float, breakout_level: float) -> float:
     _require_positive(breakout_level, "breakout_level")
     return ((price - breakout_level) / breakout_level) * 100.0
 
+def slope(values: list[float]) -> float:
+    """Return simple slope from first value to last value per step."""
+    if len(values) < 2:
+        raise ValueError("values must contain at least two items")
+    return (values[-1] - values[0]) / (len(values) - 1)
+
+
+def acceleration(values: list[float]) -> float:
+    """Return change in slope between the first and second half of a series."""
+    if len(values) < 3:
+        raise ValueError("values must contain at least three items")
+
+    midpoint = len(values) // 2
+    first_half = values[: midpoint + 1]
+    second_half = values[midpoint:]
+
+    return slope(second_half) - slope(first_half)
+

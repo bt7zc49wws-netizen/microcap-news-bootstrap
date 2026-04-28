@@ -21,6 +21,8 @@ from app.quant.formulas import (
     atr,
     atr_pct,
     breakout_pct,
+    slope,
+    acceleration,
 )
 
 __all__ = [
@@ -37,4 +39,6 @@ __all__ = [
     "atr",
     "atr_pct",
     "breakout_pct",
+    "slope",
+    "acceleration",
 ]

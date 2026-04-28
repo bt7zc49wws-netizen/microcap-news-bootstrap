@@ -14,6 +14,8 @@ from app.quant.formulas import (
     atr,
     atr_pct,
     breakout_pct,
+    slope,
+    acceleration,
 )
 
 
@@ -62,6 +64,8 @@ def test_close_location_value() -> None:
         (atr, {"true_ranges": []}),
         (atr_pct, {"atr_value": 1.0, "reference_price": 0.0}),
         (breakout_pct, {"price": 10.0, "breakout_level": 0.0}),
+        (slope, {"values": [1.0]}),
+        (acceleration, {"values": [1.0, 2.0]}),
     ],
 )
 def test_invalid_denominators_raise_value_error(func, kwargs) -> None:
@@ -96,3 +100,15 @@ def test_breakout_pct() -> None:
     assert breakout_pct(price=11.0, breakout_level=10.0) == pytest.approx(10.0)
     assert breakout_pct(price=9.0, breakout_level=10.0) == pytest.approx(-10.0)
     assert breakout_pct(price=10.0, breakout_level=10.0) == pytest.approx(0.0)
+
+
+def test_slope() -> None:
+    assert slope([10.0, 11.0, 12.0, 13.0]) == pytest.approx(1.0)
+    assert slope([13.0, 12.0, 11.0, 10.0]) == pytest.approx(-1.0)
+    assert slope([10.0, 10.0, 10.0]) == pytest.approx(0.0)
+
+
+def test_acceleration() -> None:
+    assert acceleration([10.0, 11.0, 13.0, 16.0, 20.0]) == pytest.approx(2.0)
+    assert acceleration([20.0, 16.0, 13.0, 11.0, 10.0]) == pytest.approx(2.0)
+    assert acceleration([10.0, 11.0, 12.0, 13.0, 14.0]) == pytest.approx(0.0)
