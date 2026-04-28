@@ -1,6 +1,6 @@
 import pytest
 
-from app.quant.adapters import adapt_market_snapshot, adapt_mapped_market_snapshot
+from app.quant.adapters import adapt_market_snapshot, adapt_mapped_market_snapshot, adapt_stooq_market_snapshot
 
 
 def test_adapt_market_snapshot_returns_validated_snapshot() -> None:
@@ -82,4 +82,40 @@ def test_adapt_mapped_market_snapshot_rejects_missing_provider_field() -> None:
                 "current_price": "last",
                 "open_price": "open",
             },
+        )
+
+
+def test_adapt_stooq_market_snapshot_uses_stooq_field_map() -> None:
+    payload = {
+        "close": 12.0,
+        "open": 11.0,
+        "high": 13.0,
+        "low": 10.0,
+        "previous_close": 10.0,
+        "volume": 250_000,
+        "average_volume": 100_000,
+        "vwap": 10.0,
+        "atr": 0.6,
+        "breakout_level": 10.0,
+        "stooq_extra": "ignored",
+    }
+
+    snapshot = adapt_stooq_market_snapshot(payload)
+
+    assert snapshot["current_price"] == pytest.approx(12.0)
+    assert snapshot["open_price"] == pytest.approx(11.0)
+    assert snapshot["current_volume"] == pytest.approx(250_000.0)
+    assert "stooq_extra" not in snapshot
+
+
+def test_adapt_stooq_market_snapshot_rejects_missing_derived_field() -> None:
+    with pytest.raises(KeyError):
+        adapt_stooq_market_snapshot(
+            {
+                "close": 12.0,
+                "open": 11.0,
+                "high": 13.0,
+                "low": 10.0,
+                "volume": 250_000,
+            }
         )

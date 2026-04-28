@@ -41,3 +41,22 @@ def adapt_mapped_market_snapshot(
     }
     return adapt_market_snapshot(mapped_payload)
 
+
+STOOQ_MARKET_SNAPSHOT_FIELD_MAP: dict[str, str] = {
+    "current_price": "close",
+    "open_price": "open",
+    "high_price": "high",
+    "low_price": "low",
+    "previous_close": "previous_close",
+    "current_volume": "volume",
+    "average_volume": "average_volume",
+    "vwap_value": "vwap",
+    "atr_value": "atr",
+    "breakout_level": "breakout_level",
+}
+
+
+def adapt_stooq_market_snapshot(payload: dict[str, float]) -> dict[str, float]:
+    """Adapt normalized Stooq market payload into validated market snapshot."""
+    return adapt_mapped_market_snapshot(payload, STOOQ_MARKET_SNAPSHOT_FIELD_MAP)
+
