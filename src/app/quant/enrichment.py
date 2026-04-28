@@ -9,3 +9,15 @@ Rules:
 """
 
 from __future__ import annotations
+
+def derive_previous_close(ohlcv_rows: list[dict[str, float]]) -> float:
+    """Return previous close from the second-to-last OHLCV row."""
+    if len(ohlcv_rows) < 2:
+        raise ValueError("ohlcv_rows must contain at least two rows")
+
+    previous_close = ohlcv_rows[-2]["close"]
+    if not isinstance(previous_close, int | float):
+        raise ValueError("previous close must be numeric")
+
+    return float(previous_close)
+
