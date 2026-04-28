@@ -52,3 +52,15 @@ def test_market_data_client_fetches_stooq_snapshot():
     assert result.records_returned == 1
     assert result.status == "ok"
     assert result.error_message is None
+    assert result.payload == [
+        {
+            "Symbol": "AAPL.US",
+            "Date": "2026-01-01",
+            "Time": "10:00:00",
+            "Open": "1",
+            "High": "2",
+            "Low": "1",
+            "Close": "2",
+            "Volume": "1000",
+        }
+    ]

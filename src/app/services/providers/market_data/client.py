@@ -34,13 +34,15 @@ class MarketDataClient:
                 text = response.read().decode("utf-8")
 
             rows = list(csv.DictReader(StringIO(text)))
-            records_returned = sum(1 for row in rows if row.get("Close") not in (None, "", "N/D"))
+            valid_rows = [row for row in rows if row.get("Close") not in (None, "", "N/D")]
+            records_returned = len(valid_rows)
 
             return ProviderFetchResult(
                 provider_name=self.provider_name,
                 fetched_at=datetime.now(UTC),
                 records_returned=records_returned,
                 status="ok" if records_returned else "empty",
+                payload=valid_rows,
             )
 
         if not self.api_key:
