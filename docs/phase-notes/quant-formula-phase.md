@@ -80,3 +80,11 @@ Supported News Event Gate:
 - scripts/quant/smoke_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - Supported event types now gate decision evaluation before quant confirmation.
+
+
+Decision Threshold Defaults:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- DEFAULT_DECISION_THRESHOLDS now owns strong quant confirmation thresholds.
