@@ -1,7 +1,7 @@
 import pytest
 
 from app.quant import enrichment
-from app.quant.enrichment import derive_atr, derive_average_volume, derive_previous_close, derive_vwap
+from app.quant.enrichment import derive_atr, derive_average_volume, derive_breakout_level, derive_previous_close, derive_vwap
 
 
 def test_enrichment_module_imports() -> None:
@@ -126,3 +126,39 @@ def test_derive_atr_rejects_non_numeric_high() -> None:
 
     with pytest.raises(ValueError, match="high must be numeric"):
         derive_atr(rows, lookback=2)
+
+
+def test_derive_breakout_level_uses_highest_completed_high_before_current() -> None:
+    rows = [
+        {"high": 10.0},
+        {"high": 12.0},
+        {"high": 11.0},
+        {"high": 99.0},
+    ]
+
+    assert derive_breakout_level(rows, lookback=3) == pytest.approx(12.0)
+
+
+def test_derive_breakout_level_uses_available_completed_rows_when_lookback_is_larger() -> None:
+    rows = [
+        {"high": 10.0},
+        {"high": 12.0},
+        {"high": 99.0},
+    ]
+
+    assert derive_breakout_level(rows, lookback=20) == pytest.approx(12.0)
+
+
+def test_derive_breakout_level_rejects_invalid_lookback() -> None:
+    with pytest.raises(ValueError, match="lookback must be positive"):
+        derive_breakout_level([{"high": 10.0}, {"high": 12.0}], lookback=0)
+
+
+def test_derive_breakout_level_rejects_non_numeric_high() -> None:
+    rows = [
+        {"high": "10.0"},
+        {"high": 99.0},
+    ]
+
+    with pytest.raises(ValueError, match="high must be numeric"):
+        derive_breakout_level(rows, lookback=1)

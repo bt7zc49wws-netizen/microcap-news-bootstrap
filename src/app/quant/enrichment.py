@@ -124,3 +124,25 @@ def derive_atr(ohlcv_rows: list[dict[str, float]], lookback: int = 14) -> float:
 
     return sum(true_ranges) / len(true_ranges)
 
+def derive_breakout_level(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
+    """Return breakout level as highest high over latest completed rows before current row."""
+    if lookback <= 0:
+        raise ValueError("lookback must be positive")
+    if len(ohlcv_rows) < 2:
+        raise ValueError("ohlcv_rows must contain at least two rows")
+
+    completed_rows = ohlcv_rows[:-1]
+    selected_rows = completed_rows[-lookback:]
+
+    highs: list[float] = []
+    for row in selected_rows:
+        high = row["high"]
+        if not isinstance(high, int | float):
+            raise ValueError("high must be numeric")
+        highs.append(float(high))
+
+    if not highs:
+        raise ValueError("no completed high rows available")
+
+    return max(highs)
+
