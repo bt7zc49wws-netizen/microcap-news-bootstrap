@@ -53,3 +53,12 @@ Decision Context Extension:
 - scripts/quant/smoke_decision_context_builder.py
 - docs/contracts/decision-context-contract-v1.md
 - build_decision_context combines already-computed news and quant inputs.
+
+
+Decision Engine Extension:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- scripts/quant/smoke_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- make_decision_result creates canonical no_trade/watchlist/actionable result shape.
