@@ -121,3 +121,21 @@ Trace rules:
 - Empty symbol must be rejected when symbol is explicitly provided.
 - Evaluator should preserve symbol trace from decision context.
 - Symbol trace is for API/dashboard/replay observability only.
+
+
+Canonical decision result shape:
+
+Required fields:
+- decision
+- reason_codes
+
+Optional fields:
+- symbol
+
+Field rules:
+- decision is one of: no_trade, watchlist, actionable
+- reason_codes is a non-empty list of VALID_REASON_CODES-compatible identifiers
+- symbol, when present, is uppercase
+- timestamp fields are intentionally excluded from this pure/offline phase
+- score fields are intentionally excluded from this phase
+- execution/order fields are forbidden
