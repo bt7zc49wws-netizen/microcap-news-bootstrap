@@ -1,0 +1,9 @@
+{
+  "decision": "actionable",
+  "reason_codes": [
+    "SUPPORTED_NEWS_EVENT",
+    "PRICE_CHANGE_STRONG",
+    "RELATIVE_VOLUME_STRONG"
+  ],
+  "symbol": "HTCO"
+}

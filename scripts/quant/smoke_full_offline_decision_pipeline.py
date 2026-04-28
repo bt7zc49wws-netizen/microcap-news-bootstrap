@@ -1,4 +1,6 @@
 from datetime import UTC, datetime
+import json
+from pathlib import Path
 
 from app.classification.rules import classify_record
 from app.decision_context import build_decision_context
@@ -89,15 +91,10 @@ def main() -> None:
     )
     result = evaluate_decision_context(context)
 
-    assert result == {
-        "decision": "actionable",
-        "reason_codes": [
-            "SUPPORTED_NEWS_EVENT",
-            "PRICE_CHANGE_STRONG",
-            "RELATIVE_VOLUME_STRONG",
-        ],
-        "symbol": symbol,
-    }
+    expected_result_path = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "offline_decision" / "full_offline_decision_result.json"
+    expected_result = json.loads(expected_result_path.read_text())
+
+    assert result == expected_result
     assert news_signal["event_type"] in {"financing", "dilution", "offering"}
     assert quant_signal["price_change_pct"] >= 10.0
     assert quant_signal["relative_volume"] >= 2.0
