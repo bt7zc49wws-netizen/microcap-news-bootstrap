@@ -20,6 +20,17 @@ VALID_DECISIONS = (
     DECISION_ACTIONABLE,
 )
 
+SUPPORTED_NEWS_EVENT_TYPES = (
+    "financing",
+    "dilution",
+    "offering",
+    "clinical",
+    "fda",
+    "earnings",
+    "merger",
+    "contract",
+)
+
 
 def make_decision_result(
     *,
@@ -46,24 +57,24 @@ def evaluate_decision_context(context: dict) -> dict:
     price_change = quant_signal.get("price_change_pct", 0.0)
     relative_volume = quant_signal.get("relative_volume", 0.0)
 
-    if event_type and price_change >= 10.0 and relative_volume >= 2.0:
+    if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
+        return make_decision_result(
+            decision=DECISION_NO_TRADE,
+            reason_codes=["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+        )
+
+    if price_change >= 10.0 and relative_volume >= 2.0:
         return make_decision_result(
             decision=DECISION_ACTIONABLE,
             reason_codes=[
-                "NEWS_EVENT_PRESENT",
+                "SUPPORTED_NEWS_EVENT",
                 "PRICE_CHANGE_STRONG",
                 "RELATIVE_VOLUME_STRONG",
             ],
         )
 
-    if event_type:
-        return make_decision_result(
-            decision=DECISION_WATCHLIST,
-            reason_codes=["NEWS_EVENT_PRESENT"],
-        )
-
     return make_decision_result(
-        decision=DECISION_NO_TRADE,
-        reason_codes=["NO_QUALIFYING_NEWS_EVENT"],
+        decision=DECISION_WATCHLIST,
+        reason_codes=["SUPPORTED_NEWS_EVENT"],
     )
 

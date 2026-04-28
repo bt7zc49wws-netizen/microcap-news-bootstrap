@@ -4,6 +4,7 @@ from app.decision_engine import (
     DECISION_ACTIONABLE,
     DECISION_NO_TRADE,
     DECISION_WATCHLIST,
+    SUPPORTED_NEWS_EVENT_TYPES,
     VALID_DECISIONS,
     make_decision_result,
     evaluate_decision_context,
@@ -21,12 +22,12 @@ def test_valid_decisions_are_canonical() -> None:
 def test_make_decision_result_returns_canonical_shape() -> None:
     result = make_decision_result(
         decision=DECISION_WATCHLIST,
-        reason_codes=["NEWS_EVENT_PRESENT", "QUANT_VOLUME_ACTIVE"],
+        reason_codes=["SUPPORTED_NEWS_EVENT", "QUANT_VOLUME_ACTIVE"],
     )
 
     assert result == {
         "decision": "watchlist",
-        "reason_codes": ["NEWS_EVENT_PRESENT", "QUANT_VOLUME_ACTIVE"],
+        "reason_codes": ["SUPPORTED_NEWS_EVENT", "QUANT_VOLUME_ACTIVE"],
     }
 
 
@@ -74,7 +75,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
     assert result == {
         "decision": "actionable",
         "reason_codes": [
-            "NEWS_EVENT_PRESENT",
+            "SUPPORTED_NEWS_EVENT",
             "PRICE_CHANGE_STRONG",
             "RELATIVE_VOLUME_STRONG",
         ],
@@ -95,7 +96,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
 
     assert result == {
         "decision": "watchlist",
-        "reason_codes": ["NEWS_EVENT_PRESENT"],
+        "reason_codes": ["SUPPORTED_NEWS_EVENT"],
     }
 
 
@@ -113,5 +114,29 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
 
     assert result == {
         "decision": "no_trade",
-        "reason_codes": ["NO_QUALIFYING_NEWS_EVENT"],
+        "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+    }
+
+
+def test_supported_news_event_types_are_declared() -> None:
+    assert "financing" in SUPPORTED_NEWS_EVENT_TYPES
+    assert "dilution" in SUPPORTED_NEWS_EVENT_TYPES
+    assert "fda" in SUPPORTED_NEWS_EVENT_TYPES
+
+
+def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event() -> None:
+    result = evaluate_decision_context(
+        {
+            "symbol": "AAPL",
+            "news": {"event_type": "generic_pr"},
+            "quant_signal": {
+                "price_change_pct": 20.0,
+                "relative_volume": 5.0,
+            },
+        }
+    )
+
+    assert result == {
+        "decision": "no_trade",
+        "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
     }
