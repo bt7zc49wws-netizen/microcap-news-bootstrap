@@ -36,6 +36,18 @@ DEFAULT_DECISION_THRESHOLDS = {
     "strong_relative_volume": 2.0,
 }
 
+REASON_SUPPORTED_NEWS_EVENT = "SUPPORTED_NEWS_EVENT"
+REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT = "UNSUPPORTED_OR_MISSING_NEWS_EVENT"
+REASON_PRICE_CHANGE_STRONG = "PRICE_CHANGE_STRONG"
+REASON_RELATIVE_VOLUME_STRONG = "RELATIVE_VOLUME_STRONG"
+
+VALID_REASON_CODES = (
+    REASON_SUPPORTED_NEWS_EVENT,
+    REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT,
+    REASON_PRICE_CHANGE_STRONG,
+    REASON_RELATIVE_VOLUME_STRONG,
+)
+
 
 def make_decision_result(
     *,
@@ -65,21 +77,21 @@ def evaluate_decision_context(context: dict) -> dict:
     if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
         return make_decision_result(
             decision=DECISION_NO_TRADE,
-            reason_codes=["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
+            reason_codes=[REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT],
         )
 
     if price_change >= DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"] and relative_volume >= DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"]:
         return make_decision_result(
             decision=DECISION_ACTIONABLE,
             reason_codes=[
-                "SUPPORTED_NEWS_EVENT",
-                "PRICE_CHANGE_STRONG",
-                "RELATIVE_VOLUME_STRONG",
+                REASON_SUPPORTED_NEWS_EVENT,
+                REASON_PRICE_CHANGE_STRONG,
+                REASON_RELATIVE_VOLUME_STRONG,
             ],
         )
 
     return make_decision_result(
         decision=DECISION_WATCHLIST,
-        reason_codes=["SUPPORTED_NEWS_EVENT"],
+        reason_codes=[REASON_SUPPORTED_NEWS_EVENT],
     )
 

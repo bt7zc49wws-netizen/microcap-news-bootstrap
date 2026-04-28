@@ -7,6 +7,11 @@ from app.decision_engine import (
     DEFAULT_DECISION_THRESHOLDS,
     SUPPORTED_NEWS_EVENT_TYPES,
     VALID_DECISIONS,
+    VALID_REASON_CODES,
+    REASON_SUPPORTED_NEWS_EVENT,
+    REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT,
+    REASON_PRICE_CHANGE_STRONG,
+    REASON_RELATIVE_VOLUME_STRONG,
     make_decision_result,
     evaluate_decision_context,
 )
@@ -148,3 +153,16 @@ def test_default_decision_thresholds_are_declared() -> None:
         "strong_price_change_pct": 10.0,
         "strong_relative_volume": 2.0,
     }
+
+
+def test_valid_reason_codes_are_canonical() -> None:
+    assert VALID_REASON_CODES == (
+        "SUPPORTED_NEWS_EVENT",
+        "UNSUPPORTED_OR_MISSING_NEWS_EVENT",
+        "PRICE_CHANGE_STRONG",
+        "RELATIVE_VOLUME_STRONG",
+    )
+    assert REASON_SUPPORTED_NEWS_EVENT == "SUPPORTED_NEWS_EVENT"
+    assert REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT == "UNSUPPORTED_OR_MISSING_NEWS_EVENT"
+    assert REASON_PRICE_CHANGE_STRONG == "PRICE_CHANGE_STRONG"
+    assert REASON_RELATIVE_VOLUME_STRONG == "RELATIVE_VOLUME_STRONG"
