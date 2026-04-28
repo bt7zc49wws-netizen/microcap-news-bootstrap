@@ -60,3 +60,21 @@ class MarketDataClient:
             records_returned=0,
             status="not_implemented",
         )
+
+def normalize_stooq_ohlcv_rows(rows: list[dict[str, str]]) -> list[dict[str, float]]:
+    """Normalize Stooq CSV rows into lowercase OHLCV rows for quant enrichment."""
+    normalized: list[dict[str, float]] = []
+
+    for row in rows:
+        normalized.append(
+            {
+                "open": float(row["Open"]),
+                "high": float(row["High"]),
+                "low": float(row["Low"]),
+                "close": float(row["Close"]),
+                "volume": float(row["Volume"]),
+            }
+        )
+
+    return normalized
+

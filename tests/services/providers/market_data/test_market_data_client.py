@@ -1,4 +1,4 @@
-from app.services.providers.market_data.client import MarketDataClient
+from app.services.providers.market_data.client import MarketDataClient, normalize_stooq_ohlcv_rows
 
 
 def test_market_data_client_disabled_without_provider():
@@ -62,5 +62,30 @@ def test_market_data_client_fetches_stooq_snapshot():
             "Low": "1",
             "Close": "2",
             "Volume": "1000",
+        }
+    ]
+
+
+def test_normalize_stooq_ohlcv_rows_converts_csv_strings_to_quant_rows():
+    rows = [
+        {
+            "Symbol": "AAPL.US",
+            "Date": "2026-01-01",
+            "Time": "10:00:00",
+            "Open": "1",
+            "High": "2",
+            "Low": "1",
+            "Close": "2",
+            "Volume": "1000",
+        }
+    ]
+
+    assert normalize_stooq_ohlcv_rows(rows) == [
+        {
+            "open": 1.0,
+            "high": 2.0,
+            "low": 1.0,
+            "close": 2.0,
+            "volume": 1000.0,
         }
     ]
