@@ -12,3 +12,14 @@ Rules:
 """
 
 from __future__ import annotations
+
+from app.quant.snapshot import REQUIRED_MARKET_SNAPSHOT_FIELDS, validate_market_snapshot
+
+
+def adapt_market_snapshot(payload: dict[str, float]) -> dict[str, float]:
+    """Adapt already-normalized market payload into validated market snapshot."""
+    snapshot = {
+        field: payload[field]
+        for field in REQUIRED_MARKET_SNAPSHOT_FIELDS
+    }
+    return validate_market_snapshot(snapshot)
