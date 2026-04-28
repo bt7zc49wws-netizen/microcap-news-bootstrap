@@ -32,3 +32,24 @@ Notes:
 - Stooq may not provide every required derived field directly.
 - Missing derived fields must be computed upstream or rejected before quant signal calculation.
 - Provider raw fields must not leak past the adapter boundary.
+
+Initial normalized Stooq field map:
+
+| Canonical field | Stooq normalized field | Status |
+|---|---|---|
+| current_price | close | DIRECT |
+| open_price | open | DIRECT |
+| high_price | high | DIRECT |
+| low_price | low | DIRECT |
+| previous_close | previous_close | REQUIRED_DERIVED_OR_UPSTREAM |
+| current_volume | volume | DIRECT |
+| average_volume | average_volume | REQUIRED_DERIVED_OR_UPSTREAM |
+| vwap_value | vwap | REQUIRED_DERIVED_OR_UPSTREAM |
+| atr_value | atr | REQUIRED_DERIVED_OR_UPSTREAM |
+| breakout_level | breakout_level | REQUIRED_DERIVED_OR_UPSTREAM |
+
+Rules:
+- DIRECT fields may map from normalized Stooq OHLCV data.
+- REQUIRED_DERIVED_OR_UPSTREAM fields must be supplied by an upstream normalization/enrichment step before adapter use.
+- Adapter must reject snapshots where required derived fields are missing.
+- This contract does not require Stooq client changes yet.
