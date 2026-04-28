@@ -70,3 +70,15 @@ Full offline pipeline rules:
 - The smoke must not use paid APIs.
 - The smoke must not perform broker, IBKR, order, or execution operations.
 - The smoke validates integration shape only; it is not a trading recommendation or execution path.
+
+
+Decision Context Audit Trace:
+- `build_decision_context` may include optional `audit_trace`.
+- `audit_trace` is for offline-safe traceability only.
+- `audit_trace` must be omitted or non-empty.
+- Empty `audit_trace` is invalid.
+- `audit_trace` must not introduce live provider calls, paid API dependency, broker integration, IBKR dependency, order generation, or trading execution.
+- Current smoke usage may identify the offline pipeline/source path, for example:
+  - market_source
+  - news_source
+  - pipeline
