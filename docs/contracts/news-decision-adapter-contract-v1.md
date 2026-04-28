@@ -48,3 +48,25 @@ E2E rules:
 - The chain must not call live providers.
 - The chain must not use paid APIs.
 - The chain must not perform broker, order, or execution operations.
+
+
+Full Offline Decision Pipeline Smoke:
+- Smoke: scripts/quant/smoke_full_offline_decision_pipeline.py
+- Chain:
+  - Stooq OHLCV rows
+  - normalize_stooq_ohlcv_rows
+  - enrich_stooq_market_payload
+  - adapt_stooq_market_snapshot
+  - build_quant_signal_from_snapshot
+  - classification output
+  - adapt_news_for_decision
+  - build_decision_context
+  - evaluate_decision_context
+  - canonical decision result
+
+Full offline pipeline rules:
+- The smoke must remain offline-safe.
+- The smoke must not call live providers.
+- The smoke must not use paid APIs.
+- The smoke must not perform broker, IBKR, order, or execution operations.
+- The smoke validates integration shape only; it is not a trading recommendation or execution path.
