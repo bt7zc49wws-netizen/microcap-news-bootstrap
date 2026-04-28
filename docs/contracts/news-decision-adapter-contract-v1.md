@@ -31,3 +31,20 @@ Rules:
 - headline must not be empty
 - provider/classifier extra fields must not leak into decision-context news input
 - adapter must remain pure validation/adaptation
+
+
+End-to-end decision path:
+- Smoke: scripts/quant/smoke_news_to_decision.py
+
+Offline E2E chain:
+- classification output
+- adapt_news_for_decision
+- build_decision_context
+- evaluate_decision_context
+- canonical decision result
+
+E2E rules:
+- The chain must remain offline-safe.
+- The chain must not call live providers.
+- The chain must not use paid APIs.
+- The chain must not perform broker, order, or execution operations.
