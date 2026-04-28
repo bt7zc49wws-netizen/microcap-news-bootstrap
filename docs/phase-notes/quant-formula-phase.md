@@ -44,3 +44,12 @@ Signal Builder Extension:
 - tests/quant/test_signals.py
 - scripts/quant/smoke_quant_signal_builder.py
 - build_quant_signal creates canonical quant signal output from validated market snapshot values.
+
+
+Decision Context Extension:
+- Status: DRAFT
+- src/app/decision_context.py
+- tests/test_decision_context.py
+- scripts/quant/smoke_decision_context_builder.py
+- docs/contracts/decision-context-contract-v1.md
+- build_decision_context combines already-computed news and quant inputs.
