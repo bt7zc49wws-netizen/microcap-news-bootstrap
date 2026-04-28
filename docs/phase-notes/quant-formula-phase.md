@@ -62,3 +62,12 @@ Decision Engine Extension:
 - scripts/quant/smoke_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - make_decision_result creates canonical no_trade/watchlist/actionable result shape.
+
+
+Decision Evaluator Extension:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- scripts/quant/smoke_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- evaluate_decision_context applies initial deterministic offline-safe rules.
