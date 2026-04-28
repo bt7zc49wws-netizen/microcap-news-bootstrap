@@ -86,3 +86,12 @@ def atr_pct(atr_value: float, reference_price: float) -> float:
     _require_positive(reference_price, "reference_price")
     return (atr_value / reference_price) * 100.0
 
+def breakout_pct(price: float, breakout_level: float) -> float:
+    """Return price distance from breakout level as percent.
+
+    Positive means price is above the breakout level.
+    Negative means price is below the breakout level.
+    """
+    _require_positive(breakout_level, "breakout_level")
+    return ((price - breakout_level) / breakout_level) * 100.0
+

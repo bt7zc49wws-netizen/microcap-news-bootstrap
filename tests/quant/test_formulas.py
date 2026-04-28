@@ -13,6 +13,7 @@ from app.quant.formulas import (
     true_range,
     atr,
     atr_pct,
+    breakout_pct,
 )
 
 
@@ -60,6 +61,7 @@ def test_close_location_value() -> None:
         (vwap_distance_pct, {"price": 10.0, "vwap_value": 0.0}),
         (atr, {"true_ranges": []}),
         (atr_pct, {"atr_value": 1.0, "reference_price": 0.0}),
+        (breakout_pct, {"price": 10.0, "breakout_level": 0.0}),
     ],
 )
 def test_invalid_denominators_raise_value_error(func, kwargs) -> None:
@@ -88,3 +90,9 @@ def test_atr() -> None:
 
 def test_atr_pct() -> None:
     assert atr_pct(atr_value=0.5, reference_price=10.0) == pytest.approx(5.0)
+
+
+def test_breakout_pct() -> None:
+    assert breakout_pct(price=11.0, breakout_level=10.0) == pytest.approx(10.0)
+    assert breakout_pct(price=9.0, breakout_level=10.0) == pytest.approx(-10.0)
+    assert breakout_pct(price=10.0, breakout_level=10.0) == pytest.approx(0.0)

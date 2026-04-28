@@ -20,6 +20,7 @@ from app.quant.formulas import (
     true_range,
     atr,
     atr_pct,
+    breakout_pct,
 )
 
 __all__ = [
@@ -35,4 +36,5 @@ __all__ = [
     "true_range",
     "atr",
     "atr_pct",
+    "breakout_pct",
 ]
