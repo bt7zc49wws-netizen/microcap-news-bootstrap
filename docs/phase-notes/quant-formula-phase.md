@@ -71,3 +71,12 @@ Decision Evaluator Extension:
 - scripts/quant/smoke_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - evaluate_decision_context applies initial deterministic offline-safe rules.
+
+
+Supported News Event Gate:
+- Status: DRAFT
+- src/app/decision_engine.py
+- tests/test_decision_engine.py
+- scripts/quant/smoke_decision_engine.py
+- docs/contracts/decision-engine-contract-v1.md
+- Supported event types now gate decision evaluation before quant confirmation.
