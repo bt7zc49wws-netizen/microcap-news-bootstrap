@@ -105,3 +105,11 @@ Decision Result Symbol Trace:
 - scripts/quant/smoke_decision_engine.py
 - docs/contracts/decision-engine-contract-v1.md
 - Decision results can now carry uppercase symbol trace for API/dashboard/replay observability.
+
+
+Decision Result Schema Hardening:
+- Status: DRAFT
+- docs/contracts/decision-engine-contract-v1.md
+- Required fields: decision, reason_codes
+- Optional fields: symbol
+- Timestamp, score, execution, and order fields are intentionally excluded from this offline-safe phase.
