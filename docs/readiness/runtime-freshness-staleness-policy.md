@@ -32,3 +32,9 @@ Runtime status observation:
 - /api/v1/status returns degraded when current read-model data is stale.
 - Stale status is represented by is_stale=true while dependencies.read_model can remain ok.
 - This separates data freshness degradation from read model availability.
+
+Provider diagnostics boundary:
+- ProviderFetchResult.to_status_diagnostic() is provider-fetch scoped.
+- /api/v1/status remains runtime/read-model scoped.
+- Provider diagnostics must not be copied into /api/v1/status unless a dedicated runtime aggregation contract is added.
+- Current /api/v1/status freshness behavior remains based on read-model/job freshness and dependency availability.
