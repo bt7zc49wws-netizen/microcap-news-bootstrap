@@ -253,3 +253,16 @@ Free Provider Smoke Gate:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Smoke Script Gate Tests:
+- Status: LOCKED
+- Test: tests/test_smoke_script_gates.py
+- Verifies default skip behavior for:
+  - scripts/free_provider_smoke.py
+  - scripts/gated_live_decision_smoke.py
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 187 passed
