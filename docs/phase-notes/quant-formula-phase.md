@@ -213,6 +213,9 @@ Gated Live Decision Smoke:
   - no IBKR
   - no order generation
   - no trading execution
+  - no decision context build
+  - no evaluate_decision_context call
+  - no canonical decision result output
 - Last verified:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
