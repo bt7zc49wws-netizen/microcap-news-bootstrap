@@ -1,6 +1,6 @@
 # Live Readiness Policy Index
 
-Status: DRAFT
+Status: Accepted Draft
 
 Policies:
 - docs/readiness/live-provider-orchestration-policy.md
