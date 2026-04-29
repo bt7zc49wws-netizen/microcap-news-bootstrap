@@ -481,3 +481,15 @@ Provider Aggregation Fixture:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 195 passed
+
+
+Live Smoke Environment Readiness Checklist:
+- Status: LOCKED
+- Checklist: docs/readiness/live-smoke-env-readiness-checklist.md
+- Defines required env values before enabling gated live smoke.
+- Confirms no decision context, no evaluate_decision_context, no canonical decision result, no broker, no IBKR, no order generation, and no trading execution.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 195 passed
