@@ -12,6 +12,9 @@ def main() -> None:
         return
 
     finnhub_key = os.getenv("FINNHUB_API_KEY", "")
+    if not finnhub_key:
+        print("free provider smoke skipped: FINNHUB_API_KEY is not set")
+        return
     print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news())
     print(SecEdgarClient(user_agent="test@example.com").fetch_company_filings("0000320193"))
     print(MarketDataClient(provider="stooq").fetch_snapshot("AAPL"))

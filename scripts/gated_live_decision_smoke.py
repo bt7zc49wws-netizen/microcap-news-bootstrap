@@ -12,6 +12,9 @@ def main() -> None:
         return
 
     finnhub_key = os.getenv("FINNHUB_API_KEY", "")
+    if not finnhub_key:
+        print("gated live decision smoke skipped: FINNHUB_API_KEY is not set")
+        return
     sec_user_agent = os.getenv("SEC_EDGAR_USER_AGENT", "test@example.com")
     symbol = os.getenv("GATED_LIVE_SMOKE_SYMBOL", "AAPL")
     cik = os.getenv("GATED_LIVE_SMOKE_CIK", "0000320193")
