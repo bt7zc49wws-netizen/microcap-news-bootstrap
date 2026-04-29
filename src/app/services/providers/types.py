@@ -18,6 +18,7 @@ class ProviderFetchResult:
             "records_returned": self.records_returned,
             "fetched_at": self.fetched_at.isoformat(),
             "has_error": self.error_message is not None,
+            "has_payload": self.payload is not None,
         }
         if self.error_message is not None:
             diagnostic["error_message"] = self.error_message

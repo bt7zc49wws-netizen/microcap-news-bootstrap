@@ -50,5 +50,19 @@ def test_provider_fetch_result_can_build_status_diagnostic():
         "records_returned": 0,
         "fetched_at": "2026-04-29T12:00:00+00:00",
         "has_error": True,
+        "has_payload": False,
         "error_message": "missing api key",
     }
+
+
+def test_provider_fetch_result_status_diagnostic_reports_payload_presence():
+    fetched_at = datetime(2026, 4, 29, 12, 0, tzinfo=UTC)
+    result = ProviderFetchResult(
+        provider_name="market_data",
+        fetched_at=fetched_at,
+        records_returned=1,
+        status="ok",
+        payload={"symbol": "AAPL"},
+    )
+
+    assert result.to_status_diagnostic()["has_payload"] is True
