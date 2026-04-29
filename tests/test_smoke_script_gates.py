@@ -21,7 +21,9 @@ def test_gated_live_decision_smoke_requires_finnhub_key_when_enabled(monkeypatch
     monkeypatch.delenv("FINNHUB_API_KEY", raising=False)
     module = runpy.run_path("scripts/gated_live_decision_smoke.py")
     module["main"]()
-    assert "gated live decision smoke skipped: FINNHUB_API_KEY is not set" in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "gated live decision smoke skipped: FINNHUB_API_KEY is not set" in output
+    assert "provider_count" not in output
 
 
 def test_free_provider_smoke_requires_finnhub_key_when_enabled(monkeypatch, capsys) -> None:
