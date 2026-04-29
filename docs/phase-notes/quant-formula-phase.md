@@ -336,3 +336,15 @@ Provider Diagnostics JSON Serialization:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 192 passed
+
+
+Status Endpoint Contract Test:
+- Status: LOCKED
+- Test: tests/test_status_endpoint.py
+- Validates /api/v1/status freshness contract shape.
+- Checks overall_status, is_stale, freshness_threshold_seconds, and dependencies.read_model.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
