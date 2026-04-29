@@ -7,7 +7,7 @@ Verified:
 - 185 passed
 
 Current HEAD:
-- 11b99a7 Document offline decision result fixture contract
+- 9c396d7 Update offline decision checkpoint head
 
 Completed offline-safe path:
 - Stooq OHLCV rows
