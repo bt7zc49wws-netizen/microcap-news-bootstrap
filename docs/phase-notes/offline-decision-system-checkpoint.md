@@ -7,7 +7,7 @@ Verified:
 - 185 passed
 
 Current HEAD:
-- a9df8ce Refresh offline checkpoint after audit boundary
+- ea2ce00 Add offline decision checkpoint report
 
 Completed offline-safe path:
 - Stooq OHLCV rows
