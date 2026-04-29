@@ -14,7 +14,7 @@ Policies:
 Baseline:
 - full offline decision pipeline smoke ok
 - 185 passed
-- HEAD: 757a22c
+- HEAD: 56e660f
 
 Boundary:
 - No paid APIs
