@@ -27,3 +27,8 @@ Initial policy:
 - If required inputs are stale, runtime behavior must degrade to no_trade, degraded, or unavailable according to API/readiness contracts.
 - Freshness evaluation timestamps must be observable.
 - Offline decision smoke remains the baseline and must not depend on live freshness checks.
+
+Runtime status observation:
+- /api/v1/status returns degraded when current read-model data is stale.
+- Stale status is represented by is_stale=true while dependencies.read_model can remain ok.
+- This separates data freshness degradation from read model availability.
