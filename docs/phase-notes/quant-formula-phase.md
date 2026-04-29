@@ -493,3 +493,15 @@ Live Smoke Environment Readiness Checklist:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 195 passed
+
+
+Smoke Environment Readiness Accepted Draft:
+- Status: Accepted Draft
+- Checklist: docs/readiness/live-smoke-env-readiness-checklist.md
+- Contract: docs/readiness/smoke-environment-contract.md
+- Live smoke remains disabled unless explicit env gates and required provider config are set.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 195 passed
