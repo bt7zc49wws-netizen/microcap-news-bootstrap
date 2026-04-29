@@ -166,3 +166,20 @@ Offline Decision Result Fixture:
 - Last verified:
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Live Readiness Draft Set:
+- Status: DRAFT SET COMPLETE
+- Policy index: docs/readiness/live-readiness-policy-index.md
+- Gap list: docs/readiness/live-readiness-gap-list.md
+- Policies drafted:
+  - live provider orchestration
+  - provider failure / fallback behavior
+  - rate limit and retry policy
+  - runtime freshness and staleness enforcement
+  - scheduled ingestion runbook
+  - gated live decision smoke plan
+  - execution boundary policy
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 185 passed
