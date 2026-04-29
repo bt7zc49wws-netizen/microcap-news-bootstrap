@@ -518,3 +518,16 @@ Gated Live Smoke SEC User-Agent Guard:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 197 passed
+
+
+Gated Live Provider Smoke Verified:
+- Status: VERIFIED
+- Report: reports/live_smoke/gated_live_provider_smoke_report.json
+- Live provider aggregate result: provider_count=4, ok_count=4, error_count=0, has_any_payload=true.
+- Verified providers: finnhub, sec_edgar, market_data, fundamentals.
+- Execution side effects: false.
+- Secrets recorded: false.
+- Last verified:
+  - gated live provider smoke completed without execution side effects
+  - full offline decision pipeline smoke ok
+  - 197 passed
