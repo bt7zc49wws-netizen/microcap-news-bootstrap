@@ -445,3 +445,15 @@ Provider Aggregation Contract Accepted Draft:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 194 passed
+
+
+Gated Live Smoke Aggregation Output:
+- Status: LOCKED
+- Script: scripts/gated_live_decision_smoke.py
+- Gated live smoke now prints individual provider diagnostics plus aggregate_provider_status_diagnostics(diagnostics).
+- Aggregate output includes provider_count, ok_count, error_count, has_any_payload, latest_fetched_at, and providers.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 194 passed
