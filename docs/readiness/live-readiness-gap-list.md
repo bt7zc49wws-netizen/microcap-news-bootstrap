@@ -14,4 +14,4 @@ Gaps before live system:
 - runtime freshness and staleness enforcement — DRAFT ADDED: docs/readiness/runtime-freshness-staleness-policy.md
 - scheduled ingestion runbook — DRAFT ADDED: docs/readiness/scheduled-ingestion-runbook.md
 - live market/news decision smoke with network calls explicitly gated — DRAFT ADDED: docs/readiness/gated-live-decision-smoke-plan.md
-- no broker, IBKR, order generation, or trading execution until final phase — DRAFT ADDED: docs/readiness/execution-boundary-policy.md
+- no broker, IBKR, order generation, or trading execution until final phase — DRAFT ADDED: docs/readiness/execution-boundary-policy.md — DRAFT ADDED: docs/readiness/execution-boundary-policy.md
