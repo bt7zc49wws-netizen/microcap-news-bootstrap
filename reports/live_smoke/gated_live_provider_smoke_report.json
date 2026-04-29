@@ -1,0 +1,16 @@
+{
+  "status": "verified",
+  "ran_at_utc": "2026-04-29T19:37:56Z",
+  "provider_count": 4,
+  "ok_count": 4,
+  "error_count": 0,
+  "has_any_payload": true,
+  "providers": [
+    {"provider_name": "finnhub", "status": "ok", "records_returned": 100, "has_error": false, "has_payload": false},
+    {"provider_name": "sec_edgar", "status": "ok", "records_returned": 1001, "has_error": false, "has_payload": false},
+    {"provider_name": "market_data", "status": "ok", "records_returned": 1, "has_error": false, "has_payload": true},
+    {"provider_name": "fundamentals", "status": "ok", "records_returned": 1, "has_error": false, "has_payload": false}
+  ],
+  "execution_side_effects": false,
+  "secrets_recorded": false
+}
