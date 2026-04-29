@@ -433,3 +433,15 @@ Provider Status Diagnostics Aggregation:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 194 passed
+
+
+Provider Aggregation Contract Accepted Draft:
+- Status: Accepted Draft
+- Contract: docs/contracts/runtime-provider-status-aggregation-contract-v1.md
+- Code: src/app/services/providers/diagnostics.py
+- Test: tests/services/providers/test_provider_diagnostics.py
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 194 passed
