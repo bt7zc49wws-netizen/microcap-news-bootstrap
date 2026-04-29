@@ -236,3 +236,20 @@ Gated Live Smoke Boundary Closure:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Free Provider Smoke Gate:
+- Status: LOCKED
+- Script: scripts/free_provider_smoke.py
+- Default behavior: skipped unless ENABLE_FREE_PROVIDER_SMOKE=1 is set.
+- Verified default mode:
+  - no live network calls
+  - no broker
+  - no IBKR
+  - no order generation
+  - no trading execution
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 185 passed
