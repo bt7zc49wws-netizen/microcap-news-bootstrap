@@ -31,3 +31,7 @@ Smoke Gates:
 Provider Diagnostics:
 - ProviderFetchResult.to_status_diagnostic() is used by gated live smoke for enabled provider fetch status output.
 - Raw provider payloads are not dumped by gated live smoke.
+
+Free Provider Diagnostics:
+- scripts/free_provider_smoke.py uses ProviderFetchResult.to_status_diagnostic() for enabled provider fetch status output.
+- Raw provider payloads are not dumped by free provider smoke.
