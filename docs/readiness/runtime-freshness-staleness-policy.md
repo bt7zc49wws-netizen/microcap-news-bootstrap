@@ -1,6 +1,6 @@
 # Runtime Freshness and Staleness Enforcement Policy
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 - Define how runtime data freshness and stale input handling must work before live decision usage.
