@@ -266,3 +266,15 @@ Smoke Script Gate Tests:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 187 passed
+
+
+Enabled Smoke Env Guard:
+- Status: LOCKED
+- scripts/free_provider_smoke.py skips when ENABLE_FREE_PROVIDER_SMOKE=1 but FINNHUB_API_KEY is missing.
+- scripts/gated_live_decision_smoke.py skips when ENABLE_GATED_LIVE_SMOKE=1 but FINNHUB_API_KEY is missing.
+- This prevents accidental live network calls with incomplete provider config.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 189 passed
