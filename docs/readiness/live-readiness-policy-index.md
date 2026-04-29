@@ -47,3 +47,8 @@ Smoke Environment Contract:
 - docs/readiness/smoke-environment-contract.md
 - Defines ENABLE_FREE_PROVIDER_SMOKE, ENABLE_GATED_LIVE_SMOKE, FINNHUB_API_KEY, and SEC_EDGAR_USER_AGENT expectations.
 - Confirms default skip behavior and execution boundary.
+
+Live Smoke Environment Readiness Checklist:
+- docs/readiness/live-smoke-env-readiness-checklist.md
+- Defines required env values before enabling gated live smoke.
+- Confirms no decision context, no evaluate_decision_context, no canonical decision result, no broker, no IBKR, no order generation, and no trading execution.
