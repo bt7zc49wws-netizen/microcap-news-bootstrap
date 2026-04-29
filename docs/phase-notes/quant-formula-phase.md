@@ -395,3 +395,16 @@ Runtime Freshness Policy Accepted Draft:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Provider Tests Offline Safety:
+- Status: LOCKED
+- Tests updated:
+  - tests/services/providers/fundamentals/test_fundamentals_client.py
+  - tests/services/providers/sec_edgar/test_sec_edgar_client.py
+- Provider unit tests now monkeypatch network calls and do not depend on live DNS/provider availability.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
