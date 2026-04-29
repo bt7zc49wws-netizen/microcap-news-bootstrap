@@ -408,3 +408,15 @@ Provider Tests Offline Safety:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Runtime Provider Status Aggregation Contract:
+- Status: DRAFT
+- Contract: docs/contracts/runtime-provider-status-aggregation-contract-v1.md
+- Defines future-safe provider diagnostics aggregation boundary without copying diagnostics directly into /api/v1/status.
+- Aggregation remains read-only and must not generate execution intents, broker calls, IBKR calls, or orders.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
