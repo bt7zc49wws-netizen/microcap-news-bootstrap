@@ -13,5 +13,5 @@ Gaps before live system:
 - rate limit and retry policy — DRAFT ADDED: docs/readiness/rate-limit-retry-policy.md
 - runtime freshness and staleness enforcement — DRAFT ADDED: docs/readiness/runtime-freshness-staleness-policy.md
 - scheduled ingestion runbook — DRAFT ADDED: docs/readiness/scheduled-ingestion-runbook.md
-- live market/news decision smoke with network calls explicitly gated
+- live market/news decision smoke with network calls explicitly gated — DRAFT ADDED: docs/readiness/gated-live-decision-smoke-plan.md
 - no broker, IBKR, order generation, or trading execution until final phase
