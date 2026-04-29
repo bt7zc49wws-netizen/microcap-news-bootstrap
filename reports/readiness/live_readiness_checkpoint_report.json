@@ -1,0 +1,12 @@
+{
+  "checkpoint": "live_readiness_draft_set",
+  "head": "67bd119",
+  "branch": "main",
+  "origin_synced": true,
+  "status": "accepted_draft",
+  "smoke": "full offline decision pipeline smoke ok",
+  "full_test": "185 passed",
+  "policy_index": "docs/readiness/live-readiness-policy-index.md",
+  "gap_list": "docs/readiness/live-readiness-gap-list.md",
+  "execution_boundary": "docs/readiness/execution-boundary-policy.md"
+}
