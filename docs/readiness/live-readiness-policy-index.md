@@ -52,3 +52,9 @@ Live Smoke Environment Readiness Checklist:
 - docs/readiness/live-smoke-env-readiness-checklist.md
 - Defines required env values before enabling gated live smoke.
 - Confirms no decision context, no evaluate_decision_context, no canonical decision result, no broker, no IBKR, no order generation, and no trading execution.
+
+Verified Live Provider Smoke:
+- Report: reports/live_smoke/gated_live_provider_smoke_report.json
+- Provider aggregate: provider_count=4, ok_count=4, error_count=0, has_any_payload=true.
+- Secrets recorded: false.
+- Execution side effects: false.
