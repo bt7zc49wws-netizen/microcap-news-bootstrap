@@ -19,10 +19,10 @@ def main() -> None:
     symbol = os.getenv("GATED_LIVE_SMOKE_SYMBOL", "AAPL")
     cik = os.getenv("GATED_LIVE_SMOKE_CIK", "0000320193")
 
-    print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news())
-    print(SecEdgarClient(user_agent=sec_user_agent).fetch_company_filings(cik))
-    print(MarketDataClient(provider="stooq").fetch_snapshot(symbol))
-    print(FundamentalsClient(provider="stooq").fetch_company_profile(symbol))
+    print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news().to_status_diagnostic())
+    print(SecEdgarClient(user_agent=sec_user_agent).fetch_company_filings(cik).to_status_diagnostic())
+    print(MarketDataClient(provider="stooq").fetch_snapshot(symbol).to_status_diagnostic())
+    print(FundamentalsClient(provider="stooq").fetch_company_profile(symbol).to_status_diagnostic())
     print("gated live decision smoke completed without execution side effects")
 
 
