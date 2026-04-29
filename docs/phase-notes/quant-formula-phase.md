@@ -371,3 +371,15 @@ Status Degraded With Healthy Read Model:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Provider Diagnostics Status Boundary:
+- Status: LOCKED
+- ProviderFetchResult.to_status_diagnostic() remains provider-fetch scoped.
+- /api/v1/status remains runtime/read-model scoped.
+- Provider diagnostics are not copied into /api/v1/status unless a dedicated runtime aggregation contract is added.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
