@@ -22,3 +22,8 @@ Boundary:
 - No IBKR dependency
 - No order generation
 - No trading execution
+
+Smoke Gates:
+- scripts/gated_live_decision_smoke.py requires ENABLE_GATED_LIVE_SMOKE=1.
+- scripts/free_provider_smoke.py requires ENABLE_FREE_PROVIDER_SMOKE=1.
+- Default mode for both scripts performs no live network calls.
