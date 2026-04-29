@@ -16,7 +16,13 @@ def main() -> None:
     if not finnhub_key:
         print("gated live decision smoke skipped: FINNHUB_API_KEY is not set")
         return
-    sec_user_agent = os.getenv("SEC_EDGAR_USER_AGENT", "test@example.com")
+    sec_user_agent = os.getenv("SEC_EDGAR_USER_AGENT", "")
+    if not sec_user_agent:
+        print("gated live decision smoke skipped: SEC_EDGAR_USER_AGENT is not set")
+        return
+    if sec_user_agent == "test@example.com":
+        print("gated live decision smoke skipped: SEC_EDGAR_USER_AGENT must be a real contact string")
+        return
     symbol = os.getenv("GATED_LIVE_SMOKE_SYMBOL", "AAPL")
     cik = os.getenv("GATED_LIVE_SMOKE_CIK", "0000320193")
 
