@@ -457,3 +457,15 @@ Gated Live Smoke Aggregation Output:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 194 passed
+
+
+Gated Smoke Aggregation Guard:
+- Status: LOCKED
+- Test: tests/test_smoke_script_gates.py
+- When ENABLE_GATED_LIVE_SMOKE=1 but FINNHUB_API_KEY is missing, gated live smoke skips before provider aggregation.
+- The skip output must not include provider_count.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 194 passed
