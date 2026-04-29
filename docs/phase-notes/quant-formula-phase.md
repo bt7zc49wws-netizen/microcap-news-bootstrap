@@ -359,3 +359,15 @@ Status Endpoint Contract Strengthening:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Status Degraded With Healthy Read Model:
+- Status: LOCKED
+- Test: tests/test_status_endpoint.py
+- /api/v1/status explicitly asserts overall_status=degraded while dependencies.read_model=ok when data is stale.
+- This confirms freshness degradation is separate from read-model availability.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
