@@ -16,3 +16,12 @@ Safety checks:
 - No evaluate_decision_context call.
 - No canonical decision result output.
 - No broker, IBKR, order generation, or trading execution.
+
+Example live smoke command:
+```bash
+export FINNHUB_API_KEY="..."
+export SEC_EDGAR_USER_AGENT="name email@example.com"
+export ENABLE_GATED_LIVE_SMOKE=1
+python scripts/gated_live_decision_smoke.py
+unset ENABLE_GATED_LIVE_SMOKE
+```
