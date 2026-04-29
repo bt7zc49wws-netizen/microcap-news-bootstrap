@@ -22,7 +22,7 @@ Out of scope:
 Initial plan:
 - Default behavior remains offline-only.
 - Live smoke must require an explicit environment flag.
-- Live smoke must print provider status, freshness status, and final canonical decision.
+- Live smoke must print provider fetch status and freshness/status diagnostics only.
 - Live smoke must not generate orders or execution intents.
 - Provider failure, rate limit, stale data, or missing data must not silently produce actionable decisions.
 - Offline smoke remains the acceptance baseline.
