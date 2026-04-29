@@ -505,3 +505,16 @@ Smoke Environment Readiness Accepted Draft:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 195 passed
+
+
+Gated Live Smoke SEC User-Agent Guard:
+- Status: LOCKED
+- Script: scripts/gated_live_decision_smoke.py
+- Test: tests/test_smoke_script_gates.py
+- When ENABLE_GATED_LIVE_SMOKE=1, SEC_EDGAR_USER_AGENT must be set and must not be test@example.com.
+- Missing/default SEC user-agent skips before provider fetch or aggregation.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 197 passed
