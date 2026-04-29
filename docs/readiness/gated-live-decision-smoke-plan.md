@@ -26,3 +26,9 @@ Initial plan:
 - Live smoke must not generate orders or execution intents.
 - Provider failure, rate limit, stale data, or missing data must not silently produce actionable decisions.
 - Offline smoke remains the acceptance baseline.
+
+
+Implementation:
+- Script: scripts/gated_live_decision_smoke.py
+- Default behavior: skipped unless ENABLE_GATED_LIVE_SMOKE=1 is set.
+- Verified default mode: no live network calls, no broker, no IBKR, no order generation, no trading execution.
