@@ -302,3 +302,14 @@ Provider Diagnostics Readiness Index:
   - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 190 passed
+
+
+Provider Diagnostics Payload Presence:
+- Status: LOCKED
+- ProviderFetchResult.to_status_diagnostic() now includes has_payload.
+- This allows gated live smoke diagnostics to report payload presence without dumping raw payloads.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 191 passed
