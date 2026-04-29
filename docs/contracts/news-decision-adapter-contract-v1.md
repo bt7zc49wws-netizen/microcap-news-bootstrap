@@ -89,3 +89,10 @@ Offline Decision Result Fixture:
 - The full offline decision smoke must validate the canonical decision result against this committed fixture.
 - Fixture changes require smoke + full test before commit.
 - Fixture validation remains offline-safe and must not introduce live providers, paid APIs, broker, IBKR, order generation, or trading execution.
+
+
+Decision Result Audit Boundary:
+- `audit_trace` belongs to decision context, not canonical decision result.
+- `evaluate_decision_context` must not copy `audit_trace` into the decision result.
+- Canonical decision result remains limited to decision, reason_codes, and optional symbol.
+- Full offline fixture intentionally excludes audit_trace.
