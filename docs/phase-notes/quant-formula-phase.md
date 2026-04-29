@@ -183,3 +183,11 @@ Live Readiness Draft Set:
 - Last verified:
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Live Readiness Policy Index:
+- Status: Accepted Draft
+- Index: docs/readiness/live-readiness-policy-index.md
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 185 passed
