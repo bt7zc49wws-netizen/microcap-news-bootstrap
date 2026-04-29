@@ -32,3 +32,10 @@ Implementation:
 - Script: scripts/gated_live_decision_smoke.py
 - Default behavior: skipped unless ENABLE_GATED_LIVE_SMOKE=1 is set.
 - Verified default mode: no live network calls, no broker, no IBKR, no order generation, no trading execution.
+
+Boundary:
+- This smoke performs provider fetch checks only.
+- It does not build decision context.
+- It does not call evaluate_decision_context.
+- It does not produce canonical decision results.
+- It does not create execution intents, orders, broker calls, or IBKR calls.
