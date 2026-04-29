@@ -32,3 +32,23 @@ def test_provider_fetch_result_can_include_payload():
     )
 
     assert result.payload == {"symbol": "AAPL"}
+
+
+def test_provider_fetch_result_can_build_status_diagnostic():
+    fetched_at = datetime(2026, 4, 29, 12, 0, tzinfo=UTC)
+    result = ProviderFetchResult(
+        provider_name="finnhub",
+        fetched_at=fetched_at,
+        records_returned=0,
+        status="error",
+        error_message="missing api key",
+    )
+
+    assert result.to_status_diagnostic() == {
+        "provider_name": "finnhub",
+        "status": "error",
+        "records_returned": 0,
+        "fetched_at": "2026-04-29T12:00:00+00:00",
+        "has_error": True,
+        "error_message": "missing api key",
+    }
