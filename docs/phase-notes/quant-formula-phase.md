@@ -191,3 +191,13 @@ Live Readiness Policy Index:
 - Last verified:
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Live Readiness Accepted Draft Closure:
+- Status: Accepted Draft
+- Report: reports/readiness/live_readiness_checkpoint_report.json
+- Policy index: docs/readiness/live-readiness-policy-index.md
+- Moving HEAD pinning removed; readiness docs now use current checkpoint commit wording.
+- Last verified:
+  - full offline decision pipeline smoke ok
+  - 185 passed
