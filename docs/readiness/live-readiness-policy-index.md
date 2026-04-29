@@ -39,3 +39,6 @@ Free Provider Diagnostics:
 Runtime Status Observation:
 - /api/v1/status returns degraded when read-model data is stale while dependencies.read_model can remain ok.
 - This separates freshness degradation from read model availability.
+
+Provider Aggregation:
+- docs/contracts/runtime-provider-status-aggregation-contract-v1.md — Accepted Draft
