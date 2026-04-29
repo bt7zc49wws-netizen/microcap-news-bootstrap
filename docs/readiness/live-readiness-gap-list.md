@@ -5,7 +5,7 @@ Status: DRAFT
 Current verified offline baseline:
 - full offline decision pipeline smoke ok
 - 185 passed
-- HEAD: 475e0a9
+- HEAD: 46b8157
 
 Gaps before live system:
 - live provider orchestration policy — DRAFT ADDED: docs/readiness/live-provider-orchestration-policy.md
