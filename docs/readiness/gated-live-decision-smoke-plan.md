@@ -43,3 +43,7 @@ Boundary:
 Provider diagnostics:
 - Gated live smoke prints ProviderFetchResult.to_status_diagnostic() for enabled provider fetches.
 - Diagnostic output avoids raw payload dumping and keeps the smoke at provider status level.
+
+Provider aggregation:
+- Gated live smoke prints aggregate_provider_status_diagnostics(diagnostics) after individual provider diagnostics.
+- Aggregate output includes provider_count, ok_count, error_count, has_any_payload, latest_fetched_at, and providers.
