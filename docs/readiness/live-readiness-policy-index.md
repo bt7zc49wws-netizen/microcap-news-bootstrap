@@ -27,3 +27,7 @@ Smoke Gates:
 - scripts/gated_live_decision_smoke.py requires ENABLE_GATED_LIVE_SMOKE=1.
 - scripts/free_provider_smoke.py requires ENABLE_FREE_PROVIDER_SMOKE=1.
 - Default mode for both scripts performs no live network calls.
+
+Provider Diagnostics:
+- ProviderFetchResult.to_status_diagnostic() is used by gated live smoke for enabled provider fetch status output.
+- Raw provider payloads are not dumped by gated live smoke.
