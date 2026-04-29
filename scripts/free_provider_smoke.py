@@ -15,10 +15,10 @@ def main() -> None:
     if not finnhub_key:
         print("free provider smoke skipped: FINNHUB_API_KEY is not set")
         return
-    print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news())
-    print(SecEdgarClient(user_agent="test@example.com").fetch_company_filings("0000320193"))
-    print(MarketDataClient(provider="stooq").fetch_snapshot("AAPL"))
-    print(FundamentalsClient(provider="stooq").fetch_company_profile("AAPL"))
+    print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news().to_status_diagnostic())
+    print(SecEdgarClient(user_agent="test@example.com").fetch_company_filings("0000320193").to_status_diagnostic())
+    print(MarketDataClient(provider="stooq").fetch_snapshot("AAPL").to_status_diagnostic())
+    print(FundamentalsClient(provider="stooq").fetch_company_profile("AAPL").to_status_diagnostic())
 
 
 if __name__ == "__main__":
