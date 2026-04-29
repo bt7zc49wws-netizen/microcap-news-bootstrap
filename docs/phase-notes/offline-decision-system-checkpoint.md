@@ -7,7 +7,7 @@ Verified:
 - 185 passed
 
 Current HEAD:
-- 185c620 Document decision context audit trace phase
+- 11b99a7 Document offline decision result fixture contract
 
 Completed offline-safe path:
 - Stooq OHLCV rows
