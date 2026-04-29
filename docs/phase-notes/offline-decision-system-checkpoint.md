@@ -7,7 +7,7 @@ Verified:
 - 185 passed
 
 Current HEAD:
-- b14e46a Document decision result audit boundary
+- a9df8ce Refresh offline checkpoint after audit boundary
 
 Completed offline-safe path:
 - Stooq OHLCV rows
