@@ -8,7 +8,7 @@ Current verified offline baseline:
 - HEAD: 5130f24
 
 Gaps before live system:
-- live provider orchestration policy
+- live provider orchestration policy — DRAFT ADDED: docs/readiness/live-provider-orchestration-policy.md
 - provider failure / fallback behavior
 - rate limit and retry policy
 - runtime freshness and staleness enforcement
