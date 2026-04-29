@@ -383,3 +383,15 @@ Provider Diagnostics Status Boundary:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Runtime Freshness Policy Accepted Draft:
+- Status: Accepted Draft
+- Policy: docs/readiness/runtime-freshness-staleness-policy.md
+- Confirms stale runtime data can degrade /api/v1/status while dependencies.read_model remains ok.
+- Provider diagnostics remain provider-fetch scoped and are not copied into /api/v1/status.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
