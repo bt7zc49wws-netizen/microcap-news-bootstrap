@@ -348,3 +348,14 @@ Status Endpoint Contract Test:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Status Endpoint Contract Strengthening:
+- Status: LOCKED
+- Test: tests/test_status_endpoint.py
+- /api/v1/status now verifies freshness timestamps and meta fields in addition to freshness/status shape.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 193 passed
