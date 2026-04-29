@@ -41,4 +41,4 @@ Runtime Status Observation:
 - This separates freshness degradation from read model availability.
 
 Provider Aggregation:
-- docs/contracts/runtime-provider-status-aggregation-contract-v1.md — Accepted Draft
+- docs/contracts/runtime-provider-status-aggregation-contract-v1.md — Accepted Draft — Accepted Draft
