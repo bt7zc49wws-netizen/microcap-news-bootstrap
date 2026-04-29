@@ -28,7 +28,12 @@ def test_fundamentals_client_not_implemented_with_api_key():
     assert result.error_message is None
 
 
-def test_fundamentals_client_fetches_stooq_profile():
+def test_fundamentals_client_fetches_stooq_profile(monkeypatch):
+    class FakeResponse:
+        def __enter__(self): return self
+        def __exit__(self, *args): return None
+        def read(self): return b"{}"
+    monkeypatch.setattr("urllib.request.urlopen", lambda *args, **kwargs: FakeResponse())
     result = FundamentalsClient(provider="stooq").fetch_company_profile("AAPL")
 
     assert result.provider_name == "fundamentals"
