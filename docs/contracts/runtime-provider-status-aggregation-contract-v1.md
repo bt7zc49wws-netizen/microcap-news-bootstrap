@@ -1,6 +1,6 @@
 # Runtime Provider Status Aggregation Contract
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 - Define a future-safe boundary for aggregating provider fetch diagnostics without copying them directly into /api/v1/status.
