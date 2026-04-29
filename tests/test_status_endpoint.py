@@ -14,6 +14,8 @@ def test_status_endpoint_returns_freshness_contract() -> None:
     assert isinstance(data["is_stale"], bool)
     assert isinstance(data["freshness_threshold_seconds"], int)
     assert data["dependencies"]["read_model"] in {"ok", "unavailable"}
+    assert data["overall_status"] == "degraded"
+    assert data["dependencies"]["read_model"] == "ok"
     assert isinstance(data["last_data_update_at"], str)
     assert isinstance(data["last_signal_generated_at"], str)
     assert isinstance(data["freshness_evaluated_at"], str)
