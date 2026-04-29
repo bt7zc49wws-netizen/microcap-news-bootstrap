@@ -58,3 +58,8 @@ Verified Live Provider Smoke:
 - Provider aggregate: provider_count=4, ok_count=4, error_count=0, has_any_payload=true.
 - Secrets recorded: false.
 - Execution side effects: false.
+
+Live Provider Smoke Report Contract:
+- docs/contracts/live-provider-smoke-report-contract-v1.md
+- Report path: reports/live_smoke/gated_live_provider_smoke_report.json
+- Contract requires secrets_recorded=false and execution_side_effects=false.
