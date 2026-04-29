@@ -35,3 +35,7 @@ Provider Diagnostics:
 Free Provider Diagnostics:
 - scripts/free_provider_smoke.py uses ProviderFetchResult.to_status_diagnostic() for enabled provider fetch status output.
 - Raw provider payloads are not dumped by free provider smoke.
+
+Runtime Status Observation:
+- /api/v1/status returns degraded when read-model data is stale while dependencies.read_model can remain ok.
+- This separates freshness degradation from read model availability.
