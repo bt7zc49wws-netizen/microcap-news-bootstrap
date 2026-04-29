@@ -39,3 +39,7 @@ Boundary:
 - It does not call evaluate_decision_context.
 - It does not produce canonical decision results.
 - It does not create execution intents, orders, broker calls, or IBKR calls.
+
+Provider diagnostics:
+- Gated live smoke prints ProviderFetchResult.to_status_diagnostic() for enabled provider fetches.
+- Diagnostic output avoids raw payload dumping and keeps the smoke at provider status level.
