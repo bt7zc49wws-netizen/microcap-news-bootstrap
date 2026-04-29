@@ -66,3 +66,10 @@ def test_provider_fetch_result_status_diagnostic_reports_payload_presence():
     )
 
     assert result.to_status_diagnostic()["has_payload"] is True
+
+
+def test_provider_fetch_result_status_diagnostic_is_json_serializable():
+    fetched_at = datetime(2026, 4, 29, 12, 0, tzinfo=UTC)
+    result = ProviderFetchResult(provider_name="stooq", fetched_at=fetched_at, records_returned=1, status="ok", payload={"symbol": "AAPL"})
+    import json
+    assert json.loads(json.dumps(result.to_status_diagnostic()))["provider_name"] == "stooq"
