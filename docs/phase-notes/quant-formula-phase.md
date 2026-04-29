@@ -290,3 +290,15 @@ Provider Fetch Status Diagnostic:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 190 passed
+
+
+Provider Diagnostics Readiness Index:
+- Status: LOCKED
+- Index updated: docs/readiness/live-readiness-policy-index.md
+- Gated live smoke uses ProviderFetchResult.to_status_diagnostic() for enabled provider fetch status output.
+- Raw provider payloads are not dumped by gated live smoke.
+- Last verified:
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 190 passed
