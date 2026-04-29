@@ -278,3 +278,15 @@ Enabled Smoke Env Guard:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 189 passed
+
+
+Provider Fetch Status Diagnostic:
+- Status: LOCKED
+- ProviderFetchResult now exposes to_status_diagnostic().
+- Diagnostic includes provider_name, status, records_returned, fetched_at, has_error, and optional error_message.
+- This supports live provider fetch status reporting without broker, IBKR, order generation, or trading execution.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 190 passed
