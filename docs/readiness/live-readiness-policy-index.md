@@ -13,7 +13,7 @@ Policies:
 
 Baseline:
 - full offline decision pipeline smoke ok
-- 195 passed
+- 197 passed
 - HEAD: current checkpoint commit
 
 Boundary:
