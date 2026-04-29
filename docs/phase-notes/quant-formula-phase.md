@@ -335,7 +335,7 @@ Provider Diagnostics JSON Serialization:
   - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
-  - 192 passed
+  - 193 passed
 
 
 Status Endpoint Contract Test:
