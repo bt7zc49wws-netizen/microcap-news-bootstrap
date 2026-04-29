@@ -201,3 +201,19 @@ Live Readiness Accepted Draft Closure:
 - Last verified:
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Gated Live Decision Smoke:
+- Status: DRAFT IMPLEMENTED
+- Script: scripts/gated_live_decision_smoke.py
+- Default behavior: skipped unless ENABLE_GATED_LIVE_SMOKE=1 is set.
+- Verified default mode:
+  - no live network calls
+  - no broker
+  - no IBKR
+  - no order generation
+  - no trading execution
+- Last verified:
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 185 passed
