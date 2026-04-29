@@ -7,6 +7,10 @@ from app.services.providers.sec_edgar.client import SecEdgarClient
 
 
 def main() -> None:
+    if os.getenv("ENABLE_FREE_PROVIDER_SMOKE") != "1":
+        print("free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set")
+        return
+
     finnhub_key = os.getenv("FINNHUB_API_KEY", "")
     print(FinnhubNewsClient(api_key=finnhub_key).fetch_market_news())
     print(SecEdgarClient(user_agent="test@example.com").fetch_company_filings("0000320193"))
