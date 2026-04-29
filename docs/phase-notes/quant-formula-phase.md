@@ -420,3 +420,16 @@ Runtime Provider Status Aggregation Contract:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 193 passed
+
+
+Provider Status Diagnostics Aggregation:
+- Status: LOCKED
+- Code: src/app/services/providers/diagnostics.py
+- Test: tests/services/providers/test_provider_diagnostics.py
+- Aggregates provider_count, ok_count, error_count, has_any_payload, latest_fetched_at, and providers.
+- Keeps provider diagnostics separate from /api/v1/status.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 194 passed
