@@ -42,3 +42,8 @@ Runtime Status Observation:
 
 Provider Aggregation:
 - docs/contracts/runtime-provider-status-aggregation-contract-v1.md — Accepted Draft
+
+Smoke Environment Contract:
+- docs/readiness/smoke-environment-contract.md
+- Defines ENABLE_FREE_PROVIDER_SMOKE, ENABLE_GATED_LIVE_SMOKE, FINNHUB_API_KEY, and SEC_EDGAR_USER_AGENT expectations.
+- Confirms default skip behavior and execution boundary.
