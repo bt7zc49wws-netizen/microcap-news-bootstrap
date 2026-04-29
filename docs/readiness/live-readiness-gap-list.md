@@ -12,6 +12,6 @@ Gaps before live system:
 - provider failure / fallback behavior — DRAFT ADDED: docs/readiness/provider-failure-fallback-policy.md
 - rate limit and retry policy — DRAFT ADDED: docs/readiness/rate-limit-retry-policy.md
 - runtime freshness and staleness enforcement — DRAFT ADDED: docs/readiness/runtime-freshness-staleness-policy.md
-- scheduled ingestion runbook
+- scheduled ingestion runbook — DRAFT ADDED: docs/readiness/scheduled-ingestion-runbook.md
 - live market/news decision smoke with network calls explicitly gated
 - no broker, IBKR, order generation, or trading execution until final phase
