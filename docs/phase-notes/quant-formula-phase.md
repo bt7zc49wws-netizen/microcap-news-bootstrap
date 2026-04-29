@@ -469,3 +469,15 @@ Gated Smoke Aggregation Guard:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 194 passed
+
+
+Provider Aggregation Fixture:
+- Status: LOCKED
+- Fixture: tests/fixtures/provider_diagnostics/aggregate_provider_status_diagnostics.json
+- Test: tests/services/providers/test_provider_diagnostics.py
+- Validates aggregate_provider_status_diagnostics against a committed fixture.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 195 passed
