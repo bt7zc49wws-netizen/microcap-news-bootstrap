@@ -1,6 +1,6 @@
 # Smoke Environment Contract
 
-Status: DRAFT
+Status: Accepted Draft
 
 Required gates:
 - ENABLE_FREE_PROVIDER_SMOKE=1 is required to run scripts/free_provider_smoke.py with live provider calls.

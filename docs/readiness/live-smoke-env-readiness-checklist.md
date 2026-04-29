@@ -1,6 +1,6 @@
 # Live Smoke Environment Readiness Checklist
 
-Status: DRAFT
+Status: Accepted Draft
 
 Before enabling gated live smoke:
 - FINNHUB_API_KEY is set.
