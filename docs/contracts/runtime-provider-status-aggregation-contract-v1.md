@@ -22,3 +22,8 @@ Minimum aggregate fields:
 - has_any_payload
 - latest_fetched_at
 - providers
+
+Fixture:
+- tests/fixtures/provider_diagnostics/aggregate_provider_status_diagnostics.json
+- The aggregation fixture validates stable aggregate output shape without live provider calls.
+- Fixture updates require smoke + full test before commit.
