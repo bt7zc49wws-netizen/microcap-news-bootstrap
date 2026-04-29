@@ -1,0 +1,13 @@
+{
+  "provider_count": 4,
+  "ok_count": 3,
+  "error_count": 1,
+  "has_any_payload": true,
+  "latest_fetched_at": "2026-04-29T12:03:00+00:00",
+  "providers": [
+    {"provider_name": "finnhub", "status": "ok", "records_returned": 10, "fetched_at": "2026-04-29T12:00:00+00:00", "has_error": false, "has_payload": true},
+    {"provider_name": "sec_edgar", "status": "ok", "records_returned": 2, "fetched_at": "2026-04-29T12:01:00+00:00", "has_error": false, "has_payload": true},
+    {"provider_name": "stooq_market", "status": "ok", "records_returned": 1, "fetched_at": "2026-04-29T12:02:00+00:00", "has_error": false, "has_payload": true},
+    {"provider_name": "stooq_fundamentals", "status": "error", "records_returned": 0, "fetched_at": "2026-04-29T12:03:00+00:00", "has_error": true, "has_payload": false, "error_message": "example provider error"}
+  ]
+}
