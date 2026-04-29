@@ -14,7 +14,7 @@ Policies:
 Baseline:
 - full offline decision pipeline smoke ok
 - 185 passed
-- HEAD: 4e8709b
+- HEAD: current checkpoint commit
 
 Boundary:
 - No paid APIs
