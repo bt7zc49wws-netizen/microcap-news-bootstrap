@@ -531,3 +531,15 @@ Gated Live Provider Smoke Verified:
   - gated live provider smoke completed without execution side effects
   - full offline decision pipeline smoke ok
   - 197 passed
+
+
+Live Provider Smoke Report Contract:
+- Status: DRAFT
+- Contract: docs/contracts/live-provider-smoke-report-contract-v1.md
+- Report: reports/live_smoke/gated_live_provider_smoke_report.json
+- Defines committed, secrets-free report format for verified gated live provider smoke runs.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 197 passed
