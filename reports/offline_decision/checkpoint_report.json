@@ -1,0 +1,19 @@
+{
+  "checkpoint": "offline_decision_system",
+  "head": "bb2d2c3",
+  "branch": "main",
+  "origin_synced": true,
+  "status": "verified",
+  "smoke": "full offline decision pipeline smoke ok",
+  "full_test": "185 passed",
+  "fixture": "tests/fixtures/offline_decision/full_offline_decision_result.json",
+  "script": "scripts/quant/smoke_full_offline_decision_pipeline.py",
+  "out_of_scope": [
+    "live provider calls",
+    "paid APIs",
+    "broker integration",
+    "IBKR dependency",
+    "order generation",
+    "trading execution"
+  ]
+}
