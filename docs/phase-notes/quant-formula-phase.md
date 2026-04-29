@@ -220,3 +220,19 @@ Gated Live Decision Smoke:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 185 passed
+
+
+Gated Live Smoke Boundary Closure:
+- Status: LOCKED
+- Script: scripts/gated_live_decision_smoke.py
+- Default mode remains skip unless ENABLE_GATED_LIVE_SMOKE=1 is set.
+- Boundary locked:
+  - provider fetch checks only
+  - no decision context build
+  - no evaluate_decision_context call
+  - no canonical decision result output
+  - no broker, IBKR, order generation, or trading execution
+- Last verified:
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 185 passed
