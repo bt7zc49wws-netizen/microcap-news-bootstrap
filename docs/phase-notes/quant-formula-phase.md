@@ -325,3 +325,14 @@ Free Provider Diagnostics Readiness Index:
   - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 191 passed
+
+
+Provider Diagnostics JSON Serialization:
+- Status: LOCKED
+- Test: tests/services/providers/test_provider_types.py
+- ProviderFetchResult.to_status_diagnostic() is verified as JSON-serializable.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 192 passed
