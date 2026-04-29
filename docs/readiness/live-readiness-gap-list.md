@@ -9,7 +9,7 @@ Current verified offline baseline:
 
 Gaps before live system:
 - live provider orchestration policy — DRAFT ADDED: docs/readiness/live-provider-orchestration-policy.md
-- provider failure / fallback behavior
+- provider failure / fallback behavior — DRAFT ADDED: docs/readiness/provider-failure-fallback-policy.md
 - rate limit and retry policy
 - runtime freshness and staleness enforcement
 - scheduled ingestion runbook
