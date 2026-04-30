@@ -543,3 +543,16 @@ Live Provider Smoke Report Contract:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 197 passed
+
+
+Live Provider Smoke Report Contract Accepted Draft:
+- Status: Accepted Draft
+- Contract: docs/contracts/live-provider-smoke-report-contract-v1.md
+- Report: reports/live_smoke/gated_live_provider_smoke_report.json
+- Secrets recorded must remain false.
+- Execution side effects must remain false.
+- Last verified:
+  - free provider smoke skipped: ENABLE_FREE_PROVIDER_SMOKE is not set
+  - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
+  - full offline decision pipeline smoke ok
+  - 197 passed
