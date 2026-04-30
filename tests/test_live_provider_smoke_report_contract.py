@@ -2,6 +2,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+from app.services.providers.diagnostics import build_live_provider_smoke_report
+
 REPORT_PATH = Path("reports/live_smoke/gated_live_provider_smoke_report.json")
 REQUIRED_TOP_LEVEL_FIELDS = {
     "status",
@@ -43,3 +45,20 @@ def test_gated_live_provider_smoke_report_matches_contract():
         assert provider["records_returned"] >= 0
         assert isinstance(provider["has_error"], bool)
         assert isinstance(provider["has_payload"], bool)
+
+
+def test_live_provider_smoke_report_builder_matches_contract_shape() -> None:
+    data = {
+        "provider_name": "benzinga",
+        "status": "ok",
+        "records_returned": 3,
+        "has_error": False,
+        "has_payload": True,
+        "fetched_at": "2026-04-29T12:00:00+00:00",
+        "error_message": "must not leak",
+    }
+    report = build_live_provider_smoke_report([data], "2026-04-29T12:05:00Z")
+    assert set(report) == REQUIRED_TOP_LEVEL_FIELDS
+    assert set(report["providers"][0]) == REQUIRED_PROVIDER_FIELDS
+    assert report["secrets_recorded"] is False
+    assert report["execution_side_effects"] is False
