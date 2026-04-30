@@ -568,3 +568,13 @@ Live Provider Smoke Report Implementation Closed:
   - contract test passed: 2 passed
   - full test suite passed: 200 passed
 
+Live Smoke Report Readiness Closed:
+- Status: IMPLEMENTED
+- Validator: src/app/services/providers/live_smoke_report_readiness.py
+- CLI check: scripts/check_live_smoke_report_readiness.py
+- Tests: tests/services/providers/test_live_smoke_report_readiness.py, tests/test_live_smoke_report_readiness_script.py
+- Readiness checklist: docs/readiness/live-smoke-env-readiness-checklist.md
+- Report readiness can now be checked with python scripts/check_live_smoke_report_readiness.py.
+- Last verified:
+  - readiness CLI returned ok
+  - full test suite passed: 204 passed
