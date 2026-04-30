@@ -1,6 +1,6 @@
 # Live Provider Smoke Report Contract
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 - Define the committed, secrets-free report format for verified gated live provider smoke runs.
