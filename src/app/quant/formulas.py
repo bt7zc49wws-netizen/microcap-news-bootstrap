@@ -54,6 +54,7 @@ def close_location_value(close_price: float, low_price: float, high_price: float
     _require_positive(price_range, "high_price - low_price")
     return ((close_price - low_price) / price_range) * 2.0 - 1.0
 
+
 def vwap(total_price_volume: float, total_volume: float) -> float:
     """Return volume-weighted average price from aggregated price*volume and volume."""
     _require_positive(total_volume, "total_volume")
@@ -64,6 +65,7 @@ def vwap_distance_pct(price: float, vwap_value: float) -> float:
     """Return price distance from VWAP as percent."""
     _require_positive(vwap_value, "vwap_value")
     return ((price - vwap_value) / vwap_value) * 100.0
+
 
 def true_range(high_price: float, low_price: float, previous_close: float) -> float:
     """Return true range for one period."""
@@ -86,6 +88,7 @@ def atr_pct(atr_value: float, reference_price: float) -> float:
     _require_positive(reference_price, "reference_price")
     return (atr_value / reference_price) * 100.0
 
+
 def breakout_pct(price: float, breakout_level: float) -> float:
     """Return price distance from breakout level as percent.
 
@@ -94,6 +97,7 @@ def breakout_pct(price: float, breakout_level: float) -> float:
     """
     _require_positive(breakout_level, "breakout_level")
     return ((price - breakout_level) / breakout_level) * 100.0
+
 
 def slope(values: list[float]) -> float:
     """Return simple slope from first value to last value per step."""
