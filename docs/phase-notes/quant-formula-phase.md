@@ -556,3 +556,15 @@ Live Provider Smoke Report Contract Accepted Draft:
   - gated live decision smoke skipped: ENABLE_GATED_LIVE_SMOKE is not set
   - full offline decision pipeline smoke ok
   - 197 passed
+
+Live Provider Smoke Report Implementation Closed:
+- Status: IMPLEMENTED
+- Script: scripts/gated_live_decision_smoke.py
+- Builder: src/app/services/providers/diagnostics.py
+- Contract test: tests/test_live_provider_smoke_report_contract.py
+- Readiness checklist: docs/readiness/live-smoke-env-readiness-checklist.md
+- Gated live smoke now writes the accepted report format without secrets or execution side effects.
+- Last verified:
+  - contract test passed: 2 passed
+  - full test suite passed: 200 passed
+
