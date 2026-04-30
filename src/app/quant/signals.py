@@ -51,6 +51,7 @@ def build_quant_signal(
         "breakout_pct": breakout_pct(current_price, breakout_level),
     }
 
+
 def build_quant_signal_from_snapshot(snapshot: dict[str, float]) -> dict[str, float]:
     """Validate a market snapshot and build canonical quant signal output."""
     validated = validate_market_snapshot(snapshot)
