@@ -7,7 +7,10 @@ from app.services.providers.finnhub.client import FinnhubNewsClient
 from app.services.providers.fundamentals.client import FundamentalsClient
 from app.services.providers.market_data.client import MarketDataClient
 from app.services.providers.sec_edgar.client import SecEdgarClient
-from app.services.providers.diagnostics import aggregate_provider_status_diagnostics
+from app.services.providers.diagnostics import (
+    aggregate_provider_status_diagnostics,
+    build_live_provider_smoke_report,
+)
 
 REPORT_PATH = Path("reports/live_smoke/gated_live_provider_smoke_report.json")
 
@@ -40,26 +43,10 @@ def main() -> None:
     for diagnostic in diagnostics:
         print(diagnostic)
     aggregate = aggregate_provider_status_diagnostics(diagnostics)
-    report = {
-        "status": "verified",
-        "ran_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "provider_count": aggregate["provider_count"],
-        "ok_count": aggregate["ok_count"],
-        "error_count": aggregate["error_count"],
-        "has_any_payload": aggregate["has_any_payload"],
-        "providers": [
-            {
-                "provider_name": item["provider_name"],
-                "status": item["status"],
-                "records_returned": item["records_returned"],
-                "has_error": item["has_error"],
-                "has_payload": item["has_payload"],
-            }
-            for item in diagnostics
-        ],
-        "execution_side_effects": False,
-        "secrets_recorded": False,
-    }
+    report = build_live_provider_smoke_report(
+        diagnostics,
+        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    )
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(aggregate)
