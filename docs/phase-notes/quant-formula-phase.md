@@ -757,3 +757,12 @@ Risk Reason Codes Constant Closed:
 - Last verified:
   - risk gate tests passed: 9 passed
   - full test suite passed: 231 passed
+
+Risk Reason Code Runtime Guard Closed:
+- Status: IMPLEMENTED
+- Runtime guard: src/app/services/risk/gate.py::_risk_result rejects reason codes outside RISK_REASON_CODES.
+- Risk gate now centralizes all RiskCheckResult creation through the guarded helper.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 9 passed
+  - full test suite passed: 231 passed
