@@ -62,3 +62,18 @@ def test_paper_fill_and_execution_log_share_order_identity() -> None:
     assert entry.broker_name == "paper"
     assert entry.fill_price == 1.23
     assert entry.execution_mode == "paper"
+
+
+def test_paper_order_fill_execution_log_chain_is_paper_only() -> None:
+    order = make_order(quantity=250)
+    fill = simulate_market_fill(order, fill_price=1.23)
+    entry = build_execution_log_entry(order, fill_price=fill.fill_price)
+
+    assert order.execution_mode == "paper"
+    assert fill.execution_mode == "paper"
+    assert entry.execution_mode == "paper"
+    assert fill.order_id == entry.order_id
+    assert fill.symbol == entry.symbol
+    assert fill.side == entry.side
+    assert fill.quantity == entry.quantity
+    assert fill.fill_price == entry.fill_price
