@@ -51,3 +51,30 @@ def calculate_return_pct(reference_price: float, observed_price: float) -> float
     if reference_price <= 0 or observed_price <= 0:
         raise ValueError("prices_must_be_positive")
     return ((observed_price - reference_price) / reference_price) * 100.0
+
+
+def build_outcome_record(
+    *,
+    source_decision_id: str,
+    symbol: str,
+    decision: str,
+    measured_at_utc: str,
+    horizon_minutes: int,
+    reference_price: float,
+    observed_price: float,
+    max_up_pct: float,
+    max_down_pct: float,
+) -> OutcomeRecord:
+    record: OutcomeRecord = {
+        "source_decision_id": source_decision_id,
+        "symbol": symbol,
+        "decision": decision,
+        "measured_at_utc": measured_at_utc,
+        "horizon_minutes": horizon_minutes,
+        "reference_price": reference_price,
+        "observed_price": observed_price,
+        "return_pct": calculate_return_pct(reference_price, observed_price),
+        "max_up_pct": max_up_pct,
+        "max_down_pct": max_down_pct,
+    }
+    return validate_outcome_record(record)
