@@ -672,3 +672,12 @@ Outcome Measurement Foundation Phase Closed:
 - Last verified:
   - outcome tests passed: 15 passed
   - full test suite passed: 224 passed
+
+Paper Fill Execution Log Price Preservation Closed:
+- Status: IMPLEMENTED
+- ExecutionLogEntry now supports optional fill_price.
+- Paper trading build_execution_log_entry carries simulated fill_price into the execution log entry.
+- Scope remains paper-only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - paper/execution target tests passed: 7 passed
+  - full test suite passed: 225 passed
