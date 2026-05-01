@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import TypedDict
+from uuid import UUID
 
 
 class OutcomeRecord(TypedDict):
@@ -36,6 +37,10 @@ def validate_outcome_record(record: OutcomeRecord) -> OutcomeRecord:
         raise ValueError("outcome_record_fields_mismatch")
     if not record["source_decision_id"]:
         raise ValueError("source_decision_id_required")
+    try:
+        UUID(record["source_decision_id"])
+    except ValueError as exc:
+        raise ValueError("source_decision_id_must_be_uuid") from exc
     if record["symbol"] != record["symbol"].upper() or not record["symbol"]:
         raise ValueError("symbol_must_be_uppercase")
     if record["decision"] not in VALID_OUTCOME_DECISIONS:

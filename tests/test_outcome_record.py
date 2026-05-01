@@ -5,7 +5,7 @@ from app.models.outcome_record import OUTCOME_RECORD_FIELDS, build_outcome_recor
 
 def _record(**overrides: object) -> dict:
     record = {
-        "source_decision_id": "decision-1",
+        "source_decision_id": "11111111-1111-4111-8111-111111111111",
         "symbol": "AAPL",
         "decision": "actionable",
         "measured_at_utc": "2026-05-01T18:00:00Z",
@@ -66,7 +66,7 @@ def test_calculate_return_pct_rejects_non_positive_prices() -> None:
 
 def test_build_outcome_record_calculates_return_and_validates_shape() -> None:
     record = build_outcome_record(
-        source_decision_id="decision-1",
+        source_decision_id="11111111-1111-4111-8111-111111111111",
         symbol="AAPL",
         decision="actionable",
         measured_at_utc="2026-05-01T18:00:00Z",
@@ -84,7 +84,7 @@ def test_build_outcome_record_calculates_return_and_validates_shape() -> None:
 def test_build_outcome_record_rejects_invalid_inputs() -> None:
     with pytest.raises(ValueError, match="symbol_must_be_uppercase"):
         build_outcome_record(
-            source_decision_id="decision-1",
+            source_decision_id="11111111-1111-4111-8111-111111111111",
             symbol="aapl",
             decision="actionable",
             measured_at_utc="2026-05-01T18:00:00Z",
@@ -94,3 +94,8 @@ def test_build_outcome_record_rejects_invalid_inputs() -> None:
             max_up_pct=12.0,
             max_down_pct=-2.0,
         )
+
+
+def test_validate_outcome_record_rejects_non_uuid_source_decision_id() -> None:
+    with pytest.raises(ValueError, match="source_decision_id_must_be_uuid"):
+        validate_outcome_record(_record(source_decision_id="decision-1"))
