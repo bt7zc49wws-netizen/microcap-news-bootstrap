@@ -1,5 +1,16 @@
 from app.services.risk.types import RiskCheckResult, RiskLimits
 
+RISK_REASON_CODES = {
+    "INVALID_ORDER_VALUE",
+    "INVALID_DAILY_LOSS",
+    "INVALID_TRADES_TODAY",
+    "INVALID_RISK_LIMITS",
+    "MAX_POSITION_EXCEEDED",
+    "MAX_DAILY_LOSS_REACHED",
+    "MAX_TRADES_REACHED",
+    "RISK_CHECK_PASSED",
+}
+
 
 def check_order_risk(
     *,

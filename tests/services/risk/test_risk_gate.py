@@ -1,4 +1,4 @@
-from app.services.risk.gate import check_order_risk
+from app.services.risk.gate import RISK_REASON_CODES, check_order_risk
 from app.services.risk.types import RiskLimits
 
 
@@ -109,3 +109,16 @@ def test_risk_gate_rejects_invalid_risk_limits():
 
     assert result.allowed is False
     assert result.reason_code == "INVALID_RISK_LIMITS"
+
+
+def test_risk_reason_codes_are_canonical():
+    assert RISK_REASON_CODES == {
+        "INVALID_ORDER_VALUE",
+        "INVALID_DAILY_LOSS",
+        "INVALID_TRADES_TODAY",
+        "INVALID_RISK_LIMITS",
+        "MAX_POSITION_EXCEEDED",
+        "MAX_DAILY_LOSS_REACHED",
+        "MAX_TRADES_REACHED",
+        "RISK_CHECK_PASSED",
+    }
