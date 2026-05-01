@@ -578,3 +578,13 @@ Live Smoke Report Readiness Closed:
 - Last verified:
   - readiness CLI returned ok
   - full test suite passed: 204 passed
+
+Quant Field Guards Closed:
+- Status: IMPLEMENTED
+- Signal fields constant: src/app/quant/signals.py::QUANT_SIGNAL_FIELDS
+- Enriched payload fields constant: src/app/quant/enrichment.py::ENRICHED_MARKET_PAYLOAD_FIELDS
+- Guards: build_quant_signal and enrich_stooq_market_payload raise ValueError on field drift.
+- Contract: docs/contracts/quant-signal-contract-v1.md
+- Last verified:
+  - quant signal/enrichment guard tests passed: 26 passed
+  - full test suite passed: 207 passed
