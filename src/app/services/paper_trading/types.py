@@ -21,3 +21,4 @@ class PaperFill:
     quantity: int
     fill_price: float
     filled_at: datetime
+    execution_mode: str = "paper"

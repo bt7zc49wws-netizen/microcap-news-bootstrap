@@ -37,3 +37,4 @@ def test_paper_fill_shape():
     assert fill.order_id == "order-1"
     assert fill.symbol == "ABCD"
     assert fill.fill_price == 1.23
+    assert fill.execution_mode == "paper"
