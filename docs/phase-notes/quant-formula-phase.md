@@ -616,3 +616,10 @@ Quant Decision Full Suite Verification:
 - Status: VERIFIED
 - Last verified:
   - full test suite passed: 209 passed
+
+Quant Decision Guard Phase Closed:
+- Status: CLOSED
+- Scope closed: quant formulas, enriched market payload fields, market snapshot canonicalization, adapter raw payload dropping, quant signal canonical fields, decision context quant signal guard, decision threshold boundary coverage.
+- Out of scope remains: broker execution, IBKR, live orders, paid APIs, ML training loop.
+- Last verified:
+  - full test suite passed: 209 passed
