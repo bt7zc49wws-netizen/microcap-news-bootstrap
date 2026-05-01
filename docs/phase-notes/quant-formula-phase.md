@@ -732,3 +732,11 @@ Paper Trading Foundation Phase Closed:
 - Last verified:
   - paper + execution target suite passed: 10 passed
   - full test suite passed: 226 passed
+
+Risk Input Guard Closed:
+- Status: IMPLEMENTED
+- Risk gate now rejects invalid order value, invalid daily loss, invalid trades today, and invalid risk limits before normal limit checks.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 8 passed
+  - full test suite passed: 230 passed
