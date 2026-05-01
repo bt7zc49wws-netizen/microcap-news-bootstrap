@@ -664,3 +664,11 @@ Outcome Measurement Full Suite Verification:
 - Last verified:
   - outcome tests passed: 15 passed
   - full test suite passed: 224 passed
+
+Outcome Measurement Foundation Phase Closed:
+- Status: CLOSED
+- Scope closed: outcome contract, OutcomeRecord, canonical fields, validator, source_decision_id UUID guard, return_pct, max_up_pct, max_down_pct, build_outcome_record, build_outcome_record_from_prices.
+- Scope remains analytics-only: no broker execution, no IBKR, no orders, no realized trade P&L, no ML training loop.
+- Last verified:
+  - outcome tests passed: 15 passed
+  - full test suite passed: 224 passed
