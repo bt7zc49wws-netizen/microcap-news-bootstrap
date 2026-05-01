@@ -20,6 +20,7 @@ def test_risk_gate_allows_valid_order():
 
     assert result.allowed is True
     assert result.reason_code == "RISK_CHECK_PASSED"
+    assert result.reason_label == "Risk check passed"
 
 
 def test_risk_gate_rejects_max_position():
