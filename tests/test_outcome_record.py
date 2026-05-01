@@ -1,6 +1,13 @@
 import pytest
 
-from app.models.outcome_record import OUTCOME_RECORD_FIELDS, build_outcome_record, calculate_return_pct, validate_outcome_record
+from app.models.outcome_record import (
+    OUTCOME_RECORD_FIELDS,
+    build_outcome_record,
+    calculate_max_down_pct,
+    calculate_max_up_pct,
+    calculate_return_pct,
+    validate_outcome_record,
+)
 
 
 def _record(**overrides: object) -> dict:
@@ -99,3 +106,18 @@ def test_build_outcome_record_rejects_invalid_inputs() -> None:
 def test_validate_outcome_record_rejects_non_uuid_source_decision_id() -> None:
     with pytest.raises(ValueError, match="source_decision_id_must_be_uuid"):
         validate_outcome_record(_record(source_decision_id="decision-1"))
+
+
+def test_calculate_max_up_pct() -> None:
+    assert calculate_max_up_pct(10.0, 12.0) == pytest.approx(20.0)
+
+
+def test_calculate_max_down_pct() -> None:
+    assert calculate_max_down_pct(10.0, 8.0) == pytest.approx(-20.0)
+
+
+def test_calculate_max_movement_pct_rejects_non_positive_prices() -> None:
+    with pytest.raises(ValueError, match="prices_must_be_positive"):
+        calculate_max_up_pct(0.0, 12.0)
+    with pytest.raises(ValueError, match="prices_must_be_positive"):
+        calculate_max_down_pct(10.0, 0.0)

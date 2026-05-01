@@ -58,6 +58,14 @@ def calculate_return_pct(reference_price: float, observed_price: float) -> float
     return ((observed_price - reference_price) / reference_price) * 100.0
 
 
+def calculate_max_up_pct(reference_price: float, high_price: float) -> float:
+    return calculate_return_pct(reference_price, high_price)
+
+
+def calculate_max_down_pct(reference_price: float, low_price: float) -> float:
+    return calculate_return_pct(reference_price, low_price)
+
+
 def build_outcome_record(
     *,
     source_decision_id: str,
