@@ -1,7 +1,15 @@
 import pytest
 
 from app.quant import enrichment
-from app.quant.enrichment import derive_atr, derive_average_volume, derive_breakout_level, derive_previous_close, derive_vwap, enrich_stooq_market_payload
+from app.quant.enrichment import (
+    ENRICHED_MARKET_PAYLOAD_FIELDS,
+    derive_atr,
+    derive_average_volume,
+    derive_breakout_level,
+    derive_previous_close,
+    derive_vwap,
+    enrich_stooq_market_payload,
+)
 
 
 def test_enrichment_module_imports() -> None:
@@ -207,15 +215,4 @@ def test_enrich_stooq_market_payload_returns_only_normalized_fields() -> None:
 
     enriched = enrich_stooq_market_payload(rows)
 
-    assert tuple(enriched.keys()) == (
-        "close",
-        "open",
-        "high",
-        "low",
-        "volume",
-        "previous_close",
-        "average_volume",
-        "vwap",
-        "atr",
-        "breakout_level",
-    )
+    assert tuple(enriched.keys()) == ENRICHED_MARKET_PAYLOAD_FIELDS

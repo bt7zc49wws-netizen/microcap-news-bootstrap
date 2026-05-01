@@ -10,6 +10,19 @@ Rules:
 
 from __future__ import annotations
 
+ENRICHED_MARKET_PAYLOAD_FIELDS = (
+    "close",
+    "open",
+    "high",
+    "low",
+    "volume",
+    "previous_close",
+    "average_volume",
+    "vwap",
+    "atr",
+    "breakout_level",
+)
+
 
 def derive_previous_close(ohlcv_rows: list[dict[str, float]]) -> float:
     """Return previous close from the second-to-last OHLCV row."""
