@@ -19,6 +19,7 @@ def test_paper_order_shape():
     assert order.side == "buy"
     assert order.quantity == 100
     assert order.status == "submitted"
+    assert order.execution_mode == "paper"
 
 
 def test_paper_fill_shape():

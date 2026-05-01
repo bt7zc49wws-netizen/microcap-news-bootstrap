@@ -10,6 +10,7 @@ class PaperOrder:
     quantity: int
     submitted_at: datetime
     status: str = "submitted"
+    execution_mode: str = "paper"
 
 
 @dataclass(frozen=True, slots=True)
