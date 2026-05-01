@@ -3,6 +3,7 @@ import pytest
 from app.models.outcome_record import (
     OUTCOME_RECORD_FIELDS,
     build_outcome_record,
+    build_outcome_record_from_prices,
     calculate_max_down_pct,
     calculate_max_up_pct,
     calculate_return_pct,
@@ -121,3 +122,22 @@ def test_calculate_max_movement_pct_rejects_non_positive_prices() -> None:
         calculate_max_up_pct(0.0, 12.0)
     with pytest.raises(ValueError, match="prices_must_be_positive"):
         calculate_max_down_pct(10.0, 0.0)
+
+
+def test_build_outcome_record_from_prices_calculates_all_pct_fields() -> None:
+    record = build_outcome_record_from_prices(
+        source_decision_id="11111111-1111-4111-8111-111111111111",
+        symbol="AAPL",
+        decision="actionable",
+        measured_at_utc="2026-05-01T18:00:00Z",
+        horizon_minutes=60,
+        reference_price=10.0,
+        observed_price=11.0,
+        high_price=12.0,
+        low_price=8.0,
+    )
+
+    assert tuple(record.keys()) == OUTCOME_RECORD_FIELDS
+    assert record["return_pct"] == pytest.approx(10.0)
+    assert record["max_up_pct"] == pytest.approx(20.0)
+    assert record["max_down_pct"] == pytest.approx(-20.0)

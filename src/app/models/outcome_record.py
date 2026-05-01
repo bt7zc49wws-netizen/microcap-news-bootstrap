@@ -91,3 +91,28 @@ def build_outcome_record(
         "max_down_pct": max_down_pct,
     }
     return validate_outcome_record(record)
+
+
+def build_outcome_record_from_prices(
+    *,
+    source_decision_id: str,
+    symbol: str,
+    decision: str,
+    measured_at_utc: str,
+    horizon_minutes: int,
+    reference_price: float,
+    observed_price: float,
+    high_price: float,
+    low_price: float,
+) -> OutcomeRecord:
+    return build_outcome_record(
+        source_decision_id=source_decision_id,
+        symbol=symbol,
+        decision=decision,
+        measured_at_utc=measured_at_utc,
+        horizon_minutes=horizon_minutes,
+        reference_price=reference_price,
+        observed_price=observed_price,
+        max_up_pct=calculate_max_up_pct(reference_price, high_price),
+        max_down_pct=calculate_max_down_pct(reference_price, low_price),
+    )
