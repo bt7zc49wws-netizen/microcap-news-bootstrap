@@ -740,3 +740,11 @@ Risk Input Guard Closed:
 - Last verified:
   - risk gate tests passed: 8 passed
   - full test suite passed: 230 passed
+
+Risk Passed Reason Label Guard Closed:
+- Status: IMPLEMENTED
+- Risk gate allowed result now test-covers reason_label="Risk check passed" together with RISK_CHECK_PASSED.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 8 passed
+  - full test suite passed: 230 passed
