@@ -179,7 +179,7 @@ def enrich_stooq_market_payload(
 
     current_row = ohlcv_rows[-1]
 
-    return {
+    payload = {
         "close": float(current_row["close"]),
         "open": float(current_row["open"]),
         "high": float(current_row["high"]),
@@ -191,4 +191,7 @@ def enrich_stooq_market_payload(
         "atr": derive_atr(ohlcv_rows, lookback=atr_lookback),
         "breakout_level": derive_breakout_level(ohlcv_rows, lookback=breakout_lookback),
     }
+    if tuple(payload.keys()) != ENRICHED_MARKET_PAYLOAD_FIELDS:
+        raise ValueError("enriched_market_payload_fields_mismatch")
+    return payload
 
