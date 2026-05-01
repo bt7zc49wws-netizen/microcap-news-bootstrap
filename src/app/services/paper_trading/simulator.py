@@ -20,7 +20,11 @@ def simulate_market_fill(order: PaperOrder, fill_price: float) -> PaperFill:
     )
 
 
-def build_execution_log_entry(order: PaperOrder, status: str = "filled") -> ExecutionLogEntry:
+def build_execution_log_entry(
+    order: PaperOrder,
+    status: str = "filled",
+    fill_price: float | None = None,
+) -> ExecutionLogEntry:
     return ExecutionLogEntry(
         execution_id=f"exec-{order.order_id}",
         order_id=order.order_id,
@@ -30,4 +34,5 @@ def build_execution_log_entry(order: PaperOrder, status: str = "filled") -> Exec
         status=status,
         created_at=datetime.now(UTC),
         broker_name="paper",
+        fill_price=fill_price,
     )

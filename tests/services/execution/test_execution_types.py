@@ -25,4 +25,5 @@ def test_execution_log_entry_shape():
     assert entry.status == "submitted"
     assert entry.created_at == now
     assert entry.broker_name == "ibkr"
+    assert entry.fill_price is None
     assert entry.error_message is None

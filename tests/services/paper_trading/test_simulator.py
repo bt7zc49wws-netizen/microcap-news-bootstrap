@@ -37,7 +37,7 @@ def test_simulate_market_fill_rejects_invalid_price():
 
 
 def test_build_execution_log_entry():
-    entry = build_execution_log_entry(make_order())
+    entry = build_execution_log_entry(make_order(), fill_price=1.23)
 
     assert entry.execution_id == "exec-order-1"
     assert entry.order_id == "order-1"
@@ -46,15 +46,17 @@ def test_build_execution_log_entry():
     assert entry.quantity == 100
     assert entry.status == "filled"
     assert entry.broker_name == "paper"
+    assert entry.fill_price == 1.23
 
 
 def test_paper_fill_and_execution_log_share_order_identity() -> None:
     order = make_order(quantity=250)
     fill = simulate_market_fill(order, fill_price=1.23)
-    entry = build_execution_log_entry(order)
+    entry = build_execution_log_entry(order, fill_price=fill.fill_price)
 
     assert fill.order_id == entry.order_id
     assert fill.symbol == entry.symbol
     assert fill.side == entry.side
     assert fill.quantity == entry.quantity
     assert entry.broker_name == "paper"
+    assert entry.fill_price == 1.23

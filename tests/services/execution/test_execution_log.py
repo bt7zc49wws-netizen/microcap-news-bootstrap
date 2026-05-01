@@ -10,6 +10,7 @@ def test_build_execution_log_entry():
         quantity=100,
         status="submitted",
         broker_name="paper",
+        fill_price=1.23,
     )
 
     assert entry.execution_id == "exec-1"
@@ -19,4 +20,5 @@ def test_build_execution_log_entry():
     assert entry.quantity == 100
     assert entry.status == "submitted"
     assert entry.broker_name == "paper"
+    assert entry.fill_price == 1.23
     assert entry.error_message is None

@@ -12,6 +12,7 @@ def build_execution_log_entry(
     quantity: int,
     status: str,
     broker_name: str | None = None,
+    fill_price: float | None = None,
     error_message: str | None = None,
 ) -> ExecutionLogEntry:
     return ExecutionLogEntry(
@@ -23,5 +24,6 @@ def build_execution_log_entry(
         status=status,
         created_at=datetime.now(UTC),
         broker_name=broker_name,
+        fill_price=fill_price,
         error_message=error_message,
     )
