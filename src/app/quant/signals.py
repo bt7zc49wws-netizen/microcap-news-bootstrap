@@ -24,6 +24,20 @@ from app.quant.formulas import (
 )
 
 
+QUANT_SIGNAL_FIELDS = {
+    "price_change_pct",
+    "gap_pct",
+    "intraday_return_pct",
+    "relative_volume",
+    "dollar_volume",
+    "range_pct",
+    "close_location_value",
+    "vwap_distance_pct",
+    "atr_pct",
+    "breakout_pct",
+}
+
+
 def build_quant_signal(
     *,
     current_price: float,

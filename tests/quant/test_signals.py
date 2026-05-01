@@ -1,19 +1,6 @@
 import pytest
 
-from app.quant.signals import build_quant_signal, build_quant_signal_from_snapshot
-
-EXPECTED_QUANT_SIGNAL_FIELDS = {
-    "price_change_pct",
-    "gap_pct",
-    "intraday_return_pct",
-    "relative_volume",
-    "dollar_volume",
-    "range_pct",
-    "close_location_value",
-    "vwap_distance_pct",
-    "atr_pct",
-    "breakout_pct",
-}
+from app.quant.signals import QUANT_SIGNAL_FIELDS, build_quant_signal, build_quant_signal_from_snapshot
 
 
 def test_build_quant_signal_returns_canonical_fields() -> None:
@@ -30,7 +17,7 @@ def test_build_quant_signal_returns_canonical_fields() -> None:
         breakout_level=10.0,
     )
 
-    assert set(signal) == EXPECTED_QUANT_SIGNAL_FIELDS
+    assert set(signal) == QUANT_SIGNAL_FIELDS
     assert signal == {
         "price_change_pct": pytest.approx(20.0),
         "gap_pct": pytest.approx(10.0),
