@@ -64,6 +64,7 @@ def test_build_quant_signal_from_snapshot_validates_and_builds() -> None:
         }
     )
 
+    assert set(signal) == QUANT_SIGNAL_FIELDS
     assert signal["price_change_pct"] == pytest.approx(20.0)
     assert signal["relative_volume"] == pytest.approx(2.5)
 
