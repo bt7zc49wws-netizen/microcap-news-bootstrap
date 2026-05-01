@@ -634,3 +634,11 @@ Outcome Measurement Foundation Started:
 - Last verified:
   - outcome tests passed: 10 passed
   - full test suite passed: 219 passed
+
+Outcome Source Decision Link Guard Closed:
+- Status: IMPLEMENTED
+- Model guard: src/app/models/outcome_record.py validates source_decision_id as UUID.
+- Contract: docs/contracts/outcome-measurement-contract-v1.md documents source_decision_id UUID rule.
+- Last verified:
+  - outcome tests passed: 11 passed
+  - full test suite passed: 220 passed
