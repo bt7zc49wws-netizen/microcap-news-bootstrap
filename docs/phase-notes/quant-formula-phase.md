@@ -748,3 +748,12 @@ Risk Passed Reason Label Guard Closed:
 - Last verified:
   - risk gate tests passed: 8 passed
   - full test suite passed: 230 passed
+
+Risk Reason Codes Constant Closed:
+- Status: IMPLEMENTED
+- Constant: src/app/services/risk/gate.py::RISK_REASON_CODES
+- Risk reason codes are now centralized and test-covered as canonical.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 9 passed
+  - full test suite passed: 231 passed
