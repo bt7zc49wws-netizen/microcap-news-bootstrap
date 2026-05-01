@@ -24,6 +24,7 @@ def adapt_market_snapshot(payload: dict[str, float]) -> dict[str, float]:
     }
     return validate_market_snapshot(snapshot)
 
+
 def adapt_mapped_market_snapshot(
     payload: dict[str, float],
     field_map: dict[str, str],
