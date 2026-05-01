@@ -642,3 +642,11 @@ Outcome Source Decision Link Guard Closed:
 - Last verified:
   - outcome tests passed: 11 passed
   - full test suite passed: 220 passed
+
+Outcome Max Movement Calculations Closed:
+- Status: IMPLEMENTED
+- Helpers: calculate_max_up_pct and calculate_max_down_pct in src/app/models/outcome_record.py
+- Contract: docs/contracts/outcome-measurement-contract-v1.md documents max_up_pct and max_down_pct formulas.
+- Last verified:
+  - outcome tests passed: 14 passed
+  - full test suite passed: 223 passed
