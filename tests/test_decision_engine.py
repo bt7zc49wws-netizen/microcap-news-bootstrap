@@ -15,6 +15,13 @@ from app.decision_engine import (
     make_decision_result,
     evaluate_decision_context,
 )
+from app.quant.signals import QUANT_SIGNAL_FIELDS
+
+
+def _quant_signal(**overrides: float) -> dict[str, float]:
+    signal = {field: 1.0 for field in QUANT_SIGNAL_FIELDS}
+    signal.update(overrides)
+    return signal
 
 
 def test_valid_decisions_are_canonical() -> None:
@@ -71,10 +78,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
         {
             "symbol": "AAPL",
             "news": {"event_type": "financing"},
-            "quant_signal": {
-                "price_change_pct": 12.0,
-                "relative_volume": 3.0,
-            },
+            "quant_signal": _quant_signal(price_change_pct=12.0, relative_volume=3.0),
         }
     )
 
@@ -94,10 +98,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         {
             "symbol": "AAPL",
             "news": {"event_type": "financing"},
-            "quant_signal": {
-                "price_change_pct": 3.0,
-                "relative_volume": 1.2,
-            },
+            "quant_signal": _quant_signal(price_change_pct=3.0, relative_volume=1.2),
         }
     )
 
@@ -113,10 +114,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
         {
             "symbol": "AAPL",
             "news": {},
-            "quant_signal": {
-                "price_change_pct": 20.0,
-                "relative_volume": 5.0,
-            },
+            "quant_signal": _quant_signal(price_change_pct=20.0, relative_volume=5.0),
         }
     )
 
@@ -138,10 +136,7 @@ def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event()
         {
             "symbol": "AAPL",
             "news": {"event_type": "generic_pr"},
-            "quant_signal": {
-                "price_change_pct": 20.0,
-                "relative_volume": 5.0,
-            },
+            "quant_signal": _quant_signal(price_change_pct=20.0, relative_volume=5.0),
         }
     )
 
