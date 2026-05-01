@@ -34,6 +34,7 @@ Rules:
 - reference_price and observed_price must be positive numbers.
 - return_pct is measured from reference_price to observed_price using ((observed_price - reference_price) / reference_price) * 100.0.
 - build_outcome_record must calculate return_pct from reference_price and observed_price, then validate the canonical record shape.
+- build_outcome_record_from_prices must calculate return_pct, max_up_pct, and max_down_pct from observed_price, high_price, and low_price before validating the canonical record shape.
 - max_up_pct is measured from reference_price to the highest observed price in the horizon using the same return_pct formula.
 - max_down_pct is measured from reference_price to the lowest observed price in the horizon using the same return_pct formula.
 - Outcome records are analytics-only and must not trigger execution.
