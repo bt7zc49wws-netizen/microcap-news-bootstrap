@@ -8,6 +8,38 @@ def check_order_risk(
     trades_today: int,
     limits: RiskLimits,
 ) -> RiskCheckResult:
+    if order_value_usd <= 0:
+        return RiskCheckResult(
+            allowed=False,
+            reason_code="INVALID_ORDER_VALUE",
+            reason_label="Invalid order value",
+        )
+
+    if realized_daily_loss_usd < 0:
+        return RiskCheckResult(
+            allowed=False,
+            reason_code="INVALID_DAILY_LOSS",
+            reason_label="Invalid daily loss",
+        )
+
+    if trades_today < 0:
+        return RiskCheckResult(
+            allowed=False,
+            reason_code="INVALID_TRADES_TODAY",
+            reason_label="Invalid trades today",
+        )
+
+    if (
+        limits.max_position_usd <= 0
+        or limits.max_daily_loss_usd <= 0
+        or limits.max_trades_per_day <= 0
+    ):
+        return RiskCheckResult(
+            allowed=False,
+            reason_code="INVALID_RISK_LIMITS",
+            reason_label="Invalid risk limits",
+        )
+
     if order_value_usd > limits.max_position_usd:
         return RiskCheckResult(
             allowed=False,
