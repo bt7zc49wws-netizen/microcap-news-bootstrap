@@ -611,3 +611,8 @@ Quant Decision Guard Joint Verification:
 - Scope: tests/quant, tests/test_decision_context.py, tests/test_decision_engine.py
 - Last verified:
   - quant + decision guard suite passed: 88 passed
+
+Quant Decision Full Suite Verification:
+- Status: VERIFIED
+- Last verified:
+  - full test suite passed: 209 passed
