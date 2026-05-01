@@ -60,3 +60,9 @@ Builder output fields:
 - vwap_distance_pct
 - atr_pct
 - breakout_pct
+
+Implementation guards:
+- QUANT_SIGNAL_FIELDS is defined in src/app/quant/signals.py.
+- build_quant_signal must raise ValueError if its output field set drifts from QUANT_SIGNAL_FIELDS.
+- ENRICHED_MARKET_PAYLOAD_FIELDS is defined in src/app/quant/enrichment.py.
+- enrich_stooq_market_payload must raise ValueError if its output field order drifts from ENRICHED_MARKET_PAYLOAD_FIELDS.
