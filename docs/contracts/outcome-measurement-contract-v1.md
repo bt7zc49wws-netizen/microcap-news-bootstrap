@@ -26,7 +26,7 @@ Canonical outcome record fields:
 - max_down_pct
 
 Rules:
-- source_decision_id links back to the decision snapshot/result being measured.
+- source_decision_id links back to the decision snapshot/result being measured and must be a UUID string.
 - symbol must be uppercase.
 - decision must remain one of no_trade, watchlist, actionable.
 - measured_at_utc must be UTC ISO-8601 text.
