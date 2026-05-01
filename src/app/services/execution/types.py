@@ -13,4 +13,5 @@ class ExecutionLogEntry:
     created_at: datetime
     broker_name: str | None = None
     fill_price: float | None = None
+    execution_mode: str | None = None
     error_message: str | None = None

@@ -35,4 +35,5 @@ def build_execution_log_entry(
         created_at=datetime.now(UTC),
         broker_name="paper",
         fill_price=fill_price,
+        execution_mode="paper",
     )

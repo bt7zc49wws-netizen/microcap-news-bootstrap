@@ -47,6 +47,7 @@ def test_build_execution_log_entry():
     assert entry.status == "filled"
     assert entry.broker_name == "paper"
     assert entry.fill_price == 1.23
+    assert entry.execution_mode == "paper"
 
 
 def test_paper_fill_and_execution_log_share_order_identity() -> None:
@@ -60,3 +61,4 @@ def test_paper_fill_and_execution_log_share_order_identity() -> None:
     assert fill.quantity == entry.quantity
     assert entry.broker_name == "paper"
     assert entry.fill_price == 1.23
+    assert entry.execution_mode == "paper"

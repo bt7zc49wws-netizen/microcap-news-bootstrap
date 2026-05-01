@@ -21,4 +21,5 @@ def test_build_execution_log_entry():
     assert entry.status == "submitted"
     assert entry.broker_name == "paper"
     assert entry.fill_price == 1.23
+    assert entry.execution_mode is None
     assert entry.error_message is None
