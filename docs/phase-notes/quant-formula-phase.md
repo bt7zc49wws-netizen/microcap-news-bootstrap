@@ -623,3 +623,14 @@ Quant Decision Guard Phase Closed:
 - Out of scope remains: broker execution, IBKR, live orders, paid APIs, ML training loop.
 - Last verified:
   - full test suite passed: 209 passed
+
+Outcome Measurement Foundation Started:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/outcome-measurement-contract-v1.md
+- Model: src/app/models/outcome_record.py
+- Tests: tests/test_outcome_record.py
+- Implemented: OutcomeRecord, OUTCOME_RECORD_FIELDS, validate_outcome_record, calculate_return_pct, build_outcome_record.
+- Scope remains analytics-only: no broker execution, no IBKR, no orders, no realized trade P&L.
+- Last verified:
+  - outcome tests passed: 10 passed
+  - full test suite passed: 219 passed
