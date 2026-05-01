@@ -195,3 +195,27 @@ def test_enrich_stooq_market_payload_builds_normalized_payload() -> None:
 def test_enrich_stooq_market_payload_rejects_empty_rows() -> None:
     with pytest.raises(ValueError, match="ohlcv_rows must not be empty"):
         enrich_stooq_market_payload([])
+
+
+def test_enrich_stooq_market_payload_returns_only_normalized_fields() -> None:
+    rows = [
+        {"open": 9.0, "high": 10.0, "low": 8.0, "close": 9.5, "volume": 100.0},
+        {"open": 10.0, "high": 12.0, "low": 9.0, "close": 11.0, "volume": 200.0},
+        {"open": 11.0, "high": 13.0, "low": 10.0, "close": 12.0, "volume": 300.0},
+        {"open": 12.0, "high": 14.0, "low": 11.0, "close": 13.0, "volume": 999.0},
+    ]
+
+    enriched = enrich_stooq_market_payload(rows)
+
+    assert tuple(enriched.keys()) == (
+        "close",
+        "open",
+        "high",
+        "low",
+        "volume",
+        "previous_close",
+        "average_volume",
+        "vwap",
+        "atr",
+        "breakout_level",
+    )
