@@ -597,3 +597,11 @@ Decision Quant Signal Guard Closed:
   - decision context tests passed: 6 passed
   - decision engine tests passed: 16 passed
   - full test suite passed: 208 passed
+
+Decision Threshold Boundary Closed:
+- Status: IMPLEMENTED
+- Test: tests/test_decision_engine.py::test_evaluate_decision_context_uses_default_threshold_boundaries
+- DEFAULT_DECISION_THRESHOLDS is now covered at the actionable boundary for price_change_pct and relative_volume.
+- Last verified:
+  - decision engine tests passed: 17 passed
+  - full test suite passed: 209 passed
