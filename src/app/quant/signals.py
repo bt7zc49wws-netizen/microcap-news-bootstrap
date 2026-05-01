@@ -52,7 +52,7 @@ def build_quant_signal(
     breakout_level: float,
 ) -> dict[str, float]:
     """Build canonical quant signal output from validated market snapshot values."""
-    return {
+    signal = {
         "price_change_pct": price_change_pct(current_price, previous_close),
         "gap_pct": gap_pct(open_price, previous_close),
         "intraday_return_pct": intraday_return_pct(current_price, open_price),
@@ -64,6 +64,9 @@ def build_quant_signal(
         "atr_pct": atr_pct(atr_value, current_price),
         "breakout_pct": breakout_pct(current_price, breakout_level),
     }
+    if set(signal) != QUANT_SIGNAL_FIELDS:
+        raise ValueError("quant_signal_fields_mismatch")
+    return signal
 
 
 def build_quant_signal_from_snapshot(snapshot: dict[str, float]) -> dict[str, float]:
