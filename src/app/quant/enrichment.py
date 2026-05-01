@@ -10,6 +10,7 @@ Rules:
 
 from __future__ import annotations
 
+
 def derive_previous_close(ohlcv_rows: list[dict[str, float]]) -> float:
     """Return previous close from the second-to-last OHLCV row."""
     if len(ohlcv_rows) < 2:
@@ -20,6 +21,7 @@ def derive_previous_close(ohlcv_rows: list[dict[str, float]]) -> float:
         raise ValueError("previous close must be numeric")
 
     return float(previous_close)
+
 
 def derive_average_volume(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
     """Return average volume over the latest completed rows before the current row."""
@@ -42,6 +44,7 @@ def derive_average_volume(ohlcv_rows: list[dict[str, float]], lookback: int = 20
         raise ValueError("no completed volume rows available")
 
     return sum(volumes) / len(volumes)
+
 
 def derive_vwap(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
     """Return VWAP over latest completed rows before the current row.
@@ -84,6 +87,7 @@ def derive_vwap(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float
 
     return total_price_volume / total_volume
 
+
 def derive_atr(ohlcv_rows: list[dict[str, float]], lookback: int = 14) -> float:
     """Return average true range over latest completed rows before the current row."""
     if lookback <= 0:
@@ -124,6 +128,7 @@ def derive_atr(ohlcv_rows: list[dict[str, float]], lookback: int = 14) -> float:
 
     return sum(true_ranges) / len(true_ranges)
 
+
 def derive_breakout_level(ohlcv_rows: list[dict[str, float]], lookback: int = 20) -> float:
     """Return breakout level as highest high over latest completed rows before current row."""
     if lookback <= 0:
@@ -145,6 +150,7 @@ def derive_breakout_level(ohlcv_rows: list[dict[str, float]], lookback: int = 20
         raise ValueError("no completed high rows available")
 
     return max(highs)
+
 
 def enrich_stooq_market_payload(
     ohlcv_rows: list[dict[str, float]],
