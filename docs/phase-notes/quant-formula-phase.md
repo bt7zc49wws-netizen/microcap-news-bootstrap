@@ -681,3 +681,12 @@ Paper Fill Execution Log Price Preservation Closed:
 - Last verified:
   - paper/execution target tests passed: 7 passed
   - full test suite passed: 225 passed
+
+Paper Order Execution Mode Guard Closed:
+- Status: IMPLEMENTED
+- PaperOrder now carries execution_mode="paper" by default.
+- This keeps paper trading objects explicitly separated from broker/live execution intent.
+- Scope remains paper-only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - paper trading type tests passed: 2 passed
+  - full test suite passed: 225 passed
