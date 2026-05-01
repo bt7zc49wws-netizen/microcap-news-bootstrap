@@ -650,3 +650,11 @@ Outcome Max Movement Calculations Closed:
 - Last verified:
   - outcome tests passed: 14 passed
   - full test suite passed: 223 passed
+
+Price-Based Outcome Builder Closed:
+- Status: IMPLEMENTED
+- Builder: src/app/models/outcome_record.py::build_outcome_record_from_prices
+- Contract: docs/contracts/outcome-measurement-contract-v1.md documents price-based outcome builder behavior.
+- Last verified:
+  - outcome tests passed: 15 passed
+  - full test suite passed: 224 passed
