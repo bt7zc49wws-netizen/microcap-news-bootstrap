@@ -588,3 +588,12 @@ Quant Field Guards Closed:
 - Last verified:
   - quant signal/enrichment guard tests passed: 26 passed
   - full test suite passed: 207 passed
+
+Decision Quant Signal Guard Closed:
+- Status: IMPLEMENTED
+- Decision context guard: src/app/decision_context.py rejects non-canonical quant_signal fields.
+- Decision engine tests use src/app/quant/signals.py::QUANT_SIGNAL_FIELDS-shaped helper payloads.
+- Last verified:
+  - decision context tests passed: 6 passed
+  - decision engine tests passed: 16 passed
+  - full test suite passed: 208 passed
