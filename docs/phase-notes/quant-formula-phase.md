@@ -699,3 +699,13 @@ Paper Fill Execution Mode Guard Closed:
 - Last verified:
   - paper trading type tests passed: 2 passed
   - full test suite passed: 225 passed
+
+Paper Execution Log Mode Guard Closed:
+- Status: IMPLEMENTED
+- ExecutionLogEntry now supports optional execution_mode.
+- Paper simulator build_execution_log_entry writes execution_mode="paper".
+- Paper order, fill, and execution log records now all carry explicit paper-only mode markers.
+- Scope remains paper-only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - paper/execution target tests passed: 9 passed
+  - full test suite passed: 225 passed
