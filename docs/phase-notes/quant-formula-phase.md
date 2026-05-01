@@ -690,3 +690,12 @@ Paper Order Execution Mode Guard Closed:
 - Last verified:
   - paper trading type tests passed: 2 passed
   - full test suite passed: 225 passed
+
+Paper Fill Execution Mode Guard Closed:
+- Status: IMPLEMENTED
+- PaperFill now carries execution_mode="paper" by default.
+- Paper orders and fills are both explicitly marked as paper-only objects.
+- Scope remains paper-only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - paper trading type tests passed: 2 passed
+  - full test suite passed: 225 passed
