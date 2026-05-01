@@ -37,3 +37,13 @@ def test_validate_market_snapshot_rejects_non_numeric_value() -> None:
 
     with pytest.raises(ValueError, match="current_price must be numeric"):
         validate_market_snapshot(snapshot)
+
+
+def test_validate_market_snapshot_drops_extra_fields() -> None:
+    snapshot = {field: 1.0 for field in REQUIRED_MARKET_SNAPSHOT_FIELDS}
+    snapshot["raw_provider_payload"] = {"secret": "must not leak"}
+
+    validated = validate_market_snapshot(snapshot)
+
+    assert tuple(validated.keys()) == REQUIRED_MARKET_SNAPSHOT_FIELDS
+    assert "raw_provider_payload" not in validated
