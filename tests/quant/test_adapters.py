@@ -1,6 +1,7 @@
 import pytest
 
 from app.quant.adapters import adapt_market_snapshot, adapt_mapped_market_snapshot, adapt_stooq_market_snapshot
+from app.quant.snapshot import REQUIRED_MARKET_SNAPSHOT_FIELDS
 
 
 def test_adapt_market_snapshot_returns_validated_snapshot() -> None:
@@ -119,3 +120,13 @@ def test_adapt_stooq_market_snapshot_rejects_missing_derived_field() -> None:
                 "volume": 250_000,
             }
         )
+
+
+def test_adapt_market_snapshot_drops_raw_provider_payload() -> None:
+    payload = {field: 1.0 for field in REQUIRED_MARKET_SNAPSHOT_FIELDS}
+    payload["raw_provider_payload"] = {"secret": "must not leak"}
+
+    snapshot = adapt_market_snapshot(payload)
+
+    assert tuple(snapshot.keys()) == REQUIRED_MARKET_SNAPSHOT_FIELDS
+    assert "raw_provider_payload" not in snapshot
