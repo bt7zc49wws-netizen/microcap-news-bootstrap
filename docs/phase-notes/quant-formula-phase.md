@@ -605,3 +605,9 @@ Decision Threshold Boundary Closed:
 - Last verified:
   - decision engine tests passed: 17 passed
   - full test suite passed: 209 passed
+
+Quant Decision Guard Joint Verification:
+- Status: VERIFIED
+- Scope: tests/quant, tests/test_decision_context.py, tests/test_decision_engine.py
+- Last verified:
+  - quant + decision guard suite passed: 88 passed
