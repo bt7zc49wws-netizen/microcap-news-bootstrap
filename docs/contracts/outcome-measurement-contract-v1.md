@@ -32,7 +32,8 @@ Rules:
 - measured_at_utc must be UTC ISO-8601 text.
 - horizon_minutes must be a positive integer.
 - reference_price and observed_price must be positive numbers.
-- return_pct is measured from reference_price to observed_price.
+- return_pct is measured from reference_price to observed_price using ((observed_price - reference_price) / reference_price) * 100.0.
+- build_outcome_record must calculate return_pct from reference_price and observed_price, then validate the canonical record shape.
 - max_up_pct and max_down_pct are optional adverse/favorable movement metrics for the same horizon.
 - Outcome records are analytics-only and must not trigger execution.
 
