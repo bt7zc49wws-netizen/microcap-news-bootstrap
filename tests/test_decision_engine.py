@@ -188,3 +188,20 @@ def test_make_decision_result_rejects_empty_symbol_when_provided() -> None:
             reason_codes=["VALID_TEST_REASON"],
             symbol="",
         )
+
+
+def test_evaluate_decision_context_uses_default_threshold_boundaries() -> None:
+    result = evaluate_decision_context(
+        {
+            "symbol": "AAPL",
+            "news": {"event_type": "financing"},
+            "quant_signal": _quant_signal(
+                price_change_pct=DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"],
+                relative_volume=DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"],
+            ),
+        }
+    )
+
+    assert result["decision"] == "actionable"
+    assert "PRICE_CHANGE_STRONG" in result["reason_codes"]
+    assert "RELATIVE_VOLUME_STRONG" in result["reason_codes"]
