@@ -1,6 +1,6 @@
 import pytest
 
-from app.models.outcome_record import OUTCOME_RECORD_FIELDS, validate_outcome_record
+from app.models.outcome_record import OUTCOME_RECORD_FIELDS, calculate_return_pct, validate_outcome_record
 
 
 def _record(**overrides: object) -> dict:
@@ -52,3 +52,13 @@ def test_validate_outcome_record_rejects_non_positive_horizon() -> None:
 def test_validate_outcome_record_rejects_non_positive_prices() -> None:
     with pytest.raises(ValueError, match="prices_must_be_positive"):
         validate_outcome_record(_record(reference_price=0.0))
+
+
+def test_calculate_return_pct() -> None:
+    assert calculate_return_pct(10.0, 11.0) == pytest.approx(10.0)
+    assert calculate_return_pct(10.0, 9.0) == pytest.approx(-10.0)
+
+
+def test_calculate_return_pct_rejects_non_positive_prices() -> None:
+    with pytest.raises(ValueError, match="prices_must_be_positive"):
+        calculate_return_pct(0.0, 11.0)

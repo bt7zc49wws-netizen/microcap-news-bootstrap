@@ -45,3 +45,9 @@ def validate_outcome_record(record: OutcomeRecord) -> OutcomeRecord:
     if record["reference_price"] <= 0 or record["observed_price"] <= 0:
         raise ValueError("prices_must_be_positive")
     return record
+
+
+def calculate_return_pct(reference_price: float, observed_price: float) -> float:
+    if reference_price <= 0 or observed_price <= 0:
+        raise ValueError("prices_must_be_positive")
+    return ((observed_price - reference_price) / reference_price) * 100.0
