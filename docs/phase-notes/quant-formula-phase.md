@@ -791,3 +791,11 @@ Risk Gate Contract Accepted Draft:
 - Last verified:
   - risk gate tests passed: 9 passed
   - full test suite passed: 231 passed
+
+Risk Type Field Stability Closed:
+- Status: IMPLEMENTED
+- Tests: tests/services/risk/test_risk_types.py covers RiskCheckResult and RiskLimits dataclass field stability.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk type tests passed: 4 passed
+  - full test suite passed: 233 passed
