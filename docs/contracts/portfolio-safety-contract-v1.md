@@ -1,6 +1,6 @@
 # Portfolio Safety Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define analytics-only portfolio and buying-power safety checks before any broker execution layer exists.
