@@ -1,18 +1,6 @@
 import pytest
 
-from app.services.risk.position_sizing import PositionSizeResult, calculate_position_size
-
-
-POSITION_SIZE_RESULT_FIELDS = (
-    "account_equity_usd",
-    "risk_fraction",
-    "risk_amount_usd",
-    "entry_price",
-    "stop_price",
-    "risk_per_share",
-    "quantity",
-    "notional_usd",
-)
+from app.services.risk.position_sizing import POSITION_SIZE_RESULT_FIELDS, PositionSizeResult, calculate_position_size
 
 
 def test_calculate_position_size_returns_expected_long_size() -> None:

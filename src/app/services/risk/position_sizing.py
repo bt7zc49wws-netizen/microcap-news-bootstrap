@@ -4,6 +4,18 @@ from dataclasses import dataclass
 from math import floor
 
 
+POSITION_SIZE_RESULT_FIELDS = (
+    "account_equity_usd",
+    "risk_fraction",
+    "risk_amount_usd",
+    "entry_price",
+    "stop_price",
+    "risk_per_share",
+    "quantity",
+    "notional_usd",
+)
+
+
 @dataclass(frozen=True)
 class PositionSizeResult:
     account_equity_usd: float
@@ -37,7 +49,7 @@ def calculate_position_size(
     quantity = floor(risk_amount_usd / risk_per_share)
     notional_usd = quantity * entry_price
 
-    return PositionSizeResult(
+    result = PositionSizeResult(
         account_equity_usd=account_equity_usd,
         risk_fraction=risk_fraction,
         risk_amount_usd=risk_amount_usd,
@@ -47,3 +59,6 @@ def calculate_position_size(
         quantity=quantity,
         notional_usd=notional_usd,
     )
+    if tuple(PositionSizeResult.__dataclass_fields__) != POSITION_SIZE_RESULT_FIELDS:
+        raise ValueError("position_size_result_fields_mismatch")
+    return result
