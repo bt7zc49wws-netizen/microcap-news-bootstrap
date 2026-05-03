@@ -863,3 +863,11 @@ Risk Position Sizing Target Suite Verification:
 - Last verified:
   - risk + position sizing target suite passed: 17 passed
   - full test suite passed: 237 passed
+
+Position Sizing Foundation Phase Closed:
+- Status: CLOSED
+- Scope closed: position sizing contract Accepted Draft, PositionSizeResult, calculate_position_size, field stability test, POSITION_SIZE_RESULT_FIELDS, runtime field guard, risk + position sizing target suite verification.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - risk + position sizing target suite passed: 17 passed
+  - full test suite passed: 237 passed
