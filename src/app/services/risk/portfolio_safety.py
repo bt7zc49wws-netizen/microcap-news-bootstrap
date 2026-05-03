@@ -45,7 +45,7 @@ def _portfolio_result(
 ) -> PortfolioSafetyResult:
     if reason_code not in PORTFOLIO_SAFETY_REASON_CODES:
         raise ValueError("portfolio_safety_reason_code_unknown")
-    return PortfolioSafetyResult(
+    result = PortfolioSafetyResult(
         allowed=allowed,
         reason_code=reason_code,
         reason_label=reason_label,
@@ -54,6 +54,9 @@ def _portfolio_result(
         projected_cash_usd=projected_cash_usd,
         projected_cash_buffer_fraction=projected_cash_buffer_fraction,
     )
+    if tuple(PortfolioSafetyResult.__dataclass_fields__) != PORTFOLIO_SAFETY_RESULT_FIELDS:
+        raise ValueError("portfolio_safety_result_fields_mismatch")
+    return result
 
 
 def check_portfolio_safety(
