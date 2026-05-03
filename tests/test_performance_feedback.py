@@ -46,6 +46,22 @@ def test_build_performance_feedback_from_outcome() -> None:
     assert record["feedback_label"] == "positive"
 
 
+def test_build_performance_feedback_negative_outcome() -> None:
+    record = build_performance_feedback(_outcome(return_pct=-3.5, observed_price=9.65))
+
+    assert record["was_directionally_positive"] is False
+    assert record["feedback_label"] == "negative"
+    assert record["return_pct"] == -3.5
+
+
+def test_build_performance_feedback_neutral_outcome() -> None:
+    record = build_performance_feedback(_outcome(return_pct=0.0, observed_price=10.0))
+
+    assert record["was_directionally_positive"] is False
+    assert record["feedback_label"] == "neutral"
+    assert record["return_pct"] == 0.0
+
+
 def test_validate_performance_feedback_rejects_field_drift() -> None:
     record = build_performance_feedback(_outcome())
     record["extra_field"] = "must not leak"
