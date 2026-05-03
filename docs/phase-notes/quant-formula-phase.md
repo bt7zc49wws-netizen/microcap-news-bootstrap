@@ -773,3 +773,12 @@ Docker Test Visibility Fix Closed:
 - Status endpoint test no longer hardcodes degraded; it accepts the contract enum ok/degraded because runtime freshness may vary by environment.
 - Last verified:
   - full test suite passed inside container: 231 passed
+
+Risk Gate Contract Added:
+- Status: DRAFT ADDED
+- Contract: docs/contracts/risk-gate-contract-v1.md
+- Covers: RiskLimits inputs, RiskCheckResult fields, RISK_REASON_CODES, validation order, allowed result contract, and execution/broker exclusions.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 9 passed
+  - full test suite passed: 231 passed
