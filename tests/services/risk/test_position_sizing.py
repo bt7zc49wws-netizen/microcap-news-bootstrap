@@ -3,6 +3,18 @@ import pytest
 from app.services.risk.position_sizing import PositionSizeResult, calculate_position_size
 
 
+POSITION_SIZE_RESULT_FIELDS = (
+    "account_equity_usd",
+    "risk_fraction",
+    "risk_amount_usd",
+    "entry_price",
+    "stop_price",
+    "risk_per_share",
+    "quantity",
+    "notional_usd",
+)
+
+
 def test_calculate_position_size_returns_expected_long_size() -> None:
     result = calculate_position_size(
         account_equity_usd=10000.0,
@@ -44,3 +56,7 @@ def test_calculate_position_size_rejects_invalid_inputs() -> None:
         calculate_position_size(account_equity_usd=1000.0, risk_fraction=0.01, entry_price=0.0, stop_price=9.5)
     with pytest.raises(ValueError, match="entry_price_must_exceed_stop_price"):
         calculate_position_size(account_equity_usd=1000.0, risk_fraction=0.01, entry_price=9.5, stop_price=9.5)
+
+
+def test_position_size_result_fields_are_stable() -> None:
+    assert tuple(PositionSizeResult.__dataclass_fields__) == POSITION_SIZE_RESULT_FIELDS
