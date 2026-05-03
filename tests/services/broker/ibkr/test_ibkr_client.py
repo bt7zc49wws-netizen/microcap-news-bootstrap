@@ -30,3 +30,4 @@ def test_ibkr_paper_client_submits_order_when_enabled():
     assert order.side == "buy"
     assert order.quantity == 100
     assert order.status == "submitted"
+    assert order.execution_mode == "paper"
