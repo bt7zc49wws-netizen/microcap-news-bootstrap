@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src ./src
 COPY scripts ./scripts
+COPY tests ./tests
+COPY docs ./docs
+COPY reports ./reports
 
 EXPOSE 8000
 
