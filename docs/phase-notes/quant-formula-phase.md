@@ -811,3 +811,11 @@ Risk Foundation Full Suite Verification:
 - Last verified:
   - risk target suite passed: 13 passed
   - full test suite passed: 233 passed
+
+Risk Foundation Phase Closed:
+- Status: CLOSED
+- Scope closed: risk gate contract Accepted Draft, RISK_REASON_CODES, runtime reason code guard, invalid risk input guards, allowed result label guard, RiskLimits/RiskCheckResult field stability, risk target suite verification.
+- Scope remains safety/pre-execution only: no position sizing, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk target suite passed: 13 passed
+  - full test suite passed: 233 passed
