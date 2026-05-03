@@ -782,3 +782,12 @@ Risk Gate Contract Added:
 - Last verified:
   - risk gate tests passed: 9 passed
   - full test suite passed: 231 passed
+
+Risk Gate Contract Accepted Draft:
+- Status: ACCEPTED DRAFT
+- Contract: docs/contracts/risk-gate-contract-v1.md
+- Risk gate contract status moved from DRAFT to Accepted Draft after target risk tests and full suite passed.
+- Scope remains safety/pre-execution only: no broker execution, no IBKR, no live orders.
+- Last verified:
+  - risk gate tests passed: 9 passed
+  - full test suite passed: 231 passed
