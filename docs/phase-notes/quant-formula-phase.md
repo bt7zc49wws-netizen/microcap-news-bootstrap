@@ -947,3 +947,14 @@ Execution Boundary Phase Closed:
 - Last verified:
   - execution boundary target suite passed: 12 passed
   - full test suite passed: 243 passed
+
+Performance Feedback Foundation Started:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/performance-feedback-contract-v1.md
+- Model: src/app/models/performance_feedback.py
+- Tests: tests/test_performance_feedback.py
+- Implemented: PerformanceFeedbackRecord, PERFORMANCE_FEEDBACK_FIELDS, classify_feedback_label, validate_performance_feedback, build_performance_feedback.
+- Scope remains analytics-only: no ML training loop, no model weight updates, no automated threshold tuning, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - performance feedback tests passed: 4 passed
+  - full test suite passed: 247 passed
