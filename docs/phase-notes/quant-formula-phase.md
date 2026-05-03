@@ -766,3 +766,10 @@ Risk Reason Code Runtime Guard Closed:
 - Last verified:
   - risk gate tests passed: 9 passed
   - full test suite passed: 231 passed
+
+Docker Test Visibility Fix Closed:
+- Status: IMPLEMENTED
+- Dockerfile now copies tests, docs, and reports into the app image so container pytest can run the full suite.
+- Status endpoint test no longer hardcodes degraded; it accepts the contract enum ok/degraded because runtime freshness may vary by environment.
+- Last verified:
+  - full test suite passed inside container: 231 passed
