@@ -882,3 +882,12 @@ Portfolio Safety Foundation Started:
 - Last verified:
   - portfolio safety tests passed: 5 passed
   - full test suite passed: 242 passed
+
+Portfolio Safety Result Field Stability Closed:
+- Status: IMPLEMENTED
+- Constant: src/app/services/risk/portfolio_safety.py::PORTFOLIO_SAFETY_RESULT_FIELDS
+- Tests: tests/services/risk/test_portfolio_safety.py covers PortfolioSafetyResult dataclass field stability.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - portfolio safety tests passed: 6 passed
+  - full test suite passed: 243 passed
