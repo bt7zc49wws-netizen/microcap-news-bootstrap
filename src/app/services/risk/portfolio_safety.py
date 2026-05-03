@@ -14,6 +14,17 @@ class PortfolioSafetyResult:
     projected_cash_buffer_fraction: float
 
 
+PORTFOLIO_SAFETY_RESULT_FIELDS = (
+    "allowed",
+    "reason_code",
+    "reason_label",
+    "projected_exposure_usd",
+    "projected_exposure_fraction",
+    "projected_cash_usd",
+    "projected_cash_buffer_fraction",
+)
+
+
 PORTFOLIO_SAFETY_REASON_CODES = {
     "INVALID_PORTFOLIO_INPUTS",
     "MAX_EXPOSURE_EXCEEDED",

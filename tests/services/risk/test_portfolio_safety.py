@@ -2,6 +2,7 @@ import pytest
 
 from app.services.risk.portfolio_safety import (
     PORTFOLIO_SAFETY_REASON_CODES,
+    PORTFOLIO_SAFETY_RESULT_FIELDS,
     PortfolioSafetyResult,
     check_portfolio_safety,
 )
@@ -77,3 +78,7 @@ def test_portfolio_safety_reason_codes_are_canonical() -> None:
         "CASH_BUFFER_BREACHED",
         "PORTFOLIO_CHECK_PASSED",
     }
+
+
+def test_portfolio_safety_result_fields_are_stable() -> None:
+    assert tuple(PortfolioSafetyResult.__dataclass_fields__) == PORTFOLIO_SAFETY_RESULT_FIELDS
