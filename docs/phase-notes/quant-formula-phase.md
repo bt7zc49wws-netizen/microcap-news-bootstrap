@@ -900,3 +900,12 @@ Portfolio Safety Result Runtime Guard Closed:
 - Last verified:
   - portfolio safety tests passed: 6 passed
   - full test suite passed: 243 passed
+
+Portfolio Safety Contract Accepted Draft:
+- Status: ACCEPTED DRAFT
+- Contract: docs/contracts/portfolio-safety-contract-v1.md
+- Portfolio safety contract moved from DRAFT to Accepted Draft after target portfolio safety tests and full suite passed.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - portfolio safety tests passed: 6 passed
+  - full test suite passed: 243 passed
