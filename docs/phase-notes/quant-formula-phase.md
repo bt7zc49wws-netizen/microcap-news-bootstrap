@@ -830,3 +830,11 @@ Position Sizing Foundation Started:
 - Last verified:
   - position sizing tests passed: 3 passed
   - full test suite passed: 236 passed
+
+Position Size Result Field Stability Closed:
+- Status: IMPLEMENTED
+- Tests: tests/services/risk/test_position_sizing.py covers PositionSizeResult dataclass field stability.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - position sizing tests passed: 4 passed
+  - full test suite passed: 237 passed
