@@ -924,3 +924,11 @@ Portfolio Safety Foundation Phase Closed:
 - Last verified:
   - portfolio + position sizing + risk target suite passed: 23 passed
   - full test suite passed: 243 passed
+
+IBKR Paper Client Execution Mode Guard Closed:
+- Status: IMPLEMENTED
+- Test: tests/services/broker/ibkr/test_ibkr_client.py verifies enabled IbkrPaperClient returns PaperOrder with execution_mode="paper".
+- Scope remains paper-only: no broker execution, no IBKR live orders, no real capital movement.
+- Last verified:
+  - IBKR paper client tests passed: 2 passed
+  - full test suite passed: 243 passed
