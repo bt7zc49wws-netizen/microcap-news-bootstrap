@@ -856,3 +856,10 @@ Position Size Result Runtime Guard Closed:
 - Last verified:
   - position sizing tests passed: 4 passed
   - full test suite passed: 237 passed
+
+Risk Position Sizing Target Suite Verification:
+- Status: VERIFIED
+- Scope: tests/services/risk/test_position_sizing.py, tests/services/risk/test_risk_gate.py, tests/services/risk/test_risk_types.py
+- Last verified:
+  - risk + position sizing target suite passed: 17 passed
+  - full test suite passed: 237 passed
