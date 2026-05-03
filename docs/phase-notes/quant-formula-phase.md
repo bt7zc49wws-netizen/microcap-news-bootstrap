@@ -909,3 +909,10 @@ Portfolio Safety Contract Accepted Draft:
 - Last verified:
   - portfolio safety tests passed: 6 passed
   - full test suite passed: 243 passed
+
+Portfolio Risk Position Target Suite Verification:
+- Status: VERIFIED
+- Scope: tests/services/risk/test_portfolio_safety.py, tests/services/risk/test_position_sizing.py, tests/services/risk/test_risk_gate.py, tests/services/risk/test_risk_types.py
+- Last verified:
+  - portfolio + position sizing + risk target suite passed: 23 passed
+  - full test suite passed: 243 passed
