@@ -1,6 +1,6 @@
 # Risk Gate Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define the pre-execution risk gate contract for validating paper/live-intent order candidates before any broker execution layer exists.
