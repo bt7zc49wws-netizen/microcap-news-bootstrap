@@ -847,3 +847,12 @@ Position Sizing Contract Accepted Draft:
 - Last verified:
   - position sizing tests passed: 4 passed
   - full test suite passed: 237 passed
+
+Position Size Result Runtime Guard Closed:
+- Status: IMPLEMENTED
+- Constant: src/app/services/risk/position_sizing.py::POSITION_SIZE_RESULT_FIELDS
+- Runtime guard: calculate_position_size raises position_size_result_fields_mismatch if PositionSizeResult fields drift.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - position sizing tests passed: 4 passed
+  - full test suite passed: 237 passed
