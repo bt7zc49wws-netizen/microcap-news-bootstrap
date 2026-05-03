@@ -871,3 +871,14 @@ Position Sizing Foundation Phase Closed:
 - Last verified:
   - risk + position sizing target suite passed: 17 passed
   - full test suite passed: 237 passed
+
+Portfolio Safety Foundation Started:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/portfolio-safety-contract-v1.md
+- Model: src/app/services/risk/portfolio_safety.py
+- Tests: tests/services/risk/test_portfolio_safety.py
+- Implemented: PortfolioSafetyResult, PORTFOLIO_SAFETY_REASON_CODES, check_portfolio_safety.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - portfolio safety tests passed: 5 passed
+  - full test suite passed: 242 passed
