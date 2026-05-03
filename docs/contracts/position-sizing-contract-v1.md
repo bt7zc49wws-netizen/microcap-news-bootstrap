@@ -1,6 +1,6 @@
 # Position Sizing Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define analytics-only position sizing calculations before any broker execution layer exists.
