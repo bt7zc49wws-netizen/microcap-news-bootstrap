@@ -891,3 +891,12 @@ Portfolio Safety Result Field Stability Closed:
 - Last verified:
   - portfolio safety tests passed: 6 passed
   - full test suite passed: 243 passed
+
+Portfolio Safety Result Runtime Guard Closed:
+- Status: IMPLEMENTED
+- Runtime guard: check_portfolio_safety output path raises portfolio_safety_result_fields_mismatch if PortfolioSafetyResult fields drift.
+- Constant: src/app/services/risk/portfolio_safety.py::PORTFOLIO_SAFETY_RESULT_FIELDS
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - portfolio safety tests passed: 6 passed
+  - full test suite passed: 243 passed
