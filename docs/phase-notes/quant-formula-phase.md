@@ -838,3 +838,12 @@ Position Size Result Field Stability Closed:
 - Last verified:
   - position sizing tests passed: 4 passed
   - full test suite passed: 237 passed
+
+Position Sizing Contract Accepted Draft:
+- Status: ACCEPTED DRAFT
+- Contract: docs/contracts/position-sizing-contract-v1.md
+- Position sizing contract moved from DRAFT to Accepted Draft after target position sizing tests and full suite passed.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - position sizing tests passed: 4 passed
+  - full test suite passed: 237 passed
