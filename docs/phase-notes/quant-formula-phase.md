@@ -819,3 +819,14 @@ Risk Foundation Phase Closed:
 - Last verified:
   - risk target suite passed: 13 passed
   - full test suite passed: 233 passed
+
+Position Sizing Foundation Started:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/position-sizing-contract-v1.md
+- Model: src/app/services/risk/position_sizing.py
+- Tests: tests/services/risk/test_position_sizing.py
+- Implemented: PositionSizeResult and calculate_position_size for long-side analytics-only sizing.
+- Scope remains pre-execution only: no broker execution, no IBKR, no live orders, no real capital movement.
+- Last verified:
+  - position sizing tests passed: 3 passed
+  - full test suite passed: 236 passed
