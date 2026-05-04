@@ -1,6 +1,6 @@
 # Stooq Market Snapshot Mapping v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define how normalized Stooq market/fundamental data will map into the provider-independent market snapshot contract.
