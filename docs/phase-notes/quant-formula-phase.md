@@ -978,3 +978,13 @@ Performance Feedback Foundation Phase Closed:
 - Last verified:
   - performance feedback tests passed: 13 passed
   - full test suite passed: 256 passed
+
+
+Runtime Provider Status Aggregation Guard Hardening:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/runtime-provider-status-aggregation-contract-v1.md documents aggregation invariants.
+- Tests: tests/services/providers/test_provider_diagnostics.py covers empty input, latest_fetched_at selection, mixed status counts, payload aggregation, and provider order preservation.
+- Scope remains read-only diagnostics: no orders, no execution intents, no broker calls, no IBKR calls.
+- Last verified:
+  - provider diagnostics tests passed: 7 passed
+  - full test suite passed: 260 passed
