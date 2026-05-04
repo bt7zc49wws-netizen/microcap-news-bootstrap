@@ -113,12 +113,12 @@ Registry rules:
 Decision result trace:
 - Optional field: symbol
 - Source: decision context symbol
-- Normalization: uppercase
+- Normalization: trim whitespace, then uppercase
 - Applies to evaluate_decision_context outputs
 
 Trace rules:
 - make_decision_result may include symbol when provided.
-- Empty symbol must be rejected when symbol is explicitly provided.
+- Empty or whitespace-only symbol must be rejected when symbol is explicitly provided.
 - Evaluator should preserve symbol trace from decision context.
 - Symbol trace is for API/dashboard/replay observability only.
 
@@ -135,7 +135,7 @@ Optional fields:
 Field rules:
 - decision is one of: no_trade, watchlist, actionable
 - reason_codes is a non-empty list of VALID_REASON_CODES-compatible identifiers
-- symbol, when present, is uppercase
+- symbol, when present, is trimmed and uppercase
 - timestamp fields are intentionally excluded from this pure/offline phase
 - score fields are intentionally excluded from this phase
 - execution/order fields are forbidden
