@@ -57,6 +57,13 @@ def test_validate_live_provider_smoke_report_rejects_aggregate_count_mismatch(tm
     assert validate_live_provider_smoke_report(report_path) == {"ok": False, "reason": "aggregate_count_mismatch"}
 
 
+def test_validate_live_provider_smoke_report_rejects_payload_mismatch(tmp_path: Path) -> None:
+    report_path = tmp_path / "report.json"
+    _write_report(report_path, {"has_any_payload": False})
+
+    assert validate_live_provider_smoke_report(report_path) == {"ok": False, "reason": "payload_flag_mismatch"}
+
+
 def test_validate_live_provider_smoke_report_rejects_invalid_provider_status(tmp_path: Path) -> None:
     report_path = tmp_path / "report.json"
     _write_report(report_path, {"providers": [{"provider_name": "benzinga", "status": "unknown", "records_returned": 3, "has_error": False, "has_payload": True}]})
