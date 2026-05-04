@@ -30,8 +30,9 @@ Rules:
 - symbol must be uppercase.
 - decision must remain one of no_trade, watchlist, actionable.
 - measured_at_utc must be UTC ISO-8601 text.
-- horizon_minutes must be a positive integer.
+- horizon_minutes must be numeric and positive.
 - reference_price and observed_price must be positive numbers.
+- return_pct, max_up_pct, and max_down_pct must be numeric.
 - return_pct is measured from reference_price to observed_price using ((observed_price - reference_price) / reference_price) * 100.0.
 - build_outcome_record must calculate return_pct from reference_price and observed_price, then validate the canonical record shape.
 - build_outcome_record_from_prices must calculate return_pct, max_up_pct, and max_down_pct from observed_price, high_price, and low_price before validating the canonical record shape.
