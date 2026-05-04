@@ -27,8 +27,9 @@ Decision-context news output:
 - headline
 
 Rules:
-- event_type must not be empty
-- headline must not be empty
+- event_type must not be empty after trimming whitespace
+- headline must not be empty after trimming whitespace
+- Output event_type and headline must be trimmed strings
 - provider/classifier extra fields must not leak into decision-context news input
 - adapter must remain pure validation/adaptation
 
