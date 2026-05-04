@@ -38,6 +38,29 @@ def test_aggregate_provider_status_diagnostics() -> None:
     }
 
 
+def test_aggregate_provider_status_diagnostics_uses_latest_fetched_at() -> None:
+    diagnostics = [
+        {
+            "provider_name": "older",
+            "status": "ok",
+            "records_returned": 1,
+            "fetched_at": "2026-04-29T12:00:00+00:00",
+            "has_error": False,
+            "has_payload": True,
+        },
+        {
+            "provider_name": "newer",
+            "status": "ok",
+            "records_returned": 1,
+            "fetched_at": "2026-04-29T12:05:00+00:00",
+            "has_error": False,
+            "has_payload": True,
+        },
+    ]
+
+    assert aggregate_provider_status_diagnostics(diagnostics)["latest_fetched_at"] == "2026-04-29T12:05:00+00:00"
+
+
 def test_aggregate_provider_status_diagnostics_handles_empty_input() -> None:
     assert aggregate_provider_status_diagnostics([]) == {
         "provider_count": 0,
