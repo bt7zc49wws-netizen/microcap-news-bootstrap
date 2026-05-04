@@ -67,9 +67,10 @@ def make_decision_result(
     }
 
     if symbol is not None:
-        if not symbol:
+        normalized_symbol = str(symbol).strip()
+        if not normalized_symbol:
             raise ValueError("symbol must not be empty")
-        result["symbol"] = symbol.upper()
+        result["symbol"] = normalized_symbol.upper()
 
     return result
 

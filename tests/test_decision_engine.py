@@ -181,6 +181,25 @@ def test_make_decision_result_can_include_symbol() -> None:
     }
 
 
+def test_make_decision_result_rejects_whitespace_symbol_when_provided() -> None:
+    with pytest.raises(ValueError, match="symbol must not be empty"):
+        make_decision_result(
+            decision=DECISION_WATCHLIST,
+            reason_codes=["VALID_TEST_REASON"],
+            symbol="   ",
+        )
+
+
+def test_make_decision_result_trims_symbol_when_provided() -> None:
+    result = make_decision_result(
+        decision=DECISION_WATCHLIST,
+        reason_codes=["VALID_TEST_REASON"],
+        symbol=" aapl ",
+    )
+
+    assert result["symbol"] == "AAPL"
+
+
 def test_make_decision_result_rejects_empty_symbol_when_provided() -> None:
     with pytest.raises(ValueError, match="symbol must not be empty"):
         make_decision_result(
