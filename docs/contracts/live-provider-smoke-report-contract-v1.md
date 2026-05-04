@@ -24,4 +24,11 @@ Rules:
 - execution_side_effects must be false.
 - Report must not contain API keys, tokens, raw provider payloads, broker data, IBKR data, orders, or execution intents.
 - Provider entries must stay diagnostic-level only: provider_name, status, records_returned, has_error, has_payload.
+
+Readiness validation invariants:
+- Top-level fields must match the smoke report contract exactly.
+- Provider fields must match the provider diagnostic contract exactly.
+- Provider status must be one of: ok, error.
+- provider_count must equal ok_count + error_count.
+- has_any_payload must equal whether any provider has_payload is true.
 - Report updates require gated live smoke verification when env is available, plus offline smoke and full test.
