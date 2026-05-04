@@ -17,7 +17,7 @@ def test_build_quant_signal_returns_canonical_fields() -> None:
         breakout_level=10.0,
     )
 
-    assert set(signal) == QUANT_SIGNAL_FIELDS
+    assert tuple(signal) == QUANT_SIGNAL_FIELDS
     assert signal == {
         "price_change_pct": pytest.approx(20.0),
         "gap_pct": pytest.approx(10.0),
@@ -64,7 +64,7 @@ def test_build_quant_signal_from_snapshot_validates_and_builds() -> None:
         }
     )
 
-    assert set(signal) == QUANT_SIGNAL_FIELDS
+    assert tuple(signal) == QUANT_SIGNAL_FIELDS
     assert signal["price_change_pct"] == pytest.approx(20.0)
     assert signal["relative_volume"] == pytest.approx(2.5)
 

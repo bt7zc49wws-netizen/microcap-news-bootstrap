@@ -24,7 +24,7 @@ from app.quant.formulas import (
 )
 
 
-QUANT_SIGNAL_FIELDS = {
+QUANT_SIGNAL_FIELDS = (
     "price_change_pct",
     "gap_pct",
     "intraday_return_pct",
@@ -35,7 +35,7 @@ QUANT_SIGNAL_FIELDS = {
     "vwap_distance_pct",
     "atr_pct",
     "breakout_pct",
-}
+)
 
 
 def build_quant_signal(
@@ -64,7 +64,7 @@ def build_quant_signal(
         "atr_pct": atr_pct(atr_value, current_price),
         "breakout_pct": breakout_pct(current_price, breakout_level),
     }
-    if set(signal) != QUANT_SIGNAL_FIELDS:
+    if tuple(signal) != QUANT_SIGNAL_FIELDS:
         raise ValueError("quant_signal_fields_mismatch")
     return signal
 

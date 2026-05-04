@@ -27,7 +27,7 @@ def build_decision_context(
         raise ValueError("news must not be empty")
     if not quant_signal:
         raise ValueError("quant_signal must not be empty")
-    if set(quant_signal) != QUANT_SIGNAL_FIELDS:
+    if tuple(quant_signal) != QUANT_SIGNAL_FIELDS:
         raise ValueError("quant_signal_fields_mismatch")
     if audit_trace is not None and not audit_trace:
         raise ValueError("audit_trace must not be empty")
