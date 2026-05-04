@@ -1,6 +1,6 @@
 # Performance Feedback Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define analytics-only feedback records that connect decision snapshots to measured outcomes before any ML training loop exists.
