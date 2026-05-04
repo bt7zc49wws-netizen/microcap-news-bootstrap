@@ -28,6 +28,7 @@ Required fields:
 
 Rules:
 - All values must be numeric.
+- Boolean values must not be accepted as numeric values.
 - Denominator-like values must be positive where required by formulas.
 - Snapshot validation must happen before build_quant_signal.
 - Provider-specific raw fields must not leak into quant signal output.
