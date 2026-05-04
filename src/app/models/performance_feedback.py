@@ -56,6 +56,8 @@ def validate_performance_feedback(record: PerformanceFeedbackRecord) -> Performa
         raise ValueError("invalid_decision")
     if record["horizon_minutes"] <= 0:
         raise ValueError("horizon_minutes_must_be_positive")
+    if isinstance(record["return_pct"], bool) or not isinstance(record["return_pct"], int | float):
+        raise ValueError("return_pct_must_be_numeric")
     if record["feedback_label"] not in VALID_FEEDBACK_LABELS:
         raise ValueError("invalid_feedback_label")
     return record

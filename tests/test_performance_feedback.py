@@ -91,6 +91,14 @@ def test_validate_performance_feedback_rejects_invalid_feedback_label() -> None:
         validate_performance_feedback(record)
 
 
+def test_validate_performance_feedback_rejects_non_numeric_return_pct() -> None:
+    record = build_performance_feedback(_outcome())
+    record["return_pct"] = "10.0"
+
+    with pytest.raises(ValueError, match="return_pct_must_be_numeric"):
+        validate_performance_feedback(record)
+
+
 def test_validate_performance_feedback_rejects_non_uuid_source_decision_id() -> None:
     record = build_performance_feedback(_outcome())
     record["source_decision_id"] = "decision-1"
