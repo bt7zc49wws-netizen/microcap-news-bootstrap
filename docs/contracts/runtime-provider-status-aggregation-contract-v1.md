@@ -23,6 +23,13 @@ Minimum aggregate fields:
 - latest_fetched_at
 - providers
 
+Aggregation invariants:
+- Empty diagnostic input must return provider_count=0, ok_count=0, error_count=0, has_any_payload=false, latest_fetched_at=null, and providers=[].
+- latest_fetched_at must be the maximum fetched_at value from the input diagnostics.
+- ok_count and error_count must count diagnostics by status without exceeding provider_count.
+- has_any_payload must be true when at least one provider diagnostic has payload.
+- providers must preserve input order.
+
 Fixture:
 - tests/fixtures/provider_diagnostics/aggregate_provider_status_diagnostics.json
 - The aggregation fixture validates stable aggregate output shape without live provider calls.
