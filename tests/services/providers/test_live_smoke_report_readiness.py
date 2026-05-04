@@ -43,6 +43,13 @@ def test_validate_live_provider_smoke_report_rejects_secret_recording(tmp_path: 
     assert validate_live_provider_smoke_report(report_path) == {"ok": False, "reason": "secrets_recorded"}
 
 
+def test_validate_live_provider_smoke_report_rejects_top_level_field_drift(tmp_path: Path) -> None:
+    report_path = tmp_path / "report.json"
+    _write_report(report_path, {"unexpected": True})
+
+    assert validate_live_provider_smoke_report(report_path) == {"ok": False, "reason": "top_level_fields_mismatch"}
+
+
 def test_validate_live_provider_smoke_report_rejects_provider_field_drift(tmp_path: Path) -> None:
     report_path = tmp_path / "report.json"
     _write_report(report_path, {"providers": [{"provider_name": "benzinga"}]})
