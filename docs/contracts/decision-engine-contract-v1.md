@@ -1,6 +1,6 @@
 # Decision Engine Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define the offline-safe canonical decision result shape.
