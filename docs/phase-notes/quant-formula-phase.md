@@ -1066,3 +1066,12 @@ News Decision Adapter Phase Closed:
 - Last verified:
   - news decision adapter tests passed: 5 passed
   - full test suite passed: 272 passed
+
+
+Decision Context Phase Closed:
+- Status: CLOSED
+- Scope closed: decision context contract Accepted Draft, symbol whitespace rejection, symbol trim/uppercase normalization, required input guards, audit trace support, and quant signal field mismatch guard.
+- Scope remains context-building only: no classification changes, no scoring changes, no trading decision changes, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - decision context tests passed: 8 passed
+  - full test suite passed: 274 passed
