@@ -1,6 +1,6 @@
 # Market Snapshot Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define the validated market snapshot input required by the quant signal builder.
