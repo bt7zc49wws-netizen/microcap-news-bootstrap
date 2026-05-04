@@ -115,6 +115,14 @@ def test_validate_performance_feedback_rejects_non_numeric_return_pct() -> None:
         validate_performance_feedback(record)
 
 
+def test_validate_performance_feedback_rejects_non_numeric_horizon() -> None:
+    record = build_performance_feedback(_outcome())
+    record["horizon_minutes"] = "60"
+
+    with pytest.raises(ValueError, match="horizon_minutes_must_be_numeric"):
+        validate_performance_feedback(record)
+
+
 def test_validate_performance_feedback_rejects_non_uuid_source_decision_id() -> None:
     record = build_performance_feedback(_outcome())
     record["source_decision_id"] = "decision-1"
