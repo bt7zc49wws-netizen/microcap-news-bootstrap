@@ -35,6 +35,11 @@ PERFORMANCE_FEEDBACK_FIELDS = (
 )
 
 
+def _ensure_numeric(value: object, error_code: str) -> None:
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise ValueError(error_code)
+
+
 def classify_feedback_label(return_pct: float) -> FeedbackLabel:
     if return_pct > 0:
         return "positive"
@@ -54,16 +59,12 @@ def validate_performance_feedback(record: PerformanceFeedbackRecord) -> Performa
         raise ValueError("symbol_must_be_uppercase")
     if record["decision"] not in VALID_FEEDBACK_DECISIONS:
         raise ValueError("invalid_decision")
-    if isinstance(record["horizon_minutes"], bool) or not isinstance(record["horizon_minutes"], int | float):
-        raise ValueError("horizon_minutes_must_be_numeric")
+    _ensure_numeric(record["horizon_minutes"], "horizon_minutes_must_be_numeric")
     if record["horizon_minutes"] <= 0:
         raise ValueError("horizon_minutes_must_be_positive")
-    if isinstance(record["return_pct"], bool) or not isinstance(record["return_pct"], int | float):
-        raise ValueError("return_pct_must_be_numeric")
-    if isinstance(record["max_up_pct"], bool) or not isinstance(record["max_up_pct"], int | float):
-        raise ValueError("max_up_pct_must_be_numeric")
-    if isinstance(record["max_down_pct"], bool) or not isinstance(record["max_down_pct"], int | float):
-        raise ValueError("max_down_pct_must_be_numeric")
+    _ensure_numeric(record["return_pct"], "return_pct_must_be_numeric")
+    _ensure_numeric(record["max_up_pct"], "max_up_pct_must_be_numeric")
+    _ensure_numeric(record["max_down_pct"], "max_down_pct_must_be_numeric")
     if record["feedback_label"] not in VALID_FEEDBACK_LABELS:
         raise ValueError("invalid_feedback_label")
     return record
