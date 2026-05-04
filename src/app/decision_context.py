@@ -21,7 +21,7 @@ def build_decision_context(
     audit_trace: dict | None = None,
 ) -> dict:
     """Build a decision context from already-computed news and quant inputs."""
-    if not symbol:
+    if not str(symbol).strip():
         raise ValueError("symbol must not be empty")
     if not news:
         raise ValueError("news must not be empty")
@@ -33,7 +33,7 @@ def build_decision_context(
         raise ValueError("audit_trace must not be empty")
 
     context = {
-        "symbol": symbol.upper(),
+        "symbol": str(symbol).strip().upper(),
         "news": news,
         "quant_signal": quant_signal,
     }

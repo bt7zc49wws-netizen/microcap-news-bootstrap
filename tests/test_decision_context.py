@@ -68,6 +68,17 @@ def test_build_decision_context_rejects_missing_inputs(kwargs, message) -> None:
         build_decision_context(**kwargs)
 
 
+def test_build_decision_context_rejects_whitespace_symbol() -> None:
+    with pytest.raises(ValueError, match="symbol must not be empty"):
+        build_decision_context(symbol="   ", news={"event_type": "financing"}, quant_signal=_quant_signal())
+
+
+def test_build_decision_context_trims_symbol() -> None:
+    context = build_decision_context(symbol=" aapl ", news={"event_type": "financing"}, quant_signal=_quant_signal())
+
+    assert context["symbol"] == "AAPL"
+
+
 def test_build_decision_context_can_include_audit_trace() -> None:
     context = build_decision_context(
         symbol="aapl",
