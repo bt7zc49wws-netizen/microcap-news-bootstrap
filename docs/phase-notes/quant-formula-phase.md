@@ -1075,3 +1075,12 @@ Decision Context Phase Closed:
 - Last verified:
   - decision context tests passed: 8 passed
   - full test suite passed: 274 passed
+
+
+Decision Engine Phase Closed:
+- Status: CLOSED
+- Scope closed: decision engine contract Accepted Draft, valid decision enum guard, reason_codes non-empty guard, invalid reason code rejection, optional symbol whitespace rejection, and symbol trim/uppercase normalization.
+- Scope remains decision result construction only: no classification changes, no scoring threshold changes, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - decision engine tests passed: 19 passed
+  - full test suite passed: 276 passed
