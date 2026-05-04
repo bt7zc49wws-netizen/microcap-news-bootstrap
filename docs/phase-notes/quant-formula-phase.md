@@ -1037,3 +1037,14 @@ Outcome Measurement Phase Closed:
 - Last verified:
   - outcome record tests passed: 20 passed
   - full test suite passed: 269 passed
+
+
+Market Snapshot / Stooq Mapping Guard Hardening:
+- Status: IMPLEMENTED
+- Contracts: docs/contracts/market-snapshot-contract-v1.md and docs/contracts/stooq-market-snapshot-mapping-v1.md moved to Accepted Draft.
+- Model: src/app/quant/snapshot.py rejects boolean values as numeric market snapshot values.
+- Tests: tests/quant/test_snapshot.py covers bool rejection; tests/quant/test_adapters.py and tests/quant/test_enrichment.py cover Stooq mapping and normalized payload behavior.
+- Scope remains market-data normalization only: no scoring, no trading decision, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - quant target tests passed: 34 passed
+  - full test suite passed: 270 passed
