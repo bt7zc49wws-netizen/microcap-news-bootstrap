@@ -57,6 +57,16 @@ def test_validate_outcome_record_rejects_invalid_decision() -> None:
         validate_outcome_record(_record(decision="trade"))
 
 
+def test_validate_outcome_record_rejects_non_numeric_max_up_pct() -> None:
+    with pytest.raises(ValueError, match="max_up_pct_must_be_numeric"):
+        validate_outcome_record(_record(max_up_pct="12.0"))
+
+
+def test_validate_outcome_record_rejects_non_numeric_max_down_pct() -> None:
+    with pytest.raises(ValueError, match="max_down_pct_must_be_numeric"):
+        validate_outcome_record(_record(max_down_pct="-4.0"))
+
+
 def test_validate_outcome_record_rejects_non_numeric_return_pct() -> None:
     with pytest.raises(ValueError, match="return_pct_must_be_numeric"):
         validate_outcome_record(_record(return_pct="10.0"))

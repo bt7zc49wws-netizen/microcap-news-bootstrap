@@ -51,6 +51,10 @@ def validate_outcome_record(record: OutcomeRecord) -> OutcomeRecord:
         raise ValueError("horizon_minutes_must_be_positive")
     if isinstance(record["return_pct"], bool) or not isinstance(record["return_pct"], int | float):
         raise ValueError("return_pct_must_be_numeric")
+    if isinstance(record["max_up_pct"], bool) or not isinstance(record["max_up_pct"], int | float):
+        raise ValueError("max_up_pct_must_be_numeric")
+    if isinstance(record["max_down_pct"], bool) or not isinstance(record["max_down_pct"], int | float):
+        raise ValueError("max_down_pct_must_be_numeric")
     if record["reference_price"] <= 0 or record["observed_price"] <= 0:
         raise ValueError("prices_must_be_positive")
     return record
