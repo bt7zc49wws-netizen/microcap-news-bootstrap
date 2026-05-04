@@ -988,3 +988,12 @@ Runtime Provider Status Aggregation Guard Hardening:
 - Last verified:
   - provider diagnostics tests passed: 7 passed
   - full test suite passed: 260 passed
+
+
+Runtime Provider Status Aggregation Phase Closed:
+- Status: CLOSED
+- Scope closed: runtime provider status aggregation contract invariants, empty aggregate behavior, latest_fetched_at selection, mixed status counts, payload aggregation, and provider order preservation.
+- Scope remains read-only diagnostics: no orders, no execution intents, no broker calls, no IBKR calls.
+- Last verified:
+  - provider diagnostics tests passed: 7 passed
+  - full test suite passed: 260 passed
