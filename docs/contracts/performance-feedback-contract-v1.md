@@ -30,7 +30,8 @@ Rules:
 - source_decision_id must be a UUID string.
 - symbol must be uppercase.
 - decision must remain one of no_trade, watchlist, actionable.
-- horizon_minutes must be positive.
+- horizon_minutes must be numeric and positive.
+- return_pct, max_up_pct, and max_down_pct must be numeric.
 - return_pct, max_up_pct, and max_down_pct are copied from the validated outcome record.
 - was_directionally_positive is true when return_pct is greater than 0.
 - feedback_label must be one of positive, neutral, negative.
