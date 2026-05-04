@@ -1,6 +1,6 @@
 # News Decision Adapter Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define how news classification output is adapted into decision-context news input.
