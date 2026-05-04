@@ -1,6 +1,6 @@
 # Decision Context Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define the offline-safe context object that combines already-computed news and quant inputs before decision logic.
