@@ -45,6 +45,8 @@ def validate_outcome_record(record: OutcomeRecord) -> OutcomeRecord:
         raise ValueError("symbol_must_be_uppercase")
     if record["decision"] not in VALID_OUTCOME_DECISIONS:
         raise ValueError("invalid_decision")
+    if isinstance(record["horizon_minutes"], bool) or not isinstance(record["horizon_minutes"], int | float):
+        raise ValueError("horizon_minutes_must_be_numeric")
     if record["horizon_minutes"] <= 0:
         raise ValueError("horizon_minutes_must_be_positive")
     if record["reference_price"] <= 0 or record["observed_price"] <= 0:

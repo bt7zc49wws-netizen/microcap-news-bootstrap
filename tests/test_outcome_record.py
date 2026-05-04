@@ -57,6 +57,11 @@ def test_validate_outcome_record_rejects_invalid_decision() -> None:
         validate_outcome_record(_record(decision="trade"))
 
 
+def test_validate_outcome_record_rejects_non_numeric_horizon() -> None:
+    with pytest.raises(ValueError, match="horizon_minutes_must_be_numeric"):
+        validate_outcome_record(_record(horizon_minutes="60"))
+
+
 def test_validate_outcome_record_rejects_non_positive_horizon() -> None:
     with pytest.raises(ValueError, match="horizon_minutes_must_be_positive"):
         validate_outcome_record(_record(horizon_minutes=0))
