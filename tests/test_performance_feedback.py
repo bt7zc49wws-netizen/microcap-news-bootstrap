@@ -2,6 +2,7 @@ import pytest
 
 from app.models.performance_feedback import (
     PERFORMANCE_FEEDBACK_FIELDS,
+    PerformanceFeedbackRecord,
     build_performance_feedback,
     classify_feedback_label,
     validate_performance_feedback,
@@ -29,6 +30,10 @@ def test_classify_feedback_label() -> None:
     assert classify_feedback_label(1.0) == "positive"
     assert classify_feedback_label(0.0) == "neutral"
     assert classify_feedback_label(-1.0) == "negative"
+
+
+def test_performance_feedback_fields_match_record_annotations() -> None:
+    assert PERFORMANCE_FEEDBACK_FIELDS == tuple(PerformanceFeedbackRecord.__annotations__.keys())
 
 
 def test_build_performance_feedback_from_outcome() -> None:
