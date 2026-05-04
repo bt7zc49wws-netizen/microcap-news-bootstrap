@@ -36,6 +36,8 @@ def validate_live_provider_smoke_report(path: Path) -> dict:
     for provider in data["providers"]:
         if set(provider) != REQUIRED_PROVIDER_FIELDS:
             return {"ok": False, "reason": "provider_fields_mismatch"}
+        if provider["status"] not in {"ok", "error"}:
+            return {"ok": False, "reason": "invalid_provider_status"}
     if data["has_any_payload"] != any(provider["has_payload"] for provider in data["providers"]):
         return {"ok": False, "reason": "payload_flag_mismatch"}
     return {"ok": True, "reason": "ok"}
