@@ -38,6 +38,17 @@ def test_aggregate_provider_status_diagnostics() -> None:
     }
 
 
+def test_aggregate_provider_status_diagnostics_handles_empty_input() -> None:
+    assert aggregate_provider_status_diagnostics([]) == {
+        "provider_count": 0,
+        "ok_count": 0,
+        "error_count": 0,
+        "has_any_payload": False,
+        "latest_fetched_at": None,
+        "providers": [],
+    }
+
+
 def test_aggregate_provider_status_diagnostics_matches_fixture() -> None:
     fixture_path = Path("tests/fixtures/provider_diagnostics/aggregate_provider_status_diagnostics.json")
     expected = json.loads(fixture_path.read_text())
