@@ -38,6 +38,21 @@ def test_aggregate_provider_status_diagnostics() -> None:
     }
 
 
+def test_aggregate_provider_status_diagnostics_counts_mixed_statuses() -> None:
+    diagnostics = [
+        {"provider_name": "ok_a", "status": "ok", "records_returned": 1, "fetched_at": "2026-04-29T12:00:00+00:00", "has_error": False, "has_payload": True},
+        {"provider_name": "err_b", "status": "error", "records_returned": 0, "fetched_at": "2026-04-29T12:01:00+00:00", "has_error": True, "has_payload": False},
+        {"provider_name": "ok_c", "status": "ok", "records_returned": 2, "fetched_at": "2026-04-29T12:02:00+00:00", "has_error": False, "has_payload": True},
+    ]
+
+    aggregate = aggregate_provider_status_diagnostics(diagnostics)
+
+    assert aggregate["provider_count"] == 3
+    assert aggregate["ok_count"] == 2
+    assert aggregate["error_count"] == 1
+    assert aggregate["has_any_payload"] is True
+
+
 def test_aggregate_provider_status_diagnostics_uses_latest_fetched_at() -> None:
     diagnostics = [
         {
