@@ -30,9 +30,9 @@ Output fields:
 - quant_signal
 
 Rules:
-- symbol must not be empty
+- symbol must not be empty after trimming whitespace
 - news must not be empty
 - quant_signal must not be empty
-- symbol is normalized to uppercase
+- symbol is trimmed and normalized to uppercase
 - news and quant_signal are already-computed inputs
 - builder must remain pure composition
