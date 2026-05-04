@@ -1093,3 +1093,12 @@ Quant Signal Phase Closed:
 - Last verified:
   - quant signal + decision context tests passed: 12 passed
   - full test suite passed: 276 passed
+
+
+Contract Hardening Sweep Closed:
+- Status: CLOSED
+- Scope closed: all docs/contracts/*.md files now report Accepted Draft status; validated foundations include provider diagnostics, live smoke readiness, outcome measurement, performance feedback, market snapshot/Stooq mapping, news decision adapter, decision context, decision engine, and quant signal.
+- Last verified:
+  - all contract statuses checked: Accepted Draft
+  - full test suite passed: 276 passed
+- Scope remains analytics/bootstrap only: no broker execution, no IBKR live orders, no real capital movement.
