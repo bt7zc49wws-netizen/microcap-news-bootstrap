@@ -1028,3 +1028,12 @@ Outcome Measurement Guard Hardening:
 - Last verified:
   - outcome record tests passed: 20 passed
   - full test suite passed: 269 passed
+
+
+Outcome Measurement Phase Closed:
+- Status: CLOSED
+- Scope closed: outcome measurement contract Accepted Draft, OutcomeRecord field stability, canonical decision validation, numeric return/excursion/horizon guards, and centralized numeric validation helper.
+- Scope remains measurement-only: no scoring, no threshold tuning, no ML training loop, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - outcome record tests passed: 20 passed
+  - full test suite passed: 269 passed
