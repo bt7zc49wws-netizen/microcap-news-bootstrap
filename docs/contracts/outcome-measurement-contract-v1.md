@@ -1,6 +1,6 @@
 # Outcome Measurement Contract v1
 
-Status: DRAFT
+Status: Accepted Draft
 
 Purpose:
 Define the offline-safe outcome record shape used to measure decision results after the fact.
