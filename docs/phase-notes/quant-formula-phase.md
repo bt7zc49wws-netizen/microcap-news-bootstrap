@@ -997,3 +997,14 @@ Runtime Provider Status Aggregation Phase Closed:
 - Last verified:
   - provider diagnostics tests passed: 7 passed
   - full test suite passed: 260 passed
+
+
+Live Provider Smoke Report Readiness Guard Hardening:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/live-provider-smoke-report-contract-v1.md documents readiness validation invariants.
+- Validator: src/app/services/providers/live_smoke_report_readiness.py rejects top-level field drift, provider field drift, invalid provider status, aggregate count mismatch, payload flag mismatch, and secret recording.
+- Tests: tests/services/providers/test_live_smoke_report_readiness.py covers contract acceptance and readiness rejection guards.
+- Scope remains diagnostics-only: no raw provider payloads, no secrets, no broker data, no orders, no execution intents, no IBKR calls.
+- Last verified:
+  - live smoke readiness tests passed: 7 passed
+  - full test suite passed: 264 passed
