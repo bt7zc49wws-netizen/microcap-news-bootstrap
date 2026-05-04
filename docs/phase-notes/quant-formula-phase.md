@@ -1057,3 +1057,12 @@ Market Snapshot / Stooq Mapping Phase Closed:
 - Last verified:
   - quant target tests passed: 34 passed
   - full test suite passed: 270 passed
+
+
+News Decision Adapter Phase Closed:
+- Status: CLOSED
+- Scope closed: news decision adapter contract Accepted Draft, required field trim guards, whitespace rejection, and preserved missing-field rejection behavior.
+- Scope remains adapter-only: no classification changes, no scoring, no trading decision changes, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - news decision adapter tests passed: 5 passed
+  - full test suite passed: 272 passed
