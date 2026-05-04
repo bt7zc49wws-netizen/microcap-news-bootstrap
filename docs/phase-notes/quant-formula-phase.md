@@ -1017,3 +1017,14 @@ Live Provider Smoke Report Readiness Phase Closed:
 - Last verified:
   - live smoke readiness tests passed: 7 passed
   - full test suite passed: 264 passed
+
+
+Outcome Measurement Guard Hardening:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/outcome-measurement-contract-v1.md moved to Accepted Draft and documents numeric validation guards.
+- Model: src/app/models/outcome_record.py validates field stability, canonical decision values, numeric return/excursion/horizon fields, and keeps numeric validation centralized with _ensure_numeric.
+- Tests: tests/test_outcome_record.py covers canonical outcome construction, field stability, invalid decisions, horizon validation, and numeric type guards.
+- Scope remains measurement-only: no scoring, no threshold tuning, no ML training loop, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - outcome record tests passed: 20 passed
+  - full test suite passed: 269 passed
