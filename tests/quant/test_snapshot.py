@@ -31,6 +31,14 @@ def test_validate_market_snapshot_rejects_missing_required_field() -> None:
         validate_market_snapshot(snapshot)
 
 
+def test_validate_market_snapshot_rejects_bool_value() -> None:
+    snapshot = {field: 1.0 for field in REQUIRED_MARKET_SNAPSHOT_FIELDS}
+    snapshot["current_price"] = True
+
+    with pytest.raises(ValueError, match="current_price must be numeric"):
+        validate_market_snapshot(snapshot)
+
+
 def test_validate_market_snapshot_rejects_non_numeric_value() -> None:
     snapshot = {field: 1.0 for field in REQUIRED_MARKET_SNAPSHOT_FIELDS}
     snapshot["current_price"] = "12.0"

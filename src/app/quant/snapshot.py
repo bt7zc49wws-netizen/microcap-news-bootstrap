@@ -27,7 +27,7 @@ def validate_market_snapshot(snapshot: dict[str, float]) -> dict[str, float]:
     validated: dict[str, float] = {}
     for field in REQUIRED_MARKET_SNAPSHOT_FIELDS:
         value = snapshot[field]
-        if not isinstance(value, int | float):
+        if isinstance(value, bool) or not isinstance(value, int | float):
             raise ValueError(f"{field} must be numeric")
         validated[field] = float(value)
 
