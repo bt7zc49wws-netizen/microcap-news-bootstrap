@@ -91,6 +91,22 @@ def test_validate_performance_feedback_rejects_invalid_feedback_label() -> None:
         validate_performance_feedback(record)
 
 
+def test_validate_performance_feedback_rejects_non_numeric_max_up_pct() -> None:
+    record = build_performance_feedback(_outcome())
+    record["max_up_pct"] = "12.0"
+
+    with pytest.raises(ValueError, match="max_up_pct_must_be_numeric"):
+        validate_performance_feedback(record)
+
+
+def test_validate_performance_feedback_rejects_non_numeric_max_down_pct() -> None:
+    record = build_performance_feedback(_outcome())
+    record["max_down_pct"] = "-4.0"
+
+    with pytest.raises(ValueError, match="max_down_pct_must_be_numeric"):
+        validate_performance_feedback(record)
+
+
 def test_validate_performance_feedback_rejects_non_numeric_return_pct() -> None:
     record = build_performance_feedback(_outcome())
     record["return_pct"] = "10.0"
