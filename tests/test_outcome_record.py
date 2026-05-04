@@ -2,6 +2,7 @@ import pytest
 
 from app.models.outcome_record import (
     OUTCOME_RECORD_FIELDS,
+    OutcomeRecord,
     build_outcome_record,
     build_outcome_record_from_prices,
     calculate_max_down_pct,
@@ -26,6 +27,10 @@ def _record(**overrides: object) -> dict:
     }
     record.update(overrides)
     return record
+
+
+def test_outcome_record_fields_match_record_annotations() -> None:
+    assert OUTCOME_RECORD_FIELDS == tuple(OutcomeRecord.__annotations__.keys())
 
 
 def test_validate_outcome_record_accepts_canonical_record() -> None:
