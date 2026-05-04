@@ -1048,3 +1048,12 @@ Market Snapshot / Stooq Mapping Guard Hardening:
 - Last verified:
   - quant target tests passed: 34 passed
   - full test suite passed: 270 passed
+
+
+Market Snapshot / Stooq Mapping Phase Closed:
+- Status: CLOSED
+- Scope closed: market snapshot contract Accepted Draft, Stooq mapping contract Accepted Draft, market snapshot bool rejection guard, Stooq adapter mapping coverage, and normalized enrichment payload behavior.
+- Scope remains market-data normalization only: no scoring, no trading decision, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - quant target tests passed: 34 passed
+  - full test suite passed: 270 passed
