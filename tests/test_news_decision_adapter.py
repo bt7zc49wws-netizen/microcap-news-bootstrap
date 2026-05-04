@@ -21,6 +21,18 @@ def test_adapt_news_for_decision_returns_canonical_news_input() -> None:
 @pytest.mark.parametrize(
     ("classification", "message"),
     [
+        ({"event_type": "   ", "headline": "Company announces offering"}, "event_type must not be empty"),
+        ({"event_type": "financing", "headline": "   "}, "headline must not be empty"),
+    ],
+)
+def test_adapt_news_for_decision_rejects_whitespace_required_fields(classification, message) -> None:
+    with pytest.raises(ValueError, match=message):
+        adapt_news_for_decision(classification)
+
+
+@pytest.mark.parametrize(
+    ("classification", "message"),
+    [
         ({"headline": "Company announces offering"}, "event_type must not be empty"),
         ({"event_type": "financing"}, "headline must not be empty"),
     ],
