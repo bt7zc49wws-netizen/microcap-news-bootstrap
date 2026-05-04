@@ -958,3 +958,14 @@ Performance Feedback Foundation Started:
 - Last verified:
   - performance feedback tests passed: 4 passed
   - full test suite passed: 247 passed
+
+
+Performance Feedback Guard Hardening:
+- Status: IMPLEMENTED
+- Contract: docs/contracts/performance-feedback-contract-v1.md moved to Accepted Draft and documents numeric validation guards.
+- Model: src/app/models/performance_feedback.py validates field stability, enum values, numeric return/excursion/horizon fields, and keeps numeric validation centralized with _ensure_numeric.
+- Tests: tests/test_performance_feedback.py covers positive/negative/neutral behavior, field stability, enum rejection, and numeric type guards.
+- Scope remains analytics-only: no ML training loop, no model weight updates, no automated threshold tuning, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - performance feedback tests passed: 13 passed
+  - full test suite passed: 256 passed
