@@ -75,6 +75,22 @@ def test_validate_performance_feedback_rejects_field_drift() -> None:
         validate_performance_feedback(record)
 
 
+def test_validate_performance_feedback_rejects_invalid_decision() -> None:
+    record = build_performance_feedback(_outcome())
+    record["decision"] = "trade"
+
+    with pytest.raises(ValueError, match="invalid_decision"):
+        validate_performance_feedback(record)
+
+
+def test_validate_performance_feedback_rejects_invalid_feedback_label() -> None:
+    record = build_performance_feedback(_outcome())
+    record["feedback_label"] = "winner"
+
+    with pytest.raises(ValueError, match="invalid_feedback_label"):
+        validate_performance_feedback(record)
+
+
 def test_validate_performance_feedback_rejects_non_uuid_source_decision_id() -> None:
     record = build_performance_feedback(_outcome())
     record["source_decision_id"] = "decision-1"
