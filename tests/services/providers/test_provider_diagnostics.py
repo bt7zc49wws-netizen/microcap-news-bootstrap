@@ -38,6 +38,17 @@ def test_aggregate_provider_status_diagnostics() -> None:
     }
 
 
+def test_aggregate_provider_status_diagnostics_preserves_provider_order() -> None:
+    diagnostics = [
+        {"provider_name": "first", "status": "ok", "records_returned": 1, "fetched_at": "2026-04-29T12:00:00+00:00", "has_error": False, "has_payload": True},
+        {"provider_name": "second", "status": "error", "records_returned": 0, "fetched_at": "2026-04-29T12:01:00+00:00", "has_error": True, "has_payload": False},
+    ]
+
+    aggregate = aggregate_provider_status_diagnostics(diagnostics)
+
+    assert [provider["provider_name"] for provider in aggregate["providers"]] == ["first", "second"]
+
+
 def test_aggregate_provider_status_diagnostics_counts_mixed_statuses() -> None:
     diagnostics = [
         {"provider_name": "ok_a", "status": "ok", "records_returned": 1, "fetched_at": "2026-04-29T12:00:00+00:00", "has_error": False, "has_payload": True},
