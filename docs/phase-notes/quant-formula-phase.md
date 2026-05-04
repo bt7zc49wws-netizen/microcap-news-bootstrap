@@ -1084,3 +1084,12 @@ Decision Engine Phase Closed:
 - Last verified:
   - decision engine tests passed: 19 passed
   - full test suite passed: 276 passed
+
+
+Quant Signal Phase Closed:
+- Status: CLOSED
+- Scope closed: quant signal contract Accepted Draft, ordered QUANT_SIGNAL_FIELDS tuple, build_quant_signal field order guard, decision context quant signal field order guard, and contract field order invariant.
+- Scope remains signal construction only: no scoring threshold changes, no trading decision changes, no broker execution, no IBKR, no live orders.
+- Last verified:
+  - quant signal + decision context tests passed: 12 passed
+  - full test suite passed: 276 passed
