@@ -1,7 +1,8 @@
-    ports:
-      - "5432:5432"services:
+services:
   db:
     image: postgres:16
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-microcap}
       POSTGRES_USER: ${POSTGRES_USER:-microcap}
