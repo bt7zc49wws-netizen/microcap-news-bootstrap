@@ -110,6 +110,12 @@ def evaluate_decision_context(context: dict) -> dict:
     if event_type == "financing":
         risk_flags.append("financing_risk")
 
+    if abs(price_change) >= 25:
+        risk_flags.append("halt_risk")
+
+    if relative_volume >= 10:
+        risk_flags.append("extreme_relative_volume")
+
     if event_type in {"offering", "dilution"}:
         risk_flags.append("dilution_risk")
 
