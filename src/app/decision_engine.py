@@ -76,9 +76,6 @@ def make_decision_result(
     if risk_flags is not None:
         result["risk_flags"] = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
 
-    if risk_flags is not None:
-        result["risk_flags"] = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
-
     if symbol is not None:
         normalized_symbol = str(symbol).strip()
         if not normalized_symbol:
@@ -98,14 +95,6 @@ def evaluate_decision_context(context: dict) -> dict:
     relative_volume = quant_signal.get("relative_volume", 0.0)
 
     symbol = context.get("symbol")
-
-    risk_flags = []
-
-    if relative_volume < 1.0:
-        risk_flags.append("low_relative_volume")
-
-    if price_change < 0:
-        risk_flags.append("negative_price_action")
 
     risk_flags = []
 
