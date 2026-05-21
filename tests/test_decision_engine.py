@@ -100,7 +100,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         {
             "symbol": "AAPL",
             "news": {"event_type": "financing"},
-            "quant_signal": _quant_signal(price_change_pct=3.0, relative_volume=1.2),
+            "quant_signal": _quant_signal(price_change_pct=3.0, relative_volume=0.8),
         }
     )
 
@@ -109,7 +109,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         "reason_codes": ["SUPPORTED_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.5,
-        "risk_flags": [],
+        "risk_flags": ["low_relative_volume"],
     }
 
 
@@ -118,7 +118,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
         {
             "symbol": "AAPL",
             "news": {},
-            "quant_signal": _quant_signal(price_change_pct=20.0, relative_volume=5.0),
+            "quant_signal": _quant_signal(price_change_pct=-20.0, relative_volume=5.0),
         }
     )
 
@@ -127,7 +127,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.1,
-        "risk_flags": [],
+        "risk_flags": ["negative_price_action"],
     }
 
 
