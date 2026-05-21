@@ -9,6 +9,7 @@ Rules:
 """
 
 from __future__ import annotations
+from app.risk_flags import build_risk_flags
 
 DECISION_NO_TRADE = "no_trade"
 DECISION_WATCHLIST = "watchlist"
@@ -96,25 +97,11 @@ def evaluate_decision_context(context: dict) -> dict:
 
     symbol = context.get("symbol")
 
-    risk_flags = []
-
-    if relative_volume < 1.0:
-        risk_flags.append("low_relative_volume")
-
-    if price_change < 0:
-        risk_flags.append("negative_price_action")
-
-    if event_type in {"offering", "dilution"}:
-        risk_flags.append("dilution_risk")
-
-    if event_type == "financing":
-        risk_flags.append("financing_risk")
-
-    if abs(price_change) >= 25:
-        risk_flags.append("halt_risk")
-
-    if relative_volume >= 10:
-        risk_flags.append("extreme_relative_volume")
+    risk_flags = build_risk_flags(
+        event_type=event_type,
+        price_change=price_change,
+        relative_volume=relative_volume,
+    )
 
     if event_type in {"offering", "dilution"}:
         risk_flags.append("dilution_risk")
