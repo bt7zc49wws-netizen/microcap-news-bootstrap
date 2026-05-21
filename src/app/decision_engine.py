@@ -72,16 +72,6 @@ def make_decision_result(
             raise ValueError("confidence must be between 0.0 and 1.0")
         result["confidence"] = confidence
 
-    if confidence is not None:
-        if not 0.0 <= confidence <= 1.0:
-            raise ValueError("confidence must be between 0.0 and 1.0")
-        result["confidence"] = confidence
-
-    if confidence is not None:
-        if not 0.0 <= confidence <= 1.0:
-            raise ValueError("confidence must be between 0.0 and 1.0")
-        result["confidence"] = confidence
-
     if symbol is not None:
         normalized_symbol = str(symbol).strip()
         if not normalized_symbol:
