@@ -55,6 +55,7 @@ def make_decision_result(
     reason_codes: list[str],
     symbol: str | None = None,
     confidence: float | None = None,
+    risk_flags: list[str] | None = None,
 ) -> dict:
     """Build a canonical decision result."""
     if decision not in VALID_DECISIONS:
@@ -71,6 +72,12 @@ def make_decision_result(
         if not 0.0 <= confidence <= 1.0:
             raise ValueError("confidence must be between 0.0 and 1.0")
         result["confidence"] = confidence
+
+    if risk_flags is not None:
+        result["risk_flags"] = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
+
+    if risk_flags is not None:
+        result["risk_flags"] = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
 
     if symbol is not None:
         normalized_symbol = str(symbol).strip()
@@ -92,12 +99,29 @@ def evaluate_decision_context(context: dict) -> dict:
 
     symbol = context.get("symbol")
 
+    risk_flags = []
+
+    if relative_volume < 1.0:
+        risk_flags.append("low_relative_volume")
+
+    if price_change < 0:
+        risk_flags.append("negative_price_action")
+
+    risk_flags = []
+
+    if relative_volume < 1.0:
+        risk_flags.append("low_relative_volume")
+
+    if price_change < 0:
+        risk_flags.append("negative_price_action")
+
     if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
         return make_decision_result(
             decision=DECISION_NO_TRADE,
             reason_codes=[REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT],
             symbol=symbol,
             confidence=0.1,
+            risk_flags=risk_flags,
         )
 
     if price_change >= DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"] and relative_volume >= DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"]:
@@ -110,6 +134,7 @@ def evaluate_decision_context(context: dict) -> dict:
             ],
             symbol=symbol,
             confidence=0.9,
+            risk_flags=risk_flags,
         )
 
     return make_decision_result(
@@ -117,5 +142,6 @@ def evaluate_decision_context(context: dict) -> dict:
         reason_codes=[REASON_SUPPORTED_NEWS_EVENT],
         symbol=symbol,
         confidence=0.5,
+        risk_flags=risk_flags,
     )
 

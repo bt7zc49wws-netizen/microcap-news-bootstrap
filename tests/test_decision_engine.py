@@ -91,6 +91,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
         ],
         "symbol": "AAPL",
         "confidence": 0.9,
+        "risk_flags": [],
     }
 
 
@@ -108,6 +109,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         "reason_codes": ["SUPPORTED_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.5,
+        "risk_flags": [],
     }
 
 
@@ -125,6 +127,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.1,
+        "risk_flags": [],
     }
 
 
@@ -148,6 +151,7 @@ def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event()
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.1,
+        "risk_flags": [],
     }
 
 
