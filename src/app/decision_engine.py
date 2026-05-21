@@ -104,6 +104,18 @@ def evaluate_decision_context(context: dict) -> dict:
     if price_change < 0:
         risk_flags.append("negative_price_action")
 
+    if event_type in {"offering", "dilution"}:
+        risk_flags.append("dilution_risk")
+
+    if event_type == "financing":
+        risk_flags.append("financing_risk")
+
+    if event_type in {"offering", "dilution"}:
+        risk_flags.append("dilution_risk")
+
+    if event_type == "financing":
+        risk_flags.append("financing_risk")
+
     if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
         return make_decision_result(
             decision=DECISION_NO_TRADE,

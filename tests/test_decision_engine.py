@@ -91,7 +91,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
         ],
         "symbol": "AAPL",
         "confidence": 0.9,
-        "risk_flags": [],
+        "risk_flags": ["financing_risk"],
     }
 
 
@@ -109,7 +109,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         "reason_codes": ["SUPPORTED_NEWS_EVENT"],
         "symbol": "AAPL",
         "confidence": 0.5,
-        "risk_flags": ["low_relative_volume"],
+        "risk_flags": ["financing_risk", "low_relative_volume"],
     }
 
 
