@@ -54,6 +54,7 @@ def make_decision_result(
     decision: str,
     reason_codes: list[str],
     symbol: str | None = None,
+    confidence: float | None = None,
 ) -> dict:
     """Build a canonical decision result."""
     if decision not in VALID_DECISIONS:
@@ -65,6 +66,21 @@ def make_decision_result(
         "decision": decision,
         "reason_codes": reason_codes,
     }
+
+    if confidence is not None:
+        if not 0.0 <= confidence <= 1.0:
+            raise ValueError("confidence must be between 0.0 and 1.0")
+        result["confidence"] = confidence
+
+    if confidence is not None:
+        if not 0.0 <= confidence <= 1.0:
+            raise ValueError("confidence must be between 0.0 and 1.0")
+        result["confidence"] = confidence
+
+    if confidence is not None:
+        if not 0.0 <= confidence <= 1.0:
+            raise ValueError("confidence must be between 0.0 and 1.0")
+        result["confidence"] = confidence
 
     if symbol is not None:
         normalized_symbol = str(symbol).strip()
@@ -91,6 +107,7 @@ def evaluate_decision_context(context: dict) -> dict:
             decision=DECISION_NO_TRADE,
             reason_codes=[REASON_UNSUPPORTED_OR_MISSING_NEWS_EVENT],
             symbol=symbol,
+            confidence=0.1,
         )
 
     if price_change >= DEFAULT_DECISION_THRESHOLDS["strong_price_change_pct"] and relative_volume >= DEFAULT_DECISION_THRESHOLDS["strong_relative_volume"]:
@@ -102,11 +119,13 @@ def evaluate_decision_context(context: dict) -> dict:
                 REASON_RELATIVE_VOLUME_STRONG,
             ],
             symbol=symbol,
+            confidence=0.9,
         )
 
     return make_decision_result(
         decision=DECISION_WATCHLIST,
         reason_codes=[REASON_SUPPORTED_NEWS_EVENT],
         symbol=symbol,
+        confidence=0.5,
     )
 
