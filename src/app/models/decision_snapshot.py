@@ -24,6 +24,8 @@ class DecisionSnapshot(Base):
     reason_label: Mapped[str] = mapped_column(String(128), default="Unspecified")
     decision_summary: Mapped[str] = mapped_column(Text, default="")
     decision_context: Mapped[str] = mapped_column(Text, default="{}")
+    confidence: Mapped[float] = mapped_column(default=0.0)
+    risk_flags: Mapped[str] = mapped_column(Text, default="[]")
     generated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
