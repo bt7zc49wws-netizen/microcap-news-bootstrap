@@ -28,3 +28,18 @@ def test_replay_includes_bucket_metrics() -> None:
 
     assert "bucket_metrics" in result
     assert "HIGH" in result["bucket_metrics"]
+
+
+def test_quality_snapshot_exists() -> None:
+    events = [
+        {
+            "symbol": "TEST",
+            "signal": "BUY",
+            "label": 1.0,
+        }
+    ]
+
+    result = run_replay_with_metrics(events)
+
+    assert "quality_snapshot" in result
+    assert "monotonic" in result["quality_snapshot"]
