@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import and_, asc, desc, or_, select
 
 from app.db import SessionLocal
+from app.json_utils import loads_json_list, loads_json_object
 from app.models.decision_snapshot import DecisionSnapshot
 
 router = APIRouter()
@@ -59,7 +60,7 @@ def serialize_decision_detail(record: DecisionSnapshot) -> dict:
         "reason_code": record.reason_code,
         "reason_label": record.reason_label,
         "decision_summary": record.decision_summary,
-        "decision_context": record.decision_context,
+        "decision_context": loads_json_object(record.decision_context),
         "generated_at": record.generated_at.isoformat().replace("+00:00", "Z"),
     }
 
