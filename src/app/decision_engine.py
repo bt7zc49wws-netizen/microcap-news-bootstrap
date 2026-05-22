@@ -10,6 +10,7 @@ Rules:
 
 from __future__ import annotations
 from app.risk_flags import build_risk_flags
+from app.models.decision_context import DecisionContextPayload
 
 DECISION_NO_TRADE = "no_trade"
 DECISION_WATCHLIST = "watchlist"
@@ -64,18 +65,26 @@ def make_decision_result(
     if not reason_codes:
         raise ValueError("reason_codes must not be empty")
 
+    context_payload = DecisionContextPayload(
+        confidence=confidence or 0.0,
+        risk_flags=risk_flags or [],
+    )
+
     result = {
         "decision": decision,
         "reason_codes": reason_codes,
+        "decision_context": {
+            "confidence": context_payload.confidence,
+            "risk_flags": context_payload.risk_flags,
+        },
     }
 
     if confidence is not None:
         if not 0.0 <= confidence <= 1.0:
             raise ValueError("confidence must be between 0.0 and 1.0")
-        result["confidence"] = confidence
 
     if risk_flags is not None:
-        result["risk_flags"] = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
+        risk_flags = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
 
     if symbol is not None:
         normalized_symbol = str(symbol).strip()
@@ -102,12 +111,6 @@ def evaluate_decision_context(context: dict) -> dict:
         price_change=price_change,
         relative_volume=relative_volume,
     )
-
-    if event_type in {"offering", "dilution"}:
-        risk_flags.append("dilution_risk")
-
-    if event_type == "financing":
-        risk_flags.append("financing_risk")
 
     if event_type not in SUPPORTED_NEWS_EVENT_TYPES:
         return make_decision_result(
