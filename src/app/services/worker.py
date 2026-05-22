@@ -13,6 +13,7 @@ from app.models.event_candidate import EventCandidate
 from app.models.ingestion_record import IngestionRecord
 from app.models.job import Job
 from app.models.signal_snapshot import SignalSnapshot
+from app.persistence_json import dumps_json_object, dumps_json_list
 from app.providers.mock_news_provider import fetch_mock_news
 
 
@@ -152,7 +153,9 @@ def process_build_decision_snapshots() -> None:
                 reason_code=result["reason_code"],
                 reason_label=result["reason_label"],
                 decision_summary=result["decision_summary"],
-                decision_context=result["decision_context"],
+                decision_context=dumps_json_object(result["decision_context"]),
+                confidence=result.get("confidence", 0.0),
+                risk_flags=dumps_json_list(result.get("risk_flags", [])),
             )
             session.add(snapshot)
 
