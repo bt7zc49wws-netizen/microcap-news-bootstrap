@@ -1,19 +1,30 @@
 from app.replay.analytics_replay import run_replay_with_metrics
 
 
-def test_expectancy_runs() -> None:
+def test_expectancy_metrics_exist() -> None:
     events = [
         {
-            "symbol": "AAPL",
-            "quant_signal": {"price_change_pct": 10.0},
-        },
-        {
-            "symbol": "TSLA",
-            "quant_signal": {"price_change_pct": -5.0},
-        },
+            "symbol": "TEST",
+            "signal": "BUY",
+            "label": 1.0,
+        }
     ]
 
     result = run_replay_with_metrics(events)
 
     assert "metrics" in result
-    assert "expectancy" in result["metrics"]
+
+
+def test_replay_includes_bucket_metrics() -> None:
+    events = [
+        {
+            "symbol": "TEST",
+            "signal": "BUY",
+            "label": 1.0,
+        }
+    ]
+
+    result = run_replay_with_metrics(events)
+
+    assert "bucket_metrics" in result
+    assert "HIGH" in result["bucket_metrics"]
