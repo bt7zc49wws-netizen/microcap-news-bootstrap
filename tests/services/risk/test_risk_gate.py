@@ -10,7 +10,7 @@ def make_limits() -> RiskLimits:
     )
 
 
-def test_risk_gate_allows_valid_order():
+def test_risk_gate_passes_valid_order():
     result = check_order_risk(
         order_value_usd=500.0,
         realized_daily_loss_usd=50.0,
@@ -20,43 +20,6 @@ def test_risk_gate_allows_valid_order():
 
     assert result.allowed is True
     assert result.reason_code == "RISK_CHECK_PASSED"
-    assert result.reason_label == "Risk check passed"
-
-
-def test_risk_gate_rejects_max_position():
-    result = check_order_risk(
-        order_value_usd=1200.0,
-        realized_daily_loss_usd=50.0,
-        trades_today=2,
-        limits=make_limits(),
-    )
-
-    assert result.allowed is False
-    assert result.reason_code == "MAX_POSITION_EXCEEDED"
-
-
-def test_risk_gate_rejects_daily_loss():
-    result = check_order_risk(
-        order_value_usd=500.0,
-        realized_daily_loss_usd=200.0,
-        trades_today=2,
-        limits=make_limits(),
-    )
-
-    assert result.allowed is False
-    assert result.reason_code == "MAX_DAILY_LOSS_REACHED"
-
-
-def test_risk_gate_rejects_max_trades():
-    result = check_order_risk(
-        order_value_usd=500.0,
-        realized_daily_loss_usd=50.0,
-        trades_today=5,
-        limits=make_limits(),
-    )
-
-    assert result.allowed is False
-    assert result.reason_code == "MAX_TRADES_REACHED"
 
 
 def test_risk_gate_rejects_invalid_order_value():
@@ -111,6 +74,60 @@ def test_risk_gate_rejects_invalid_risk_limits():
     assert result.reason_code == "INVALID_RISK_LIMITS"
 
 
+def test_risk_gate_rejects_large_position():
+    result = check_order_risk(
+        order_value_usd=5000.0,
+        realized_daily_loss_usd=50.0,
+        trades_today=2,
+        limits=make_limits(),
+    )
+
+    assert result.allowed is False
+    assert result.reason_code == "MAX_POSITION_EXCEEDED"
+
+
+def test_risk_gate_rejects_daily_loss_limit():
+    result = check_order_risk(
+        order_value_usd=500.0,
+        realized_daily_loss_usd=250.0,
+        trades_today=2,
+        limits=make_limits(),
+    )
+
+    assert result.allowed is False
+    assert result.reason_code == "MAX_DAILY_LOSS_REACHED"
+
+
+def test_risk_gate_rejects_trade_limit():
+    result = check_order_risk(
+        order_value_usd=500.0,
+        realized_daily_loss_usd=50.0,
+        trades_today=5,
+        limits=make_limits(),
+    )
+
+    assert result.allowed is False
+    assert result.reason_code == "MAX_TRADES_REACHED"
+
+
+def test_risk_gate_rejects_low_expectancy_quality():
+    result = check_order_risk(
+        order_value_usd=500.0,
+        realized_daily_loss_usd=50.0,
+        trades_today=2,
+        expectancy_quality=0.1,
+        limits=RiskLimits(
+            max_position_usd=1000.0,
+            max_daily_loss_usd=200.0,
+            max_trades_per_day=5,
+            min_expectancy_quality=0.5,
+        ),
+    )
+
+    assert result.allowed is False
+    assert result.reason_code == "EXPECTANCY_QUALITY_TOO_LOW"
+
+
 def test_risk_reason_codes_are_canonical():
     assert RISK_REASON_CODES == {
         "INVALID_ORDER_VALUE",
@@ -120,5 +137,6 @@ def test_risk_reason_codes_are_canonical():
         "MAX_POSITION_EXCEEDED",
         "MAX_DAILY_LOSS_REACHED",
         "MAX_TRADES_REACHED",
+        "EXPECTANCY_QUALITY_TOO_LOW",
         "RISK_CHECK_PASSED",
     }

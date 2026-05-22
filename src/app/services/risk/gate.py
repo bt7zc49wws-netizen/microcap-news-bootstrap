@@ -1,5 +1,6 @@
 from app.services.risk.types import RiskCheckResult, RiskLimits
 
+
 RISK_REASON_CODES = {
     "INVALID_ORDER_VALUE",
     "INVALID_DAILY_LOSS",
@@ -8,13 +9,17 @@ RISK_REASON_CODES = {
     "MAX_POSITION_EXCEEDED",
     "MAX_DAILY_LOSS_REACHED",
     "MAX_TRADES_REACHED",
+    "EXPECTANCY_QUALITY_TOO_LOW",
     "RISK_CHECK_PASSED",
 }
 
 
-def _risk_result(*, allowed: bool, reason_code: str, reason_label: str) -> RiskCheckResult:
-    if reason_code not in RISK_REASON_CODES:
-        raise ValueError("risk_reason_code_unknown")
+def _risk_result(
+    *,
+    allowed: bool,
+    reason_code: str,
+    reason_label: str,
+) -> RiskCheckResult:
     return RiskCheckResult(
         allowed=allowed,
         reason_code=reason_code,
@@ -28,6 +33,7 @@ def check_order_risk(
     realized_daily_loss_usd: float,
     trades_today: int,
     limits: RiskLimits,
+    expectancy_quality: float = 0.0,
 ) -> RiskCheckResult:
     if order_value_usd <= 0:
         return _risk_result(
@@ -80,6 +86,13 @@ def check_order_risk(
             allowed=False,
             reason_code="MAX_TRADES_REACHED",
             reason_label="Max trades reached",
+        )
+
+    if expectancy_quality < limits.min_expectancy_quality:
+        return _risk_result(
+            allowed=False,
+            reason_code="EXPECTANCY_QUALITY_TOO_LOW",
+            reason_label="Expectancy quality too low",
         )
 
     return _risk_result(

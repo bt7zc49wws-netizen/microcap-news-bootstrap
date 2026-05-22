@@ -45,3 +45,18 @@ def test_quality_snapshot_exists() -> None:
     assert "monotonic" in result["quality_snapshot"]
     assert "high_bucket_avg_return" in result["quality_snapshot"]
     assert "high_bucket_samples" in result["quality_snapshot"]
+
+
+def test_expectancy_quality_exists() -> None:
+    events = [
+        {
+            "symbol": "TEST",
+            "signal": "BUY",
+            "label": 1.0,
+        }
+    ]
+
+    result = run_replay_with_metrics(events)
+
+    assert "expectancy_quality" in result
+    assert isinstance(result["expectancy_quality"], float)

@@ -20,9 +20,15 @@ def run_replay_with_metrics(events: list[dict]) -> dict:
         "monotonic": bucket_metrics["monotonic"],
     }
 
+    expectancy_quality = (
+        quality_snapshot["expectancy"]
+        * quality_snapshot["high_bucket_win_rate"]
+    ) / (1 + quality_snapshot["high_bucket_stddev"])
+
     return {
         "results": replayed,
         "metrics": metrics,
         "bucket_metrics": bucket_metrics,
         "quality_snapshot": quality_snapshot,
+        "expectancy_quality": expectancy_quality,
     }

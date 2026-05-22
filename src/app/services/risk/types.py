@@ -13,3 +13,4 @@ class RiskLimits:
     max_position_usd: float
     max_daily_loss_usd: float
     max_trades_per_day: int
+    min_expectancy_quality: float = 0.0
