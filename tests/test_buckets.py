@@ -43,3 +43,16 @@ def test_bucket_stddev() -> None:
 
     assert result["HIGH"]["samples"] == 2
     assert result["HIGH"]["stddev"] > 0.0
+
+
+def test_bucket_win_rate() -> None:
+    events = [
+        {"label": 1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+        {"label": 1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+        {"label": -1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+    ]
+
+    result = analyze_buckets(events)
+
+    assert result["HIGH"]["samples"] == 3
+    assert result["HIGH"]["win_rate"] == 2 / 3

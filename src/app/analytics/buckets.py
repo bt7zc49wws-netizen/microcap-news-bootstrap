@@ -39,6 +39,14 @@ def analyze_buckets(events: list[dict]) -> dict:
 
         return variance ** 0.5
 
+    def win_rate(xs):
+        if not xs:
+            return 0.0
+
+        wins = sum(1 for x in xs if x > 0)
+
+        return wins / len(xs)
+
     result = {}
 
     for name, values in buckets.items():
@@ -46,6 +54,7 @@ def analyze_buckets(events: list[dict]) -> dict:
             "avg_return": avg(values),
             "samples": len(values),
             "stddev": stddev(values),
+            "win_rate": win_rate(values),
         }
 
     result["monotonic"] = (
