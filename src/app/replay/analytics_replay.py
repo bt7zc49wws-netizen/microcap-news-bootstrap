@@ -13,8 +13,10 @@ def run_replay_with_metrics(events: list[dict]) -> dict:
 
     quality_snapshot = {
         "expectancy": metrics.get("expectancy", 0.0),
+        "high_bucket_avg_return": bucket_metrics["HIGH"]["avg_return"],
         "high_bucket_win_rate": bucket_metrics["HIGH"]["win_rate"],
         "high_bucket_stddev": bucket_metrics["HIGH"]["stddev"],
+        "high_bucket_samples": bucket_metrics["HIGH"]["samples"],
         "monotonic": bucket_metrics["monotonic"],
     }
 

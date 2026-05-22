@@ -43,3 +43,5 @@ def test_quality_snapshot_exists() -> None:
 
     assert "quality_snapshot" in result
     assert "monotonic" in result["quality_snapshot"]
+    assert "high_bucket_avg_return" in result["quality_snapshot"]
+    assert "high_bucket_samples" in result["quality_snapshot"]
