@@ -11,6 +11,7 @@ Rules:
 from __future__ import annotations
 from app.risk_flags import build_risk_flags
 from app.models.decision_context import DecisionContextPayload
+from app.decision_score import compute_decision_score
 
 DECISION_NO_TRADE = "no_trade"
 DECISION_WATCHLIST = "watchlist"
@@ -65,9 +66,16 @@ def make_decision_result(
     if not reason_codes:
         raise ValueError("reason_codes must not be empty")
 
+    normalized_risk_flags = sorted(set(str(flag) for flag in (risk_flags or []) if str(flag).strip()))
+
+    computed_score = compute_decision_score(
+        confidence=confidence or 0.0,
+        risk_flag_count=len(normalized_risk_flags),
+    )
+
     context_payload = DecisionContextPayload(
         confidence=confidence or 0.0,
-        risk_flags=risk_flags or [],
+        risk_flags=normalized_risk_flags,
     )
 
     result = {
@@ -76,6 +84,7 @@ def make_decision_result(
         "decision_context": {
             "confidence": context_payload.confidence,
             "risk_flags": context_payload.risk_flags,
+            "decision_score": computed_score,
         },
     }
 
@@ -83,8 +92,6 @@ def make_decision_result(
         if not 0.0 <= confidence <= 1.0:
             raise ValueError("confidence must be between 0.0 and 1.0")
 
-    if risk_flags is not None:
-        risk_flags = sorted(set(str(flag) for flag in risk_flags if str(flag).strip()))
 
     if symbol is not None:
         normalized_symbol = str(symbol).strip()

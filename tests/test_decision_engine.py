@@ -41,7 +41,7 @@ def test_make_decision_result_returns_canonical_shape() -> None:
     assert result == {
         "decision": "watchlist",
         "reason_codes": ["SUPPORTED_NEWS_EVENT", "QUANT_VOLUME_ACTIVE"],
-        "decision_context": {"confidence": 0.0, "risk_flags": []},
+        "decision_context": {"confidence": 0.0, "risk_flags": [], "decision_score": 0.0},
     }
 
 
@@ -91,7 +91,7 @@ def test_evaluate_decision_context_returns_actionable_for_news_and_strong_quant(
             "RELATIVE_VOLUME_STRONG",
         ],
         "symbol": "AAPL",
-        "decision_context": {"confidence": 0.9, "risk_flags": ["financing_risk"]},
+        "decision_context": {"confidence": 0.9, "risk_flags": ["financing_risk"], "decision_score": 0.8},
     }
 
 
@@ -108,7 +108,7 @@ def test_evaluate_decision_context_returns_watchlist_for_news_without_strong_qua
         "decision": "watchlist",
         "reason_codes": ["SUPPORTED_NEWS_EVENT"],
         "symbol": "AAPL",
-        "decision_context": {"confidence": 0.5, "risk_flags": ["financing_risk", "low_relative_volume"]},
+        "decision_context": {"confidence": 0.5, "risk_flags": ["financing_risk", "low_relative_volume"], "decision_score": 0.3},
     }
 
 
@@ -125,7 +125,7 @@ def test_evaluate_decision_context_returns_no_trade_without_news_event() -> None
         "decision": "no_trade",
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         "symbol": "AAPL",
-        "decision_context": {"confidence": 0.1, "risk_flags": ["negative_price_action"]},
+        "decision_context": {"confidence": 0.1, "risk_flags": ["negative_price_action"], "decision_score": 0.0},
     }
 
 
@@ -148,7 +148,7 @@ def test_evaluate_decision_context_returns_no_trade_for_unsupported_news_event()
         "decision": "no_trade",
         "reason_codes": ["UNSUPPORTED_OR_MISSING_NEWS_EVENT"],
         "symbol": "AAPL",
-        "decision_context": {"confidence": 0.1, "risk_flags": []},
+        "decision_context": {"confidence": 0.1, "risk_flags": [], "decision_score": 0.1},
     }
 
 
@@ -182,7 +182,7 @@ def test_make_decision_result_can_include_symbol() -> None:
     assert result == {
         "decision": "watchlist",
         "reason_codes": ["VALID_TEST_REASON"],
-        "decision_context": {"confidence": 0.0, "risk_flags": []},
+        "decision_context": {"confidence": 0.0, "risk_flags": [], "decision_score": 0.0},
         "symbol": "AAPL",
     }
 
