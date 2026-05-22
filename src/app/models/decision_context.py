@@ -1,11 +1,8 @@
-"""Typed decision context payloads."""
 
-from __future__ import annotations
+from dataclasses import dataclass
 
-from dataclasses import dataclass, field
-
-
-@dataclass(slots=True)
+@dataclass
 class DecisionContextPayload:
+    decision_score: float = 0.0
     confidence: float = 0.0
-    risk_flags: list[str] = field(default_factory=list)
+    risk_flags: list = None

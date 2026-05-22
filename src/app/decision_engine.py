@@ -102,7 +102,10 @@ def make_decision_result(
     return result
 
 
-def evaluate_decision_context(context: dict) -> dict:
+def evaluate_decision_context(context) -> dict:
+    if not isinstance(context, dict):
+        context = {}
+
     """Evaluate an offline-safe decision context using minimal deterministic rules."""
     news = context.get("news", {})
     quant_signal = context.get("quant_signal", {})

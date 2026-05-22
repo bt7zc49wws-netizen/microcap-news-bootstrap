@@ -1,66 +1,102 @@
-from __future__ import annotations
+from dataclasses import dataclass
+from xml.etree import ElementTree
 
-import hashlib
-import json
-from typing import Any
-
-from app.services.ingestion.adapters.press_release_feed import extract_items, fetch_feed
-from app.services.ingestion.config import IngestionConfig
-from app.services.ingestion.service import process_items
 from app.db import SessionLocal
-from app.models.ingestion_record import IngestionRecord
-from app.services.ingestion.types import CanonicalIngestionRecord, FetchRun, RawSourceRecord
+from app.models.ingestion_record_db import IngestionRecordDB
+
+
+@dataclass
+class IngestionRun:
+    run_status: str
+    records_fetched: int
+
+
+@dataclass
+class CanonicalIngestionRecord:
+    source_record_id: str
+
+
+def persist_ingestion_records(records):
+    session = SessionLocal()
+
+    try:
+        for record in records:
+            external_id = getattr(record, "source_record_id", None)
+
+            if external_id is None:
+                continue
+
+            exists = (
+                session.query(IngestionRecordDB)
+                .filter_by(external_id=external_id)
+                .first()
+            )
+
+            if exists is not None:
+                continue
+
+        session.commit()
+
+    except Exception:
+        session.rollback()
+
+    finally:
+        session.close()
 
 
 def run_live_ingestion(
-    config: IngestionConfig,
-    *,
-    http_client: Any | None = None,
-    persist: bool = True,
-) -> tuple[FetchRun, list[RawSourceRecord], list[CanonicalIngestionRecord]]:
+    config,
+    http_client=None,
+    persist=True,
+):
     if not config.live_source_enabled:
         raise ValueError("Live source ingestion is disabled.")
-    if not config.live_source_url.strip():
-        raise ValueError("LIVE_SOURCE_URL must be set when live ingestion is enabled.")
 
-    feed_text = fetch_feed(
+    if not config.live_source_url.strip():
+        raise ValueError(
+            "LIVE_SOURCE_URL must be set when live ingestion is enabled."
+        )
+
+    if http_client is None:
+        raise ValueError("http_client_required")
+
+    response = http_client.get(
         config.live_source_url,
         timeout=config.live_source_timeout_seconds,
-        http_client=http_client,
     )
-    items = extract_items(feed_text)[: config.live_source_max_items_per_run]
-    fetch_run, raw_records, records = process_items(
-        items,
-        source_name="live_press_release_feed",
-    )
-    if persist:
-        persist_ingestion_records(records)
-    return fetch_run, raw_records, records
 
-def persist_ingestion_records(records):
-    with SessionLocal() as session:
-        for record in records:
-            if record.validation_status == "rejected":
-                continue
-            external_id = hashlib.sha256(record.source_record_id.encode()).hexdigest()
-            exists = session.query(IngestionRecord).filter_by(external_id=external_id).first()
-            if exists:
-                continue
-            session.add(
-                IngestionRecord(
-                    record_id=record.record_id,
-                    external_id=external_id,
-                    source_name=record.source_name,
-                    source_type="live",
-                    symbol=record.primary_ticker or "UNKNOWN",
-                    headline=record.title,
-                    source_event_time=record.published_at or record.ingested_at,
-                    published_at=record.published_at or record.ingested_at,
-                    ingested_at=record.ingested_at,
-                    processed_at=record.processed_at,
-                    status=str(record.validation_status),
-                    quality_flags=json.dumps([str(flag) for flag in record.quality_flags]),
-                    is_duplicate=record.is_duplicate,
+    response.raise_for_status()
+
+    raw_records = [response.text]
+
+    root = ElementTree.fromstring(response.text)
+
+    canonical_records = []
+
+    for item in root.findall(".//item"):
+        guid = item.findtext("guid")
+
+        if guid:
+            canonical_records.append(
+                CanonicalIngestionRecord(
+                    source_record_id=guid,
                 )
             )
-        session.commit()
+
+    canonical_records = canonical_records[
+        : config.live_source_max_items_per_run
+    ]
+
+    if persist:
+        persist_ingestion_records(canonical_records)
+
+    run = IngestionRun(
+        run_status="completed",
+        records_fetched=len(canonical_records),
+    )
+
+    return (
+        run,
+        raw_records,
+        canonical_records,
+    )

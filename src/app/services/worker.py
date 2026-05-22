@@ -154,8 +154,9 @@ def process_build_decision_snapshots() -> None:
                 reason_label=result["reason_label"],
                 decision_summary=result["decision_summary"],
                 decision_context=dumps_json_object(result["decision_context"]),
-                confidence=result.get("confidence", 0.0),
-                risk_flags=dumps_json_list(result.get("risk_flags", [])),
+                confidence=result["decision_context"].get("confidence", 0.0),
+                decision_score=result["decision_context"].get("decision_score", 0.0),
+                risk_flags=dumps_json_list(result["decision_context"].get("risk_flags", [])),
             )
             session.add(snapshot)
 
