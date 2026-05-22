@@ -30,12 +30,22 @@ def analyze_buckets(events: list[dict]) -> dict:
     def avg(xs):
         return sum(xs) / len(xs) if xs else 0.0
 
+    def stddev(xs):
+        if len(xs) < 2:
+            return 0.0
+
+        mean = avg(xs)
+        variance = sum((x - mean) ** 2 for x in xs) / len(xs)
+
+        return variance ** 0.5
+
     result = {}
 
     for name, values in buckets.items():
         result[name] = {
             "avg_return": avg(values),
             "samples": len(values),
+            "stddev": stddev(values),
         }
 
     result["monotonic"] = (

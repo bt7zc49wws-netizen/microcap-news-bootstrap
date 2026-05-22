@@ -31,3 +31,15 @@ def test_bucket_monotonicity() -> None:
     assert result["LOW"]["samples"] == 1
     assert result["HIGH"]["samples"] == 1
     assert result["monotonic"] is True
+
+
+def test_bucket_stddev() -> None:
+    events = [
+        {"label": 1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+        {"label": -1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+    ]
+
+    result = analyze_buckets(events)
+
+    assert result["HIGH"]["samples"] == 2
+    assert result["HIGH"]["stddev"] > 0.0
