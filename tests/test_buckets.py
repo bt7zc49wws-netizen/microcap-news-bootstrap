@@ -1,27 +1,33 @@
 from app.analytics.buckets import analyze_buckets
 
 
-def test_bucket_analysis_runs() -> None:
+def test_analyze_buckets() -> None:
     events = [
         {
             "output": {
+                "label": 1.0,
                 "decision": {
-                    "decision_context": {"decision_score": 0.1}
-                }
-            },
-            "label": 1.0,
-        },
-        {
-            "output": {
-                "decision": {
-                    "decision_context": {"decision_score": 0.8}
-                }
-            },
-            "label": 2.0,
-        },
+                    "decision_context": {
+                        "decision_score": 0.9,
+                    }
+                },
+            }
+        }
     ]
 
     result = analyze_buckets(events)
 
-    assert "LOW" in result
-    assert "HIGH" in result
+    assert result["HIGH"]["avg_return"] == 1.0
+
+
+def test_bucket_monotonicity() -> None:
+    events = [
+        {"label": -1.0, "output": {"decision": {"decision_context": {"decision_score": 0.1}}}},
+        {"label": 1.0, "output": {"decision": {"decision_context": {"decision_score": 0.9}}}},
+    ]
+
+    result = analyze_buckets(events)
+
+    assert result["LOW"]["samples"] == 1
+    assert result["HIGH"]["samples"] == 1
+    assert result["monotonic"] is True

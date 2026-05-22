@@ -18,7 +18,11 @@ def analyze_buckets(events: list[dict]) -> dict:
 
     for e in events:
         score = e["output"]["decision"]["decision_context"]["decision_score"]
-        ret = e["output"]["label"] if "label" in e["output"] else 0.0
+
+        if "label" in e:
+            ret = e["label"]
+        else:
+            ret = e["output"].get("label", 0.0)
 
         b = bucket_score(score)
         buckets[b].append(ret)
@@ -26,8 +30,18 @@ def analyze_buckets(events: list[dict]) -> dict:
     def avg(xs):
         return sum(xs) / len(xs) if xs else 0.0
 
-    return {
-        "LOW": avg(buckets["LOW"]),
-        "MID": avg(buckets["MID"]),
-        "HIGH": avg(buckets["HIGH"]),
-    }
+    result = {}
+
+    for name, values in buckets.items():
+        result[name] = {
+            "avg_return": avg(values),
+            "samples": len(values),
+        }
+
+    result["monotonic"] = (
+        result["HIGH"]["avg_return"]
+        >= result["MID"]["avg_return"]
+        >= result["LOW"]["avg_return"]
+    )
+
+    return result
