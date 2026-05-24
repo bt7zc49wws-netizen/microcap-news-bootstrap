@@ -43,3 +43,8 @@ def test_execution_orders_integer_notional():
     orders=build_execution_orders({"AAPL":1050},{"AAPL":200})
     assert orders[0]["qty"]==5
     assert orders[0]["notional"]==1000
+
+def test_execution_orders_decimal_price_floor():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":333.33})
+    assert orders[0]["qty"]==3
+    assert round(orders[0]["notional"],2)==999.99
