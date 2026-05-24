@@ -61,3 +61,8 @@ def test_execution_orders_price_precision():
     orders=build_execution_orders({"AAPL":1000},{"AAPL":199.99})
     assert orders[0]["qty"]==5
     assert round(orders[0]["notional"],2)==999.95
+
+def test_execution_orders_exact_allocation_match():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":100})
+    assert orders[0]["qty"]==10
+    assert orders[0]["notional"]==1000
