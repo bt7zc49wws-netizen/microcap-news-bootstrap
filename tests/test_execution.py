@@ -1,0 +1,20 @@
+from app.execution.orders import build_execution_orders
+
+def test_build_execution_orders_qty_and_notional():
+    portfolio = {"AAPL": 1000, "TSLA": 500}
+    prices = {"AAPL": 200, "TSLA": 250}
+    assert build_execution_orders(portfolio, prices) == [
+        {"symbol": "AAPL", "qty": 5, "notional": 1000},
+        {"symbol": "TSLA", "qty": 2, "notional": 500},
+    ]
+
+def test_build_execution_orders_deterministic_order():
+    portfolio = {"TSLA": 500, "AAPL": 1000}
+    prices = {"AAPL": 200, "TSLA": 250}
+    assert [o["symbol"] for o in build_execution_orders(portfolio, prices)] == ["AAPL", "TSLA"]
+
+def test_build_execution_orders_zero_price_safe():
+    assert build_execution_orders({"AAPL": 1000}, {"AAPL": 0}) == []
+
+def test_build_execution_orders_empty_safe():
+    assert build_execution_orders({}, {}) == []
