@@ -86,3 +86,10 @@ def test_execution_orders_large_values():
 def test_execution_orders_multiple_valid_entries_total_notional():
     orders=build_execution_orders({"AAPL":1000,"TSLA":500,"NVDA":900},{"AAPL":200,"TSLA":250,"NVDA":300})
     assert sum(o["notional"] for o in orders)==2400
+from app.execution.orders import build_execution_orders
+
+def test_execution_orders_duplicate_determinism():
+    p1={"TSLA":500,"AAPL":1000}
+    p2={"AAPL":1000,"TSLA":500}
+    prices={"AAPL":200,"TSLA":250}
+    assert build_execution_orders(p1,prices)==build_execution_orders(p2,prices)
