@@ -189,3 +189,8 @@ def test_execution_orders_symbol_with_spaces_preserved():
     portfolio={" AAPL ":1000}
     prices={" AAPL ":200}
     assert build_execution_orders(portfolio,prices)==[{"symbol":" AAPL ","qty":5,"notional":1000}]
+
+def test_execution_orders_tab_symbol_safe():
+    portfolio={"\t":1000,"AAPL":1000}
+    prices={"\t":100,"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":"AAPL","qty":5,"notional":1000}]
