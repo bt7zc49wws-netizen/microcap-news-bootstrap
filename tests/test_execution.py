@@ -66,3 +66,8 @@ def test_execution_orders_exact_allocation_match():
     orders=build_execution_orders({"AAPL":1000},{"AAPL":100})
     assert orders[0]["qty"]==10
     assert orders[0]["notional"]==1000
+
+def test_execution_orders_fractional_allocation_floor():
+    orders=build_execution_orders({"AAPL":1000.75},{"AAPL":200})
+    assert orders[0]["qty"]==5
+    assert orders[0]["notional"]==1000
