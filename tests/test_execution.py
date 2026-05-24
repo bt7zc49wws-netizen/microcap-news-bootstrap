@@ -215,3 +215,8 @@ def test_execution_orders_numeric_symbol_safe():
     portfolio={123:1000,"AAPL":1000}
     prices={123:200,"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[{"symbol":"AAPL","qty":5,"notional":1000}]
+
+def test_execution_orders_tuple_symbol_safe():
+    portfolio={("AAPL",):1000,"AAPL":1000}
+    prices={("AAPL",):200,"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":"AAPL","qty":5,"notional":1000}]
