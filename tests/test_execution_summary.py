@@ -41,3 +41,10 @@ def test_execution_summary_with_generated_orders_qty():
     orders=build_execution_orders({"AAPL":1050,"TSLA":500},{"AAPL":200,"TSLA":250})
     result=build_execution_summary(orders)
     assert result["total_qty"]==7
+
+def test_execution_summary_deterministic_generated_orders():
+    orders=build_execution_orders({"TSLA":500,"AAPL":1000,"NVDA":900},{"AAPL":200,"TSLA":250,"NVDA":300})
+    result=build_execution_summary(orders)
+    assert result["total_orders"]==3
+    assert result["total_qty"]==10
+    assert result["total_notional"]==2400
