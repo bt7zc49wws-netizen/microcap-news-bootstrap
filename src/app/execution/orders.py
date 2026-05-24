@@ -5,7 +5,7 @@ def build_execution_orders(portfolio: dict, prices: dict) -> list[dict]:
     for symbol in sorted(portfolio):
         allocation=portfolio[symbol]
         price=prices.get(symbol)
-        if not isinstance(price,(int,float)) or price<=0:
+        if isinstance(price,bool) or not isinstance(price,(int,float)) or price<=0:
             continue
         qty=floor(allocation/price)
         if qty<=0:
