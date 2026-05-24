@@ -154,3 +154,8 @@ def test_execution_orders_negative_inf_safe():
     portfolio={"AAPL":float("-inf")}
     prices={"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_none_symbol_safe():
+    portfolio={None:1000,"AAPL":1000}
+    prices={"AAPL":200,None:100}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":"AAPL","qty":5,"notional":1000}]

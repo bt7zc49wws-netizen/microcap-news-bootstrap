@@ -2,7 +2,8 @@ from math import floor,isnan,isinf
 
 def build_execution_orders(portfolio: dict, prices: dict) -> list[dict]:
     orders=[]
-    for symbol in sorted(portfolio):
+    valid_symbols=sorted([s for s in portfolio if isinstance(s,str)])
+    for symbol in valid_symbols:
         allocation=portfolio[symbol]
         price=prices.get(symbol)
         if isinstance(allocation,bool) or not isinstance(allocation,(int,float)) or isnan(float(allocation)) or isinf(float(allocation)) or allocation<=0:
