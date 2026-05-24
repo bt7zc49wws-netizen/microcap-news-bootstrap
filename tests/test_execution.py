@@ -204,3 +204,9 @@ def test_execution_orders_leading_trailing_spaces_distinct():
     portfolio={"AAPL":1000," AAPL ":1000}
     prices={"AAPL":200," AAPL ":250}
     assert build_execution_orders(portfolio,prices)==[{"symbol":" AAPL ","qty":4,"notional":1000},{"symbol":"AAPL","qty":5,"notional":1000}]
+
+def test_execution_orders_symbol_sort_stability():
+    portfolio={"ZZZ":1000,"AAA":1000,"MMM":1000}
+    prices={"ZZZ":200,"AAA":200,"MMM":200}
+    orders=build_execution_orders(portfolio,prices)
+    assert [o["symbol"] for o in orders]==["AAA","MMM","ZZZ"]
