@@ -71,3 +71,9 @@ def test_execution_orders_fractional_allocation_floor():
     orders=build_execution_orders({"AAPL":1000.75},{"AAPL":200})
     assert orders[0]["qty"]==5
     assert orders[0]["notional"]==1000
+
+def test_execution_orders_multiple_invalid_entries():
+    portfolio={"AAPL":1000,"TSLA":500,"NVDA":100}
+    prices={"AAPL":200,"TSLA":0,"NVDA":300}
+    orders=build_execution_orders(portfolio,prices)
+    assert orders==[{"symbol":"AAPL","qty":5,"notional":1000}]
