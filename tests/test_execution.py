@@ -34,3 +34,8 @@ def test_execution_orders_negative_price_safe():
     portfolio={"AAPL":1000}
     prices={"AAPL":-200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_negative_allocation_safe():
+    portfolio={"AAPL":-1000}
+    prices={"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[]
