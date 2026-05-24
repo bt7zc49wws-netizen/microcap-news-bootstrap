@@ -184,3 +184,8 @@ def test_execution_orders_unicode_symbol_preserved():
     portfolio={"ŞİRKET":1000}
     prices={"ŞİRKET":200}
     assert build_execution_orders(portfolio,prices)==[{"symbol":"ŞİRKET","qty":5,"notional":1000}]
+
+def test_execution_orders_symbol_with_spaces_preserved():
+    portfolio={" AAPL ":1000}
+    prices={" AAPL ":200}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":" AAPL ","qty":5,"notional":1000}]
