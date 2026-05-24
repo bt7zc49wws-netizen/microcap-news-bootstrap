@@ -52,3 +52,7 @@ def test_execution_orders_decimal_price_floor():
 def test_execution_orders_deterministic_symbol_sort():
     orders=build_execution_orders({"NVDA":900,"AAPL":1000,"TSLA":500},{"AAPL":200,"TSLA":250,"NVDA":300})
     assert [o["symbol"] for o in orders]==["AAPL","NVDA","TSLA"]
+
+def test_execution_orders_zero_qty_filtered():
+    orders=build_execution_orders({"AAPL":199},{"AAPL":200})
+    assert len(orders)==0
