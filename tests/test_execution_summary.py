@@ -55,3 +55,8 @@ def test_execution_summary_exact_allocation_generated():
     assert result["total_orders"]==1
     assert result["total_qty"]==10
     assert result["total_notional"]==1000
+
+def test_execution_summary_total_matches_order_sum():
+    orders=build_execution_orders({"AAPL":1000,"TSLA":500,"NVDA":900},{"AAPL":200,"TSLA":250,"NVDA":300})
+    result=build_execution_summary(orders)
+    assert result["total_notional"]==sum(o["notional"] for o in orders)
