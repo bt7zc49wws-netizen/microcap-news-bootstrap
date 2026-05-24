@@ -16,3 +16,11 @@ def test_execution_summary_empty():
     assert result["total_orders"]==0
     assert result["total_notional"]==0
     assert result["total_qty"]==0
+from app.execution.summary import build_execution_summary
+
+def test_execution_summary_zero_values():
+    orders=[{"symbol":"AAPL","qty":0,"notional":0}]
+    result=build_execution_summary(orders)
+    assert result["total_orders"]==1
+    assert result["total_notional"]==0
+    assert result["total_qty"]==0
