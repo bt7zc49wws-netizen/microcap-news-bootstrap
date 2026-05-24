@@ -24,3 +24,8 @@ def test_execution_orders_skip_insufficient_allocation():
     portfolio={"AAPL":100}
     prices={"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_missing_price_safe():
+    portfolio={"AAPL":1000}
+    prices={}
+    assert build_execution_orders(portfolio,prices)==[]
