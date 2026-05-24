@@ -82,3 +82,7 @@ def test_execution_orders_large_values():
     orders=build_execution_orders({"AAPL":1000000},{"AAPL":123.45})
     assert orders[0]["qty"]==8100
     assert round(orders[0]["notional"],2)==999945.00
+
+def test_execution_orders_multiple_valid_entries_total_notional():
+    orders=build_execution_orders({"AAPL":1000,"TSLA":500,"NVDA":900},{"AAPL":200,"TSLA":250,"NVDA":300})
+    assert sum(o["notional"] for o in orders)==2400
