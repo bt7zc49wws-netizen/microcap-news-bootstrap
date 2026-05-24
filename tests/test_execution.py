@@ -56,3 +56,8 @@ def test_execution_orders_deterministic_symbol_sort():
 def test_execution_orders_zero_qty_filtered():
     orders=build_execution_orders({"AAPL":199},{"AAPL":200})
     assert len(orders)==0
+
+def test_execution_orders_price_precision():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":199.99})
+    assert orders[0]["qty"]==5
+    assert round(orders[0]["notional"],2)==999.95
