@@ -99,3 +99,8 @@ def test_execution_orders_missing_symbol_price_safe():
     prices={"AAPL":200}
     orders=build_execution_orders(portfolio,prices)
     assert orders==[{"symbol":"AAPL","qty":5,"notional":1000}]
+
+def test_execution_orders_none_price_safe():
+    portfolio={"AAPL":1000}
+    prices={"AAPL":None}
+    assert build_execution_orders(portfolio,prices)==[]

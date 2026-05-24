@@ -4,8 +4,8 @@ def build_execution_orders(portfolio: dict, prices: dict) -> list[dict]:
     orders=[]
     for symbol in sorted(portfolio):
         allocation=portfolio[symbol]
-        price=prices.get(symbol,0)
-        if price<=0:
+        price=prices.get(symbol)
+        if not isinstance(price,(int,float)) or price<=0:
             continue
         qty=floor(allocation/price)
         if qty<=0:
