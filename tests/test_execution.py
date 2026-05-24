@@ -234,3 +234,7 @@ def test_execution_orders_very_small_price():
 def test_execution_orders_zero_allocation_safe():
     orders=build_execution_orders({"AAPL":0},{"AAPL":200})
     assert orders==[]
+
+def test_execution_orders_extremely_large_price_safe():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":1e12})
+    assert orders==[]
