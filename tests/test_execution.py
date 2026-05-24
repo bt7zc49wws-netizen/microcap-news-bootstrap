@@ -48,3 +48,7 @@ def test_execution_orders_decimal_price_floor():
     orders=build_execution_orders({"AAPL":1000},{"AAPL":333.33})
     assert orders[0]["qty"]==3
     assert round(orders[0]["notional"],2)==999.99
+
+def test_execution_orders_deterministic_symbol_sort():
+    orders=build_execution_orders({"NVDA":900,"AAPL":1000,"TSLA":500},{"AAPL":200,"TSLA":250,"NVDA":300})
+    assert [o["symbol"] for o in orders]==["AAPL","NVDA","TSLA"]
