@@ -124,3 +124,8 @@ def test_execution_orders_bool_allocation_safe():
     portfolio={"AAPL":True}
     prices={"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_nan_price_safe():
+    portfolio={"AAPL":1000}
+    prices={"AAPL":float("nan")}
+    assert build_execution_orders(portfolio,prices)==[]
