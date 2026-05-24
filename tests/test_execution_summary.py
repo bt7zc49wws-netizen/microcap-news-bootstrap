@@ -9,3 +9,10 @@ def test_execution_summary():
     assert result["total_orders"]==2
     assert result["total_notional"]==1500
     assert result["total_qty"]==7
+from app.execution.summary import build_execution_summary
+
+def test_execution_summary_empty():
+    result=build_execution_summary([])
+    assert result["total_orders"]==0
+    assert result["total_notional"]==0
+    assert result["total_qty"]==0
