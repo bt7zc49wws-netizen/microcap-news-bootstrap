@@ -77,3 +77,8 @@ def test_execution_orders_multiple_invalid_entries():
     prices={"AAPL":200,"TSLA":0,"NVDA":300}
     orders=build_execution_orders(portfolio,prices)
     assert orders==[{"symbol":"AAPL","qty":5,"notional":1000}]
+
+def test_execution_orders_large_values():
+    orders=build_execution_orders({"AAPL":1000000},{"AAPL":123.45})
+    assert orders[0]["qty"]==8100
+    assert round(orders[0]["notional"],2)==999945.00
