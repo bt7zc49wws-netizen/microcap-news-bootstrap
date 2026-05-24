@@ -36,3 +36,8 @@ def test_execution_summary_notional_matches_orders():
     result=build_execution_summary(orders)
     assert result["total_notional"]==1500
     assert result["total_orders"]==2
+
+def test_execution_summary_with_generated_orders_qty():
+    orders=build_execution_orders({"AAPL":1050,"TSLA":500},{"AAPL":200,"TSLA":250})
+    result=build_execution_summary(orders)
+    assert result["total_qty"]==7
