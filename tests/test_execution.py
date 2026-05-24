@@ -104,3 +104,8 @@ def test_execution_orders_none_price_safe():
     portfolio={"AAPL":1000}
     prices={"AAPL":None}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_string_price_safe():
+    portfolio={"AAPL":1000}
+    prices={"AAPL":"200"}
+    assert build_execution_orders(portfolio,prices)==[]
