@@ -210,3 +210,8 @@ def test_execution_orders_symbol_sort_stability():
     prices={"ZZZ":200,"AAA":200,"MMM":200}
     orders=build_execution_orders(portfolio,prices)
     assert [o["symbol"] for o in orders]==["AAA","MMM","ZZZ"]
+
+def test_execution_orders_numeric_symbol_safe():
+    portfolio={123:1000,"AAPL":1000}
+    prices={123:200,"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":"AAPL","qty":5,"notional":1000}]
