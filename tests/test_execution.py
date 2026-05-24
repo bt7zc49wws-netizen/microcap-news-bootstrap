@@ -238,3 +238,7 @@ def test_execution_orders_zero_allocation_safe():
 def test_execution_orders_extremely_large_price_safe():
     orders=build_execution_orders({"AAPL":1000},{"AAPL":1e12})
     assert orders==[]
+
+def test_execution_orders_scientific_notation_price():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":2e2})
+    assert orders==[{"symbol":"AAPL","qty":5,"notional":1000.0}]
