@@ -93,3 +93,9 @@ def test_execution_orders_duplicate_determinism():
     p2={"AAPL":1000,"TSLA":500}
     prices={"AAPL":200,"TSLA":250}
     assert build_execution_orders(p1,prices)==build_execution_orders(p2,prices)
+
+def test_execution_orders_missing_symbol_price_safe():
+    portfolio={"AAPL":1000,"TSLA":500}
+    prices={"AAPL":200}
+    orders=build_execution_orders(portfolio,prices)
+    assert orders==[{"symbol":"AAPL","qty":5,"notional":1000}]
