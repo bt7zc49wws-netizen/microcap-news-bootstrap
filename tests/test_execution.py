@@ -119,3 +119,8 @@ def test_execution_orders_none_allocation_safe():
     portfolio={"AAPL":None}
     prices={"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_bool_allocation_safe():
+    portfolio={"AAPL":True}
+    prices={"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[]
