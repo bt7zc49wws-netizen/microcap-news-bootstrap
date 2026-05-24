@@ -144,3 +144,8 @@ def test_execution_orders_inf_allocation_safe():
     portfolio={"AAPL":float("inf")}
     prices={"AAPL":200}
     assert build_execution_orders(portfolio,prices)==[]
+
+def test_execution_orders_nan_and_inf_mix_safe():
+    portfolio={"AAPL":float("nan"),"TSLA":float("inf"),"NVDA":1000}
+    prices={"AAPL":200,"TSLA":250,"NVDA":200}
+    assert build_execution_orders(portfolio,prices)==[{"symbol":"NVDA","qty":5,"notional":1000}]
