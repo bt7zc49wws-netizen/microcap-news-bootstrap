@@ -24,3 +24,14 @@ def test_execution_summary_zero_values():
     assert result["total_orders"]==1
     assert result["total_notional"]==0
     assert result["total_qty"]==0
+
+def test_execution_summary_multiple_orders():
+    orders=[
+        {"symbol":"AAPL","qty":5,"notional":1000},
+        {"symbol":"TSLA","qty":2,"notional":500},
+        {"symbol":"NVDA","qty":3,"notional":900}
+    ]
+    result=build_execution_summary(orders)
+    assert result["total_orders"]==3
+    assert result["total_notional"]==2400
+    assert result["total_qty"]==10
