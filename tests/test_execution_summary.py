@@ -48,3 +48,10 @@ def test_execution_summary_deterministic_generated_orders():
     assert result["total_orders"]==3
     assert result["total_qty"]==10
     assert result["total_notional"]==2400
+
+def test_execution_summary_exact_allocation_generated():
+    orders=build_execution_orders({"AAPL":1000},{"AAPL":100})
+    result=build_execution_summary(orders)
+    assert result["total_orders"]==1
+    assert result["total_qty"]==10
+    assert result["total_notional"]==1000
