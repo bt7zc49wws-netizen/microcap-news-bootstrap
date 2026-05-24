@@ -18,3 +18,9 @@ def test_build_execution_orders_zero_price_safe():
 
 def test_build_execution_orders_empty_safe():
     assert build_execution_orders({}, {}) == []
+from app.execution.orders import build_execution_orders
+
+def test_execution_orders_skip_insufficient_allocation():
+    portfolio={"AAPL":100}
+    prices={"AAPL":200}
+    assert build_execution_orders(portfolio,prices)==[]
