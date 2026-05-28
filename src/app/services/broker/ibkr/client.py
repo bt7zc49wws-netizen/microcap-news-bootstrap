@@ -43,3 +43,7 @@ class IbkrPaperClient:
             fill_price=fill_price,
             filled_at=datetime.now(timezone.utc),
         )
+
+
+    def get_open_orders(self):
+        return list(self._open_orders)

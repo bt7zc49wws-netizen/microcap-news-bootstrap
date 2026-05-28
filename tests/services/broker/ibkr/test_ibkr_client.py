@@ -51,3 +51,21 @@ def test_confirm_fill_returns_fill_object():
     assert fill.side == \"BUY\"
     assert fill.quantity == 5
     assert fill.fill_price == 189.25
+
+
+def test_open_orders_tracking():
+    from app.services.broker.ibkr.client import IbkrPaperClient
+
+    client = IbkrPaperClient(enabled=True)
+
+    order = client.submit_paper_order(
+        order_id=\"paper-aapl-open-1\",
+        symbol=\"AAPL\",
+        side=\"BUY\",
+        quantity=1,
+    )
+
+    open_orders = client.get_open_orders()
+
+    assert len(open_orders) >= 1
+    assert any(o.order_id == order.order_id for o in open_orders)
