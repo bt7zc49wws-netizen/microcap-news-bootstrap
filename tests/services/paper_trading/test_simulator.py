@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 import pytest
 
@@ -12,7 +12,7 @@ def make_order(quantity: int = 100) -> PaperOrder:
         symbol="ABCD",
         side="buy",
         quantity=quantity,
-        submitted_at=datetime.now(UTC),
+        submitted_at=datetime.now(timezone.utc),
     )
 
 

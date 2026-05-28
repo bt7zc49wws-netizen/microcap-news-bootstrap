@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 import urllib.parse
 import urllib.request
@@ -17,7 +17,7 @@ class FinnhubNewsClient:
         if not self.api_key:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="FINNHUB_API_KEY is not configured.",
@@ -35,7 +35,7 @@ class FinnhubNewsClient:
         except Exception as exc:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="error",
                 error_message=str(exc),
@@ -43,7 +43,7 @@ class FinnhubNewsClient:
 
         return ProviderFetchResult(
             provider_name=self.provider_name,
-            fetched_at=datetime.now(UTC),
+            fetched_at=datetime.now(timezone.utc),
             records_returned=len(data) if isinstance(data, list) else 0,
             status="ok",
         )

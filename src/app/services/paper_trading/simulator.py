@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.execution.types import ExecutionLogEntry
 from app.services.paper_trading.types import PaperFill, PaperOrder
@@ -16,14 +16,14 @@ def simulate_market_fill(order: PaperOrder, fill_price: float) -> PaperFill:
         side=order.side,
         quantity=order.quantity,
         fill_price=fill_price,
-        filled_at=datetime.now(UTC),
+        filled_at=datetime.now(timezone.utc),
     )
 
 
 def build_execution_log_entry(
     order: PaperOrder,
     status: str = "filled",
-    fill_price: float | None = None,
+    fill_price: Optional[float] = None,
 ) -> ExecutionLogEntry:
     return ExecutionLogEntry(
         execution_id=f"exec-{order.order_id}",
@@ -32,7 +32,7 @@ def build_execution_log_entry(
         side=order.side,
         quantity=order.quantity,
         status=status,
-        created_at=datetime.now(UTC),
+        created_at=datetime.now(timezone.utc),
         broker_name="paper",
         fill_price=fill_price,
         execution_mode="paper",

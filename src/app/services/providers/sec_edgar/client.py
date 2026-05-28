@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 import urllib.request
 
@@ -15,7 +15,7 @@ class SecEdgarClient:
         if not self.user_agent:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="SEC_EDGAR_USER_AGENT is not configured.",
@@ -36,7 +36,7 @@ class SecEdgarClient:
         except Exception as exc:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="error",
                 error_message=str(exc),
@@ -47,7 +47,7 @@ class SecEdgarClient:
 
         return ProviderFetchResult(
             provider_name=self.provider_name,
-            fetched_at=datetime.now(UTC),
+            fetched_at=datetime.now(timezone.utc),
             records_returned=len(accession_numbers),
             status="ok",
         )

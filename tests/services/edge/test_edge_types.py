@@ -1,10 +1,10 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.edge.types import EdgeMeasurement
 
 
 def test_edge_measurement_shape():
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
 
     measurement = EdgeMeasurement(
         signal_id="signal-1",

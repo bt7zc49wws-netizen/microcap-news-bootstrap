@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 import os
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class IngestionConfig:
     live_source_enabled: bool = False
     live_source_url: str = ""
@@ -39,7 +40,7 @@ def load_ingestion_config() -> IngestionConfig:
     )
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ProviderConfig:
     benzinga_api_key: str = ""
     market_data_provider: str = "none"

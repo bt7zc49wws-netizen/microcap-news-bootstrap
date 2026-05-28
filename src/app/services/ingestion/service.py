@@ -21,7 +21,7 @@ def process_items(
     *,
     source_name: str = "press_release_feed_v1",
     fetch_run_id: str = "run-1",
-    fetched_at: datetime | None = None,
+    fetched_at: Optional[datetime] = None,
     seen_source_keys: set[str] | None = None,
     seen_content_hashes: set[str] | None = None,
 ) -> tuple[FetchRun, list[RawSourceRecord], list[CanonicalIngestionRecord]]:

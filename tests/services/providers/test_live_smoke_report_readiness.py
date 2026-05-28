@@ -4,7 +4,7 @@ from pathlib import Path
 from app.services.providers.live_smoke_report_readiness import validate_live_provider_smoke_report
 
 
-def _write_report(path: Path, overrides: dict | None = None) -> None:
+def _write_report(path: Path, overrides: Optional[dict] = None) -> None:
     data = {
         "status": "verified",
         "ran_at_utc": "2026-04-29T12:05:00Z",

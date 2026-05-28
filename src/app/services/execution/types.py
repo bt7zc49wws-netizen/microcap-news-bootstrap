@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from typing import Optional
 from datetime import datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ExecutionLogEntry:
     execution_id: str
     order_id: str
@@ -11,7 +12,7 @@ class ExecutionLogEntry:
     quantity: int
     status: str
     created_at: datetime
-    broker_name: str | None = None
-    fill_price: float | None = None
-    execution_mode: str | None = None
-    error_message: str | None = None
+    broker_name: Optional[str] = None
+    fill_price: Optional[float] = None
+    execution_mode: Optional[str] = None
+    error_message: Optional[str] = None

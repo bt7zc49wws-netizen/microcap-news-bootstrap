@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from hashlib import sha256
 from uuid import uuid4
 from typing import Any
@@ -20,9 +20,9 @@ def compute_content_hash(title: str, body_text: str) -> str:
 def normalize_finnhub_news_item(
     item: dict[str, Any],
     *,
-    ingested_at: datetime | None = None,
+    ingested_at: Optional[datetime] = None,
 ) -> CanonicalIngestionRecord:
-    ingested_at = ingested_at or datetime.now(UTC)
+    ingested_at = ingested_at or datetime.now(timezone.utc)
     processed_at = ingested_at
 
     source_record_id = str(item.get("id") or item.get("url") or uuid4())

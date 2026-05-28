@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Optional, field
 from datetime import datetime
 from enum import StrEnum
 from typing import Any
@@ -26,22 +27,22 @@ class QualityFlag(StrEnum):
     PARTIAL_PARSE = "partial_parse"
 
 
-@dataclass(slots=True)
+@dataclass
 class FetchRun:
     fetch_run_id: str
     source_name: str
     run_started_at: datetime
-    run_finished_at: datetime | None = None
+    run_finished_at: Optional[datetime] = None
     run_status: str = "started"
     records_fetched: int = 0
     records_accepted: int = 0
     records_rejected: int = 0
     records_quarantined: int = 0
     records_duplicated: int = 0
-    error_summary: str | None = None
+    error_summary: Optional[str] = None
 
 
-@dataclass(slots=True)
+@dataclass
 class RawSourceRecord:
     raw_record_id: str
     source_name: str
@@ -54,7 +55,7 @@ class RawSourceRecord:
     adapter_version: str
 
 
-@dataclass(slots=True)
+@dataclass
 class CanonicalIngestionRecord:
     record_id: str
     source_name: str
@@ -74,5 +75,5 @@ class CanonicalIngestionRecord:
     is_stale: bool
     validation_status: ValidationStatus
     quality_flags: list[QualityFlag] = field(default_factory=list)
-    raw_record_ref: str | None = None
+    raw_record_ref: Optional[str] = None
     normalization_version: str = "canonical_ingest_v1"

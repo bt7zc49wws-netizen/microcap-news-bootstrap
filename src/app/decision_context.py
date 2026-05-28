@@ -18,7 +18,7 @@ def build_decision_context(
     symbol: str,
     news: dict,
     quant_signal: dict[str, float],
-    audit_trace: dict | None = None,
+    audit_trace: Optional[dict] = None,
 ) -> dict:
     """Build a decision context from already-computed news and quant inputs."""
     if not str(symbol).strip():

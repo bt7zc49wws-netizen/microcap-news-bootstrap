@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import csv
 import urllib.request
 from io import StringIO
@@ -18,7 +18,7 @@ class MarketDataClient:
         if self.provider == "none":
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="MARKET_DATA_PROVIDER is not configured.",
@@ -39,7 +39,7 @@ class MarketDataClient:
 
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=records_returned,
                 status="ok" if records_returned else "empty",
                 payload=valid_rows,
@@ -48,7 +48,7 @@ class MarketDataClient:
         if not self.api_key:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="Market data API key is not configured.",
@@ -56,7 +56,7 @@ class MarketDataClient:
 
         return ProviderFetchResult(
             provider_name=self.provider_name,
-            fetched_at=datetime.now(UTC),
+            fetched_at=datetime.now(timezone.utc),
             records_returned=0,
             status="not_implemented",
         )

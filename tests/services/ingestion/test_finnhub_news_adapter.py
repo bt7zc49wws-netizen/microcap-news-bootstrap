@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.ingestion.adapters.finnhub_news import normalize_finnhub_news_item
 from app.services.ingestion.types import ValidationStatus

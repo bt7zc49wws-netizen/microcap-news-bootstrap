@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 import json
 import urllib.request
 
@@ -16,7 +16,7 @@ class FundamentalsClient:
         if self.provider == "none":
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="FUNDAMENTALS_PROVIDER is not configured.",
@@ -33,7 +33,7 @@ class FundamentalsClient:
 
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=1,
                 status="ok",
             )
@@ -41,7 +41,7 @@ class FundamentalsClient:
         if not self.api_key:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="Fundamentals API key is not configured.",
@@ -49,7 +49,7 @@ class FundamentalsClient:
 
         return ProviderFetchResult(
             provider_name=self.provider_name,
-            fetched_at=datetime.now(UTC),
+            fetched_at=datetime.now(timezone.utc),
             records_returned=0,
             status="not_implemented",
         )

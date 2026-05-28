@@ -1,10 +1,10 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.execution.types import ExecutionLogEntry
 
 
 def test_execution_log_entry_shape():
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
 
     entry = ExecutionLogEntry(
         execution_id="exec-1",

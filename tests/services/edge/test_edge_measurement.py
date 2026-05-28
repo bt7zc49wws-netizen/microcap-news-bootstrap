@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 import pytest
 
@@ -19,7 +19,7 @@ def test_calculate_return_pct_rejects_zero_start_price():
 
 
 def test_build_edge_measurement():
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
 
     measurement = build_edge_measurement(
         signal_id="signal-1",

@@ -1,11 +1,11 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.classification.rules import classify_record
 from app.models.ingestion_record import IngestionRecord
 
 
 def make_record(headline: str) -> IngestionRecord:
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
     return IngestionRecord(
         record_id="test-record",
         external_id="test-external",

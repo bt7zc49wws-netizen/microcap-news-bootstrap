@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.providers.types import ProviderFetchResult
 
@@ -13,7 +13,7 @@ class BenzingaClient:
         if not self.api_key:
             return ProviderFetchResult(
                 provider_name=self.provider_name,
-                fetched_at=datetime.now(UTC),
+                fetched_at=datetime.now(timezone.utc),
                 records_returned=0,
                 status="disabled",
                 error_message="BENZINGA_API_KEY is not configured.",
@@ -21,7 +21,7 @@ class BenzingaClient:
 
         return ProviderFetchResult(
             provider_name=self.provider_name,
-            fetched_at=datetime.now(UTC),
+            fetched_at=datetime.now(timezone.utc),
             records_returned=0,
             status="not_implemented",
         )

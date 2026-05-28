@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from hashlib import sha256
@@ -23,15 +24,15 @@ ADAPTER_VERSION = "press_release_feed_adapter_v1"
 NORMALIZATION_VERSION = "canonical_ingest_v1"
 
 
-@dataclass(slots=True)
+@dataclass
 class PressReleaseFeedItem:
     source_record_id: str
     title: str
     body_text: str
     source_url: str | None
     published_at: datetime | None
-    primary_ticker: str | None = None
-    company_name: str | None = None
+    primary_ticker: Optional[str] = None
+    company_name: Optional[str] = None
     language: str | None = "en"
 
 
@@ -81,7 +82,7 @@ def build_raw_record(
 def normalize_item(
     item: dict[str, Any],
     *,
-    ingested_at: datetime | None = None,
+    ingested_at: Optional[datetime] = None,
 ) -> CanonicalIngestionRecord:
     ingested_at = ingested_at or datetime.now(timezone.utc)
     processed_at = ingested_at
@@ -211,7 +212,7 @@ def extract_items(xml_text: str) -> list[dict[str, Any]]:
 def fetch_feed(
     url: str,
     *,
-    http_client: Any | None = None,
+    http_client: Optional[Any] = None,
     timeout: int = 15,
 ) -> str:
     if http_client is not None:

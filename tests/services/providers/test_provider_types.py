@@ -1,10 +1,10 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.providers.types import ProviderFetchResult
 
 
 def test_provider_fetch_result_shape():
-    fetched_at = datetime.now(UTC)
+    fetched_at = datetime.now(timezone.utc)
 
     result = ProviderFetchResult(
         provider_name="benzinga",
@@ -21,11 +21,11 @@ def test_provider_fetch_result_shape():
 
 
 def test_provider_fetch_result_can_include_payload():
-    from datetime import UTC, datetime
+    from datetime import datetime, timezone
 
     result = ProviderFetchResult(
         provider_name="market_data",
-        fetched_at=datetime.now(UTC),
+        fetched_at=datetime.now(timezone.utc),
         records_returned=1,
         status="ok",
         payload={"symbol": "AAPL"},

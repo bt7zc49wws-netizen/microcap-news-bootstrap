@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from typing import Optional
 from datetime import datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class EdgeMeasurement:
     signal_id: str
     symbol: str
@@ -12,5 +13,5 @@ class EdgeMeasurement:
     start_price: float
     end_price: float
     return_pct: float
-    max_favorable_excursion_pct: float | None = None
-    max_adverse_excursion_pct: float | None = None
+    max_favorable_excursion_pct: Optional[float] = None
+    max_adverse_excursion_pct: Optional[float] = None

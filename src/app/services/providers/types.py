@@ -1,14 +1,15 @@
 from dataclasses import dataclass
+from typing import Optional
 from datetime import datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ProviderFetchResult:
     provider_name: str
     fetched_at: datetime
     records_returned: int
     status: str
-    error_message: str | None = None
+    error_message: Optional[str] = None
     payload: dict | list | None = None
 
     def to_status_diagnostic(self) -> dict:

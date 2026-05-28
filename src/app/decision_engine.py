@@ -56,8 +56,8 @@ def make_decision_result(
     *,
     decision: str,
     reason_codes: list[str],
-    symbol: str | None = None,
-    confidence: float | None = None,
+    symbol: Optional[str] = None,
+    confidence: Optional[float] = None,
     risk_flags: list[str] | None = None,
 ) -> dict:
     """Build a canonical decision result."""
