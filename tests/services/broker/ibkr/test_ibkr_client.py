@@ -102,3 +102,20 @@ def test_confirm_fill_does_not_remove_open_order_history():
 
     assert len(open_orders) == 1
     assert open_orders[0].order_id == \"paper-aapl-history-1\"
+
+
+def test_confirm_fill_timestamp_created():
+    from app.services.broker.ibkr.client import IbkrPaperClient
+
+    client = IbkrPaperClient(enabled=True)
+
+    order = client.submit_paper_order(
+        order_id=\"paper-aapl-ts-1\",
+        symbol=\"AAPL\",
+        side=\"BUY\",
+        quantity=1,
+    )
+
+    fill = client.confirm_fill(order=order, fill_price=189.25)
+
+    assert fill.filled_at is not None
