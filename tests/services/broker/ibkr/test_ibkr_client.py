@@ -82,3 +82,23 @@ def test_open_orders_persist_after_multiple_submissions():
     open_orders = client.get_open_orders()
 
     assert len(open_orders) == 2
+
+
+def test_confirm_fill_does_not_remove_open_order_history():
+    from app.services.broker.ibkr.client import IbkrPaperClient
+
+    client = IbkrPaperClient(enabled=True)
+
+    order = client.submit_paper_order(
+        order_id=\"paper-aapl-history-1\",
+        symbol=\"AAPL\",
+        side=\"BUY\",
+        quantity=3,
+    )
+
+    client.confirm_fill(order=order, fill_price=189.25)
+
+    open_orders = client.get_open_orders()
+
+    assert len(open_orders) == 1
+    assert open_orders[0].order_id == \"paper-aapl-history-1\"
