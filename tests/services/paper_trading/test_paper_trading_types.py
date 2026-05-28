@@ -90,3 +90,12 @@ def test_kill_switch_blocks_trade_execution():
         assert \"Kill switch active\" in str(exc)
 
     gate.KILL_SWITCH_ENABLED = False
+
+
+def test_run_aapl_paper_trade_uses_live_market_price():
+    from app.services.paper_trading.run_aapl_trade import run_aapl_paper_trade
+
+    result = run_aapl_paper_trade()
+
+    assert isinstance(result[\"fill_price\"], float)
+    assert result[\"fill_price\"] > 0
