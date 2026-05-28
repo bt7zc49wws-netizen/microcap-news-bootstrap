@@ -10,7 +10,7 @@ class ProviderFetchResult:
     records_returned: int
     status: str
     error_message: Optional[str] = None
-    payload: dict | list | None = None
+    payload: Optional[object] = None
 
     def to_status_diagnostic(self) -> dict:
         diagnostic = {

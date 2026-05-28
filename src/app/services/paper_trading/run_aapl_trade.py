@@ -1,4 +1,5 @@
 from app.services.execution.log import build_execution_log
+from app.services.providers.market_data.client import MarketDataClient
 from app.services.paper_trading.types import PositionState
 from app.services.risk.gate import kill_switch_active
 from app.services.risk.types import RiskLimits
@@ -17,8 +18,12 @@ def run_aapl_paper_trade():
         max_trades_per_day=5,
     )
 
+    market_data = MarketDataClient(provider="stooq")
+    snapshot = market_data.fetch_snapshot("AAPL")
+    market_price = float(snapshot.payload[0]["Close"])
+
     risk = check_order_risk(
-        order_value_usd=946.25,
+        order_value_usd=market_price * 5,
         realized_daily_loss_usd=0.0,
         trades_today=0,
         limits=limits,
@@ -36,13 +41,13 @@ def run_aapl_paper_trade():
         quantity=5,
     )
 
-    fill = client.confirm_fill(order=order, fill_price=189.25)
+    fill = client.confirm_fill(order=order, fill_price=market_price)
 
     position = PositionState(
         symbol="AAPL",
         quantity=5,
-        average_price=189.25,
-        market_price=189.25,
+        average_price=market_price,
+        market_price=market_price,
     )
 
     log = build_execution_log(fill=fill, pnl=position.pnl)
