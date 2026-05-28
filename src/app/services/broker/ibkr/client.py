@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from app.services.paper_trading.types import PaperOrder, PaperFill
+from app.services.paper_trading.types import PaperFill, PaperOrder
 
 
 class IbkrPaperClient:
@@ -8,6 +8,7 @@ class IbkrPaperClient:
 
     def __init__(self, enabled: bool = False) -> None:
         self.enabled = enabled
+        self._open_orders = []
 
     def submit_paper_order(
         self,
@@ -20,7 +21,7 @@ class IbkrPaperClient:
         if not self.enabled:
             raise RuntimeError("IBKR paper trading is disabled.")
 
-        return PaperOrder(
+        order = PaperOrder(
             order_id=order_id,
             symbol=symbol,
             side=side,
@@ -28,6 +29,9 @@ class IbkrPaperClient:
             submitted_at=datetime.now(timezone.utc),
         )
 
+        self._open_orders.append(order)
+
+        return order
 
     def confirm_fill(
         self,
@@ -43,7 +47,6 @@ class IbkrPaperClient:
             fill_price=fill_price,
             filled_at=datetime.now(timezone.utc),
         )
-
 
     def get_open_orders(self):
         return list(self._open_orders)
