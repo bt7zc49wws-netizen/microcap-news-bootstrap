@@ -62,3 +62,16 @@ def test_run_aapl_paper_trade():
     assert result[\"symbol\"] == \"AAPL\"
     assert result[\"side\"] == \"BUY\"
     assert result[\"position_open\"] is True
+
+
+def test_position_state_positive_pnl_snapshot():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(
+        symbol=\"AAPL\",
+        quantity=5,
+        average_price=189.25,
+        market_price=194.25,
+    )
+
+    assert position.pnl == 25.0
