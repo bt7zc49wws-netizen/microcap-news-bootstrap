@@ -1,0 +1,9 @@
+{
+  "status": "PAPER TRADE EXECUTED",
+  "symbol": "AAPL",
+  "side": "BUY",
+  "qty": 5,
+  "fill_price": 189.25,
+  "position_open": true,
+  "pnl": 0.0
+}
