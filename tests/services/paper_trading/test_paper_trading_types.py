@@ -75,3 +75,18 @@ def test_position_state_positive_pnl_snapshot():
     )
 
     assert position.pnl == 25.0
+
+
+def test_kill_switch_blocks_trade_execution():
+    import app.services.risk.gate as gate
+    from app.services.paper_trading.run_aapl_trade import run_aapl_paper_trade
+
+    gate.KILL_SWITCH_ENABLED = True
+
+    try:
+        run_aapl_paper_trade()
+        assert False
+    except RuntimeError as exc:
+        assert \"Kill switch active\" in str(exc)
+
+    gate.KILL_SWITCH_ENABLED = False
