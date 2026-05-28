@@ -69,3 +69,16 @@ def test_open_orders_tracking():
 
     assert len(open_orders) >= 1
     assert any(o.order_id == order.order_id for o in open_orders)
+
+
+def test_open_orders_persist_after_multiple_submissions():
+    from app.services.broker.ibkr.client import IbkrPaperClient
+
+    client = IbkrPaperClient(enabled=True)
+
+    client.submit_paper_order(order_id=\"paper-aapl-1\", symbol=\"AAPL\", side=\"BUY\", quantity=1)
+    client.submit_paper_order(order_id=\"paper-aapl-2\", symbol=\"AAPL\", side=\"BUY\", quantity=2)
+
+    open_orders = client.get_open_orders()
+
+    assert len(open_orders) == 2
