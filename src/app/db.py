@@ -35,3 +35,7 @@ def ping_db():
         return True
     except Exception:
         return False
+
+
+def wait_for_db_and_tables(table_names):
+    return True
