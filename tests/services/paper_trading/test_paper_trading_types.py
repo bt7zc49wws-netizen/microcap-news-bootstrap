@@ -1,10 +1,10 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from app.services.paper_trading.types import PaperFill, PaperOrder
 
 
 def test_paper_order_shape():
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
 
     order = PaperOrder(
         order_id="order-1",
@@ -23,7 +23,7 @@ def test_paper_order_shape():
 
 
 def test_paper_fill_shape():
-    now = datetime.now(UTC)
+    now = datetime.now(timezone.utc)
 
     fill = PaperFill(
         order_id="order-1",
@@ -38,3 +38,27 @@ def test_paper_fill_shape():
     assert fill.symbol == "ABCD"
     assert fill.fill_price == 1.23
     assert fill.execution_mode == "paper"
+
+
+def test_position_state_pnl_calculation():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(
+        symbol=\"AAPL\",
+        quantity=5,
+        average_price=180.0,
+        market_price=189.25,
+    )
+
+    assert position.pnl == 46.25
+
+
+def test_run_aapl_paper_trade():
+    from app.services.paper_trading.run_aapl_trade import run_aapl_paper_trade
+
+    result = run_aapl_paper_trade()
+
+    assert result[\"status\"] == \"PAPER TRADE EXECUTED\"
+    assert result[\"symbol\"] == \"AAPL\"
+    assert result[\"side\"] == \"BUY\"
+    assert result[\"position_open\"] is True

@@ -1,6 +1,6 @@
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
-from app.services.paper_trading.types import PaperOrder
+from app.services.paper_trading.types import PaperOrder, PaperFill
 
 
 class IbkrPaperClient:
@@ -25,5 +25,21 @@ class IbkrPaperClient:
             symbol=symbol,
             side=side,
             quantity=quantity,
-            submitted_at=datetime.now(UTC),
+            submitted_at=datetime.now(timezone.utc),
+        )
+
+
+    def confirm_fill(
+        self,
+        *,
+        order: PaperOrder,
+        fill_price: float,
+    ) -> PaperFill:
+        return PaperFill(
+            order_id=order.order_id,
+            symbol=order.symbol,
+            side=order.side,
+            quantity=order.quantity,
+            fill_price=fill_price,
+            filled_at=datetime.now(timezone.utc),
         )

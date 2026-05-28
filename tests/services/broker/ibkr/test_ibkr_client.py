@@ -31,3 +31,23 @@ def test_ibkr_paper_client_submits_order_when_enabled():
     assert order.quantity == 100
     assert order.status == "submitted"
     assert order.execution_mode == "paper"
+
+
+def test_confirm_fill_returns_fill_object():
+    from app.services.broker.ibkr.client import IbkrPaperClient
+
+    client = IbkrPaperClient(enabled=True)
+
+    order = client.submit_paper_order(
+        order_id=\"paper-aapl-1\",
+        symbol=\"AAPL\",
+        side=\"BUY\",
+        quantity=5,
+    )
+
+    fill = client.confirm_fill(order=order, fill_price=189.25)
+
+    assert fill.symbol == \"AAPL\"
+    assert fill.side == \"BUY\"
+    assert fill.quantity == 5
+    assert fill.fill_price == 189.25

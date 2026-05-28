@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class PaperOrder:
     order_id: str
     symbol: str
@@ -13,7 +13,7 @@ class PaperOrder:
     execution_mode: str = "paper"
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class PaperFill:
     order_id: str
     symbol: str
@@ -25,7 +25,7 @@ class PaperFill:
 
 from dataclasses import dataclass
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class PositionState:
     symbol: str
     quantity: int
@@ -35,3 +35,14 @@ class PositionState:
     @property
     def pnl(self) -> float:
         return round((self.market_price - self.average_price) * self.quantity, 2)
+
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class PaperFill:
+    order_id: str
+    symbol: str
+    side: str
+    quantity: int
+    fill_price: float
+    filled_at: datetime

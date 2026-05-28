@@ -23,3 +23,23 @@ def test_build_execution_log_entry():
     assert entry.fill_price == 1.23
     assert entry.execution_mode is None
     assert entry.error_message is None
+
+
+def test_build_execution_log():
+    from datetime import datetime, timezone
+    from app.services.execution.log import build_execution_log
+    from app.services.paper_trading.types import PaperFill
+
+    fill = PaperFill(
+        order_id=\"paper-aapl-1\",
+        symbol=\"AAPL\",
+        side=\"BUY\",
+        quantity=5,
+        fill_price=189.25,
+        filled_at=datetime.now(timezone.utc),
+    )
+
+    log = build_execution_log(fill=fill, pnl=46.25)
+
+    assert log.symbol == \"AAPL\"
+    assert log.pnl == 46.25
