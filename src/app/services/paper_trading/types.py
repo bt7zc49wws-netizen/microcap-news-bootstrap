@@ -22,3 +22,16 @@ class PaperFill:
     fill_price: float
     filled_at: datetime
     execution_mode: str = "paper"
+
+from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class PositionState:
+    symbol: str
+    quantity: int
+    average_price: float
+    market_price: float
+
+    @property
+    def pnl(self) -> float:
+        return round((self.market_price - self.average_price) * self.quantity, 2)

@@ -140,3 +140,8 @@ def test_risk_reason_codes_are_canonical():
         "EXPECTANCY_QUALITY_TOO_LOW",
         "RISK_CHECK_PASSED",
     }
+
+
+def test_kill_switch_default_state_is_false():
+    from app.services.risk.gate import kill_switch_active
+    assert kill_switch_active() is False

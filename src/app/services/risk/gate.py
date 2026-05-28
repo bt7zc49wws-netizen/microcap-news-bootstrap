@@ -100,3 +100,8 @@ def check_order_risk(
         reason_code="RISK_CHECK_PASSED",
         reason_label="Risk check passed",
     )
+
+KILL_SWITCH_ENABLED = False
+
+def kill_switch_active() -> bool:
+    return KILL_SWITCH_ENABLED
