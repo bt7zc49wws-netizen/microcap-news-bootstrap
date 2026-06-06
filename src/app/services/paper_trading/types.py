@@ -23,7 +23,6 @@ class PaperFill:
     filled_at: datetime
     execution_mode: str = "paper"
 
-from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class PositionState:
