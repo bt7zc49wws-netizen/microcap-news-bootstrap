@@ -30,6 +30,8 @@ class PositionState:
     quantity: int
     average_price: float
     market_price: float
+    realized_pnl: float = 0.0
+    unrealized_pnl: float = 0.0
 
     @property
     def pnl(self) -> float:

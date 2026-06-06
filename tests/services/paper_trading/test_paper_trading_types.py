@@ -139,3 +139,12 @@ def test_position_state_negative_quantity_pnl():
     position = PositionState(symbol="AAPL", quantity=-10, average_price=100.0, market_price=90.0)
 
     assert position.pnl == 100.0
+
+
+def test_position_state_realized_unrealized_defaults():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(symbol="AAPL", quantity=1, average_price=100.0, market_price=110.0)
+
+    assert position.realized_pnl == 0.0
+    assert position.unrealized_pnl == 0.0
