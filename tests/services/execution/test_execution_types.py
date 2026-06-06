@@ -27,3 +27,21 @@ def test_execution_log_entry_shape():
     assert entry.broker_name == "ibkr"
     assert entry.fill_price is None
     assert entry.error_message is None
+
+
+def test_execution_log_entry_accepts_error_message():
+    from datetime import datetime
+    from app.services.execution.types import ExecutionLogEntry
+
+    entry = ExecutionLogEntry(
+        execution_id="e1",
+        order_id="o1",
+        symbol="AAPL",
+        side="buy",
+        quantity=1,
+        status="rejected",
+        created_at=datetime.utcnow(),
+        error_message="broker error",
+    )
+
+    assert entry.error_message == "broker error"
