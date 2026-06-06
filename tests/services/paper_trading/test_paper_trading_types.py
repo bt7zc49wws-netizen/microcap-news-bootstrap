@@ -131,3 +131,11 @@ def test_position_state_positive_quantity_positive_pnl():
     position = PositionState(symbol="AAPL", quantity=10, average_price=100.0, market_price=125.0)
 
     assert position.pnl == 250.0
+
+
+def test_position_state_negative_quantity_pnl():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(symbol="AAPL", quantity=-10, average_price=100.0, market_price=90.0)
+
+    assert position.pnl == 100.0
