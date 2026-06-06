@@ -99,3 +99,19 @@ def test_run_aapl_paper_trade_uses_live_market_price():
 
     assert isinstance(result["fill_price"], float)
     assert result["fill_price"] > 0
+
+
+def test_position_state_flat_pnl():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(symbol="AAPL", quantity=5, average_price=100.0, market_price=100.0)
+
+    assert position.pnl == 0.0
+
+
+def test_position_state_negative_pnl():
+    from app.services.paper_trading.types import PositionState
+
+    position = PositionState(symbol="AAPL", quantity=5, average_price=100.0, market_price=95.0)
+
+    assert position.pnl == -25.0
