@@ -83,3 +83,9 @@ def test_execution_log_entry_pending_status():
     entry = build_execution_log_entry(make_order(), status="submitted")
 
     assert entry.status == "submitted"
+
+
+def test_build_execution_log_entry_defaults_to_filled_status():
+    entry = build_execution_log_entry(make_order())
+
+    assert entry.status == "filled"
