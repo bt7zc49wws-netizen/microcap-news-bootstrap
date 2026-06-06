@@ -77,3 +77,9 @@ def test_paper_order_fill_execution_log_chain_is_paper_only() -> None:
     assert fill.side == entry.side
     assert fill.quantity == entry.quantity
     assert fill.fill_price == entry.fill_price
+
+
+def test_execution_log_entry_pending_status():
+    entry = build_execution_log_entry(make_order(), status="submitted")
+
+    assert entry.status == "submitted"
