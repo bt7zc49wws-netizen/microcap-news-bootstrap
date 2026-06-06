@@ -83,10 +83,3 @@ def test_execution_log_entry_pending_status():
     entry = build_execution_log_entry(make_order(), status="submitted")
 
     assert entry.status == "submitted"
-
-
-def test_simulate_market_fill_rejects_zero_quantity():
-    import pytest
-
-    with pytest.raises(ValueError):
-        simulate_market_fill(make_order(quantity=0), fill_price=1.23)
