@@ -31,9 +31,9 @@ def test_build_execution_log():
     from app.services.paper_trading.types import PaperFill
 
     fill = PaperFill(
-        order_id=\"paper-aapl-1\",
-        symbol=\"AAPL\",
-        side=\"BUY\",
+        order_id="paper-aapl-1",
+        symbol="AAPL",
+        side="BUY",
         quantity=5,
         fill_price=189.25,
         filled_at=datetime.now(timezone.utc),
@@ -41,5 +41,5 @@ def test_build_execution_log():
 
     log = build_execution_log(fill=fill, pnl=46.25)
 
-    assert log.symbol == \"AAPL\"
+    assert log.symbol == "AAPL"
     assert log.pnl == 46.25

@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 from pathlib import Path
 
 from app.services.providers.live_smoke_report_readiness import validate_live_provider_smoke_report

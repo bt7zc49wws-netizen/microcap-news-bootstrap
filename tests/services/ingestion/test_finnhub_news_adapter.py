@@ -1,3 +1,5 @@
+from datetime import timezone
+UTC = timezone.utc
 from datetime import datetime, timezone
 
 from app.services.ingestion.adapters.finnhub_news import normalize_finnhub_news_item

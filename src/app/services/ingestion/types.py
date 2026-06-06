@@ -1,30 +1,23 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, field
+from dataclasses import dataclass, field
 from datetime import datetime
-from enum import StrEnum
-from typing import Any
+from enum import Enum
+from typing import Optional, List
 
 
-class ValidationStatus(StrEnum):
+class ValidationStatus(str, Enum):
     ACCEPTED = "accepted"
     ACCEPTED_WITH_FLAGS = "accepted_with_flags"
-    QUARANTINED = "quarantined"
     REJECTED = "rejected"
+    QUARANTINED = "quarantined"
 
 
-class QualityFlag(StrEnum):
-    TICKER_MISSING = "ticker_missing"
-    TICKER_HEURISTIC = "ticker_heuristic"
-    COMPANY_NAME_HEURISTIC = "company_name_heuristic"
-    SOURCE_RECORD_ID_FALLBACK = "source_record_id_fallback"
-    BODY_FROM_DESCRIPTION = "body_from_description"
-    PUBLISHED_AT_FALLBACK = "published_at_fallback"
-    POSSIBLE_NEAR_DUPLICATE = "possible_near_duplicate"
-    STALE_RECORD = "stale_record"
-    HTML_HEAVY_CONTENT = "html_heavy_content"
-    PARTIAL_PARSE = "partial_parse"
+class QualityFlag(str, Enum):
+    PARTIAL_PARSE = "PARTIAL_PARSE"
+    TICKER_MISSING = "TICKER_MISSING"
+    BODY_FROM_DESCRIPTION = "BODY_FROM_DESCRIPTION"
+    STALE_RECORD = "STALE_RECORD"
 
 
 @dataclass
@@ -34,12 +27,12 @@ class FetchRun:
     run_started_at: datetime
     run_finished_at: Optional[datetime] = None
     run_status: str = "started"
+    error_summary: Optional[str] = None
     records_fetched: int = 0
     records_accepted: int = 0
-    records_rejected: int = 0
-    records_quarantined: int = 0
     records_duplicated: int = 0
-    error_summary: Optional[str] = None
+    records_quarantined: int = 0
+    records_rejected: int = 0
 
 
 @dataclass
@@ -49,10 +42,12 @@ class RawSourceRecord:
     source_record_id: str
     fetch_run_id: str
     fetched_at: datetime
-    source_url: str | None
-    raw_payload: dict[str, Any]
+    source_url: Optional[str]
+    raw_payload: dict
     content_hash: str
     adapter_version: str
+    title: Optional[str] = None
+    body: Optional[str] = None
 
 
 @dataclass
@@ -60,20 +55,20 @@ class CanonicalIngestionRecord:
     record_id: str
     source_name: str
     source_record_id: str
-    source_url: str | None
+    source_url: Optional[str]
     title: str
     body_text: str
-    published_at: datetime | None
+    published_at: Optional[datetime]
     ingested_at: datetime
     processed_at: datetime
-    primary_ticker: str | None
-    company_name: str | None
-    language: str | None
+    primary_ticker: Optional[str]
+    company_name: Optional[str]
+    language: str
     content_hash: str
     dedupe_key: str
     is_duplicate: bool
     is_stale: bool
     validation_status: ValidationStatus
-    quality_flags: list[QualityFlag] = field(default_factory=list)
+    quality_flags: List[QualityFlag] = field(default_factory=list)
     raw_record_ref: Optional[str] = None
     normalization_version: str = "canonical_ingest_v1"

@@ -30,7 +30,7 @@ def normalize_finnhub_news_item(
     body_text = str(item.get("summary") or "").strip()
     source_url = item.get("url")
     primary_ticker = item.get("related")
-    published_at = datetime.fromtimestamp(item["datetime"], UTC) if item.get("datetime") else None
+    published_at = datetime.fromtimestamp(item["datetime"], timezone.utc) if item.get("datetime") else None
 
     quality_flags: list[QualityFlag] = []
     if not primary_ticker:

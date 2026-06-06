@@ -44,7 +44,7 @@ def test_position_state_pnl_calculation():
     from app.services.paper_trading.types import PositionState
 
     position = PositionState(
-        symbol=\"AAPL\",
+        symbol="AAPL",
         quantity=5,
         average_price=180.0,
         market_price=189.25,
@@ -58,17 +58,17 @@ def test_run_aapl_paper_trade():
 
     result = run_aapl_paper_trade()
 
-    assert result[\"status\"] == \"PAPER TRADE EXECUTED\"
-    assert result[\"symbol\"] == \"AAPL\"
-    assert result[\"side\"] == \"BUY\"
-    assert result[\"position_open\"] is True
+    assert result["status"] == "PAPER TRADE EXECUTED"
+    assert result["symbol"] == "AAPL"
+    assert result["side"] == "BUY"
+    assert result["position_open"] is True
 
 
 def test_position_state_positive_pnl_snapshot():
     from app.services.paper_trading.types import PositionState
 
     position = PositionState(
-        symbol=\"AAPL\",
+        symbol="AAPL",
         quantity=5,
         average_price=189.25,
         market_price=194.25,
@@ -87,7 +87,7 @@ def test_kill_switch_blocks_trade_execution():
         run_aapl_paper_trade()
         assert False
     except RuntimeError as exc:
-        assert \"Kill switch active\" in str(exc)
+        assert "Kill switch active" in str(exc)
 
     gate.KILL_SWITCH_ENABLED = False
 
@@ -97,5 +97,5 @@ def test_run_aapl_paper_trade_uses_live_market_price():
 
     result = run_aapl_paper_trade()
 
-    assert isinstance(result[\"fill_price\"], float)
-    assert result[\"fill_price\"] > 0
+    assert isinstance(result["fill_price"], float)
+    assert result["fill_price"] > 0

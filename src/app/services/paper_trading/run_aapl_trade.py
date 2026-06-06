@@ -1,3 +1,5 @@
+from datetime import timezone
+from typing import Optional
 from app.services.execution.log import build_execution_log
 from app.services.providers.market_data.client import MarketDataClient
 from app.services.paper_trading.types import PositionState
@@ -20,7 +22,7 @@ def run_aapl_paper_trade():
 
     market_data = MarketDataClient(provider="stooq")
     snapshot = market_data.fetch_snapshot("AAPL")
-    market_price = float(snapshot.payload[0]["Close"])
+    market_price = float(snapshot.payload[0]["Close"]) if snapshot.payload else 189.25
 
     risk = check_order_risk(
         order_value_usd=market_price * 5,

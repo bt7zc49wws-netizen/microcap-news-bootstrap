@@ -35,14 +35,3 @@ class PositionState:
     @property
     def pnl(self) -> float:
         return round((self.market_price - self.average_price) * self.quantity, 2)
-
-from dataclasses import dataclass
-
-@dataclass(frozen=True)
-class PaperFill:
-    order_id: str
-    symbol: str
-    side: str
-    quantity: int
-    fill_price: float
-    filled_at: datetime

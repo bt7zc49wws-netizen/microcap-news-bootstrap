@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+UTC = timezone.utc
 
 from app.services.providers.types import ProviderFetchResult
 

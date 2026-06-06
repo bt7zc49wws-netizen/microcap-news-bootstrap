@@ -39,16 +39,16 @@ def test_confirm_fill_returns_fill_object():
     client = IbkrPaperClient(enabled=True)
 
     order = client.submit_paper_order(
-        order_id=\"paper-aapl-1\",
-        symbol=\"AAPL\",
-        side=\"BUY\",
+        order_id="paper-aapl-1",
+        symbol="AAPL",
+        side="BUY",
         quantity=5,
     )
 
     fill = client.confirm_fill(order=order, fill_price=189.25)
 
-    assert fill.symbol == \"AAPL\"
-    assert fill.side == \"BUY\"
+    assert fill.symbol == "AAPL"
+    assert fill.side == "BUY"
     assert fill.quantity == 5
     assert fill.fill_price == 189.25
 
@@ -59,9 +59,9 @@ def test_open_orders_tracking():
     client = IbkrPaperClient(enabled=True)
 
     order = client.submit_paper_order(
-        order_id=\"paper-aapl-open-1\",
-        symbol=\"AAPL\",
-        side=\"BUY\",
+        order_id="paper-aapl-open-1",
+        symbol="AAPL",
+        side="BUY",
         quantity=1,
     )
 
@@ -76,8 +76,8 @@ def test_open_orders_persist_after_multiple_submissions():
 
     client = IbkrPaperClient(enabled=True)
 
-    client.submit_paper_order(order_id=\"paper-aapl-1\", symbol=\"AAPL\", side=\"BUY\", quantity=1)
-    client.submit_paper_order(order_id=\"paper-aapl-2\", symbol=\"AAPL\", side=\"BUY\", quantity=2)
+    client.submit_paper_order(order_id="paper-aapl-1", symbol="AAPL", side="BUY", quantity=1)
+    client.submit_paper_order(order_id="paper-aapl-2", symbol="AAPL", side="BUY", quantity=2)
 
     open_orders = client.get_open_orders()
 
@@ -90,9 +90,9 @@ def test_confirm_fill_does_not_remove_open_order_history():
     client = IbkrPaperClient(enabled=True)
 
     order = client.submit_paper_order(
-        order_id=\"paper-aapl-history-1\",
-        symbol=\"AAPL\",
-        side=\"BUY\",
+        order_id="paper-aapl-history-1",
+        symbol="AAPL",
+        side="BUY",
         quantity=3,
     )
 
@@ -101,7 +101,7 @@ def test_confirm_fill_does_not_remove_open_order_history():
     open_orders = client.get_open_orders()
 
     assert len(open_orders) == 1
-    assert open_orders[0].order_id == \"paper-aapl-history-1\"
+    assert open_orders[0].order_id == "paper-aapl-history-1"
 
 
 def test_confirm_fill_timestamp_created():
@@ -110,9 +110,9 @@ def test_confirm_fill_timestamp_created():
     client = IbkrPaperClient(enabled=True)
 
     order = client.submit_paper_order(
-        order_id=\"paper-aapl-ts-1\",
-        symbol=\"AAPL\",
-        side=\"BUY\",
+        order_id="paper-aapl-ts-1",
+        symbol="AAPL",
+        side="BUY",
         quantity=1,
     )
 

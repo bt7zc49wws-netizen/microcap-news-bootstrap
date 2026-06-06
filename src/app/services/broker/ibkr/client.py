@@ -1,4 +1,6 @@
-from datetime import datetime, timezone
+from datetime import timezone
+from typing import Optional
+from datetime import datetime, timezone, timezone
 
 from app.services.paper_trading.types import PaperFill, PaperOrder
 

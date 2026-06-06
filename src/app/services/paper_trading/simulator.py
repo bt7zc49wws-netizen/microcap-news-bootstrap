@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import Optional
 
 from app.services.execution.types import ExecutionLogEntry
 from app.services.paper_trading.types import PaperFill, PaperOrder
